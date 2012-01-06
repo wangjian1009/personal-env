@@ -1,6 +1,8 @@
 ;;; { globl setting
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-goodies-el")
+
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (tooltip-mode 0)
@@ -37,6 +39,7 @@
 
 ;;; }
 ;;; { cygwin support
+
 ;; Sets your shell to use cygwin's bash, if Emacs finds it's running
 ;; under Windows and c:\cygwin exists. Assumes that C:\cygwin\bin is
 ;; not already in your Windows Path (it generally should not be).
@@ -154,7 +157,6 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 ;;; }
 ;;; { color-theme
-(add-to-list 'load-path "~/.emacs.d/site-lisp/color-theme-6.6.0")
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-classic)
@@ -164,11 +166,27 @@
 (setq folding-fold-on-startup t)
 (folding-mode-add-find-file-hook)
 ;;; }
+;;; { git-emacs
+(add-to-list 'load-path "~/.emacs.d/site-lisp/git-emacs")
+(require 'git-emacs)
+;;; }
+;;; { markdown mode
+(autoload 'markdown-mode "markdown-mode.el"
+  "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+      (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
+;;; }
 ;;; { backup settings
 (setq-default make-backup-files nil)
 (setq backup-directory-alist '(("" . "~/emacs.d/autosave")))
 (auto-save-mode nil)
 (setq delete-auto-save-files t)
+;;; }
+;;; { personal yaml model
+
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+
 ;;; }
 ;;; { personal lisp mode settings
 
@@ -329,6 +347,7 @@ occurence of CHAR."
         (t (self-insert-command (or arg 1)))))
 ;;; }
 ;;; { utility ascii table
+
 (defun ascii-table-show ()
   "Print the ascii table"
   (interactive)
@@ -357,6 +376,7 @@ occurence of CHAR."
   (local-set-key "q" 'kill-this-buffer)
   (toggle-read-only 1)
   (message "Press q to quit."))
+
 ;;; }
 ;;; { run server
 (require 'server)
