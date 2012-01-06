@@ -1,0 +1,11 @@
+*~
+\#*\#
+.fonts
+.bash_history
+.ido.last
+.emacs.d/server
+.emacs.d/auto-save-list
+.cpan
+.subversion/auth
+workspace
+soft
