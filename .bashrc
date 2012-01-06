@@ -32,7 +32,6 @@ PATH=$PATH:`cygpath -W`
 # alias
 # ------------------------
 alias h=history
-alias rm="rm -i"
 alias ls="ls -C"
 
 export http_proxy=http://lokiwang:qf6180QFV@proxy.tencent.com:8080
