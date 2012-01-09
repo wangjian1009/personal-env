@@ -3,14 +3,13 @@
 # ------------------------
 # export PS1="[\w] "
 export LC_ALL=zh_CN.gbk
-export PS1="sailor% "
 
 if [ "$PS" == "" ] ; then
-    export PS1="sailor\$ "
+    export PS1="[\h \w]\$ "
     if [ "$TERM" == "xterm" ] ; then
-        export PS1="\[\e[34m\]sailor\$ \[\e[0m\]"
+        export PS1="\[\e[34m\]]$PS1\[\e[0m\]"
     elif [ "$TERM" == "cygwin" ] ; then
-        export PS1="\[\e[32;1m\]sailor\$ \[\e[0m\]"
+        export PS1="\[\e[32;1m\]$PS1\[\e[0m\]"
     fi
 fi
 
@@ -21,17 +20,15 @@ fi
 # ------------------------
 # path
 # ------------------------
-PATH=.
-PATH=$PATH:/cygdrive/c/programs/bin
-PATH=$PATH:/usr/x11R6/bin
-PATH=$PATH:/usr/bin
-PATH=$PATH:`cygpath -S`
-PATH=$PATH:`cygpath -W`
+export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/usr/x11R6/bin
 
 # ------------------------
 # alias
 # ------------------------
 alias h=history
 alias ls="ls -C"
+alias vim=$EDITOR
 
-export http_proxy=http://lokiwang:qf6180QFV@proxy.tencent.com:8080
+if [ -f "${HOME}/.bashrc_local" ] ; then
+  source "${HOME}/.bashrc_local"
+fi

@@ -2,6 +2,7 @@
 \#*\#
 .fonts
 .bash_history
+.bashrc_local
 .ido.last
 .emacs.d/server
 .emacs.d/auto-save-list
@@ -9,3 +10,7 @@
 .subversion/auth
 workspace
 soft
+bin
+lib
+libexec
+share
