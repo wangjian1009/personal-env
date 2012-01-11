@@ -34,8 +34,11 @@
 (setq display-time-day-and-date t)
 
 (global-set-key (kbd "ESC C-l") 'revert-buffer)
+(global-set-key (kbd "ESC C-M-l") 'revert-buffer-with-coding-system)
 (global-set-key (kbd "C-c c") 'compile)
 (global-set-key (kbd "C-c f") 'ff-find-other-file)
+
+(require `edit-env)
 
 ;;; }
 ;;; { cygwin support
@@ -71,6 +74,16 @@
           ("F:\\cygwin" . "/")
           ("F:\\cygwin\\bin" . "/usr/bin/")))
   (cygwin-mount-activate))
+
+;;; }
+;;; { coding-system
+
+;(add-to-list `process-coding-system-alist `("bash" . gb2312))
+(add-to-list `process-coding-system-alist `("git*" . gb2312))
+;(add-to-list 'file-coding-system-alist '("\\.[hc]\\(pp\\)?\\'" .gb2312 ))
+
+(prefer-coding-system 'chinese-gbk)
+(prefer-coding-system 'utf-8)
 
 ;;; }
 ;;; { ido mode setup
@@ -155,6 +168,7 @@
 ;;; { ibuffer settings
 (require 'ibuffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(define-key-after ibuffer-mode-map (kbd "C-x C-f") 'ido-find-file)
 ;;; }
 ;;; { color-theme
 (require 'color-theme)
@@ -165,6 +179,16 @@
 (require 'folding)
 (setq folding-fold-on-startup t)
 (folding-mode-add-find-file-hook)
+;;; }
+;;; { gtags
+(add-to-list 'load-path "~/share/gtags")
+(let ((gtags-suggested-key-mapping t))
+  (require 'gtags))
+(define-key gtags-mode-map (kbd "M-.") 'gtags-find-tag)
+(define-key gtags-mode-map (kbd "C-M-.") 'gtags-find-with-grep)
+(define-key gtags-mode-map (kbd "C-x 5 .") 'gtags-find-tag-other-window)
+(define-key gtags-mode-map (kbd "C-c f") 'ff-find-other-file)
+
 ;;; }
 ;;; { git-emacs
 (add-to-list 'load-path "~/.emacs.d/site-lisp/git-emacs")
@@ -199,8 +223,7 @@
 
 (require `find-file)
 (add-to-list ff-other-file-alist '("\\.m\\'" (".h")))
-(add-to-list ff-other-file-alist '("\\.h\\'" (".m" ".c")))
-(add-to-list 'auto-mode-alist '("\\.h\\'" . objc-mode))
+(add-to-list ff-other-file-alist '("\\.h\\'" (".m" ".c" ".cpp")))
  
 (defun personal-c-cpp-setup()
   ;(c-toggle-auto-state)
@@ -214,7 +237,7 @@
   (c-set-offset 'namespace-close -80)
   (c-set-offset 'block-open -4)
   (c-set-offset 'template-args-cont '+)
-;  (gtags-mode t)
+  (gtags-mode t)
   )
  
 (add-hook 'c-mode-hook 'personal-c-cpp-setup)
