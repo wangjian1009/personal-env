@@ -10,7 +10,7 @@ fi
 if [ "$PS" == "" ] ; then
     export PS1="[\h \w]\$ "
     if [ "$TERM" == "xterm" ] ; then
-        export PS1="\[\e[34m\]]$PS1\[\e[0m\]"
+        export PS1="\[\e[34m\]$PS1\[\e[0m\]"
     elif [ "$TERM" == "cygwin" ] ; then
         export PS1="\[\e[32;1m\]$PS1\[\e[0m\]"
     fi
