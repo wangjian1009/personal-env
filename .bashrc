@@ -1,9 +1,10 @@
 # ------------------------
 # prompt
 # ------------------------
-# export PS1="[\w] "
-if [ "$OSTYPE" == "cygwin"] ; then
+if [ "$OSTYPE" == "cygwin" ] ; then
     export LC_ALL=zh_CN.gbk
+elif [ "$OSTYPE" == "linux" ] ; then
+    export LC_ALL=zh_CN.utf-8
 fi
 
 if [ "$PS" == "" ] ; then
@@ -30,9 +31,9 @@ export INFOPATH=$HOME/info:$HOME/share/info:/usr/local/info:/usr/local/share/inf
 # ------------------------
 # alias
 # ------------------------
-alias h=history
-alias ls="ls -C"
-alias vim=$EDITOR
+if [ ! "$EDITOR" == "" ] ; then
+    alias vim=$EDITOR
+fi
 
 if [ -f "${HOME}/.bashrc_local" ] ; then
   source "${HOME}/.bashrc_local"
