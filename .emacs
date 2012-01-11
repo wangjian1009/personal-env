@@ -47,8 +47,9 @@
 ;; under Windows and c:\cygwin exists. Assumes that C:\cygwin\bin is
 ;; not already in your Windows Path (it generally should not be).
 ;;
-(let* ((cygwin-root "f:/cygwin")
+(let* ((cygwin-root (getenv "CYGWIN_ROOT"))
        (cygwin-bin (concat cygwin-root "/bin")))
+
   (when (and (eq 'windows-nt system-type)
              (file-readable-p cygwin-root))
     
