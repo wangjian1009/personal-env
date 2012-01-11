@@ -2,7 +2,9 @@
 # prompt
 # ------------------------
 # export PS1="[\w] "
-export LC_ALL=zh_CN.gbk
+if [ "$OSTYPE" == "cygwin"] ; then
+    export LC_ALL=zh_CN.gbk
+fi
 
 if [ "$PS" == "" ] ; then
     export PS1="[\h \w]\$ "
