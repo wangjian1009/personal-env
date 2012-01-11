@@ -20,7 +20,10 @@ fi
 # ------------------------
 # path
 # ------------------------
-export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/usr/x11R6/bin
+export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin/usr/x11R6/bin
+export LD_LIBRARY_PATH=$HOME/lib:/usr/local/lib:/usr/lib:/lib
+export MANPATH=$HOME/man:$HOME/share/man:/usr/local/man:/usr/local/share/man:/usr/man:/usr/share/man:$MANPATH
+export INFOPATH=$HOME/info:$HOME/share/info:/usr/local/info:/usr/local/share/info:/usr/info:/usr/share/info:$INFOPATH
 
 # ------------------------
 # alias
