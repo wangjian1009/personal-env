@@ -2,7 +2,11 @@
 # prompt
 # ------------------------
 if [ "$OSTYPE" == "cygwin" ] ; then
-    export LC_ALL=zh_CN.gbk
+    if [ "$INSIDE_EMACS" == "" ] ; then
+        export LC_ALL=zh_CN.gbk
+    else
+        export LC_ALL=zh_CN.utf-8
+    fi
 elif [ "$OSTYPE" == "linux" ] ; then
     export LC_ALL=zh_CN.utf-8
 fi
@@ -18,6 +22,13 @@ fi
 
 if [ "$TERM" == "xterm" ] ; then
     PROMPT_COMMAND='echo -ne "\e]0;${HOSTNAME} - ${PWD}\007"'
+fi
+
+# ------------------------
+# for use in Emacs
+# ------------------------
+if [ ! "$INSIDE_EMACS" == "" ] ; then
+    export GIT_PAGER=
 fi
 
 # ------------------------
