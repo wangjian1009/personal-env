@@ -85,12 +85,12 @@
     (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
 (when (eq 'windows-nt system-type)
   (require 'cygwin-mount)
-  (setq cygwin-mount-table
-        '(
-          ("F:\\cygwin" . "/")
-          ("F:\\cygwin\\bin" . "/usr/bin/")))
-  (cygwin-mount-activate))
-
+  (cygwin-mount-activate)
+  (let ((home-dir (getenv "HOME"))
+        )
+    (if home-dir (cd home-dir))
+    )
+  )
 ;;; }
 ;;; { coding-system
 

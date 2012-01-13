@@ -25,6 +25,13 @@ if [ "$TERM" == "xterm" ] ; then
 fi
 
 # ------------------------
+# for cygwin
+# ------------------------
+if [ "$OSTYPE" == "cygwin" ] ; then
+    export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
+fi
+
+# ------------------------
 # for use in Emacs
 # ------------------------
 if [ ! "$INSIDE_EMACS" == "" ] ; then
