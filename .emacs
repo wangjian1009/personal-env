@@ -110,6 +110,8 @@
           (add-to-list 'exec-path (concat home-dir "/bin"))
           )
       ))
+
+  (setenv "PATH" (shell-command-to-string (concat "cygpath -p '" (getenv "PATH") "'")))
   )
 ;;; }
 ;;; { coding-system

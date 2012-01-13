@@ -194,7 +194,7 @@
   "^\\([a-zA-Z]:.*\\)[ \t]+on[ \t]+\\(.+\\) type \\(system\\|user\\|ntfs\\|udf\\|smbfs\\)")
 (defconst cygwin-mount-program "mount.exe")
 (defconst cygwin-mount-uname-program "uname.exe")
-(defconst cygwin-mount-buffername "*mount*")
+(defconst cygwin-mount-buffername " *mount*")
 
 ;; internal variables. These variables are only set by calling
 ;; `cygwin-mount-activate' or by customizing `cygwin-mount-table' or
