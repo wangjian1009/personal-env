@@ -50,9 +50,18 @@
   (setq mac-option-modifier 'control) ;映射Alt键 
 
   (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-  (setenv "CCACHE" "ccache")
   (setenv "LD_LIBRARY_PATH" (concat "/usr/local/lib:" (getenv "LD_LIBRARY_PATH")))
+  (setenv "CCACHE" "ccache")
   (add-to-list 'exec-path "/usr/local/bin")
+
+  (let ((home-dir (getenv "HOME")))
+    (if home-dir
+        (progn
+          (setenv "PATH" (concat home-dir "/bin:" (getenv "PATH")))
+          (setenv "LD_LIBRARY_PATH" (concat home-dir "/lib:" (getenv "LD_LIBRARY_PATH")))
+          (add-to-list 'exec-path (concat home-dir "/bin"))
+          )
+      ))
 )
 
 ;;; }
@@ -63,13 +72,15 @@
 ;; not already in your Windows Path (it generally should not be).
 ;;
 (let* ((cygwin-root (getenv "CYGWIN_ROOT"))
-       (cygwin-bin (concat cygwin-root "/bin")))
+       (cygwin-bin (concat cygwin-root "/bin"))
+       (cygwin-local-bin (concat cygwin-root "/local/bin"))
+       )
 
   (when (and (eq 'windows-nt system-type)
              (file-readable-p cygwin-root))
     
     (setq exec-path (cons cygwin-bin exec-path))
-    (setenv "PATH" (concat cygwin-bin ";" (getenv "PATH")))
+    (setenv "PATH" (concat cygwin-local-bin ";" cygwin-bin ";" (getenv "PATH")))
     
     ;; By default use the Windows HOME.
     ;; Otherwise, uncomment below to set a HOME
@@ -86,10 +97,19 @@
 (when (eq 'windows-nt system-type)
   (require 'cygwin-mount)
   (cygwin-mount-activate)
-  (let ((home-dir (getenv "HOME"))
-        )
-    (if home-dir (cd home-dir))
-    )
+
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (setenv "LD_LIBRARY_PATH" (concat "/usr/local/lib:" (getenv "LD_LIBRARY_PATH")))
+  (add-to-list 'exec-path "/usr/local/bin")
+
+  (let ((home-dir (getenv "HOME")))
+    (if home-dir
+        (progn
+          (cd home-dir)
+          (setenv "PATH" (concat home-dir "/bin;" (getenv "PATH")))
+          (add-to-list 'exec-path (concat home-dir "/bin"))
+          )
+      ))
   )
 ;;; }
 ;;; { coding-system
