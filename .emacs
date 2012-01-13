@@ -8,6 +8,7 @@
 (tooltip-mode 0)
 (scroll-bar-mode 0)
 (setq default-tab-width 4)
+(setq visible-bell t)                ; 关闭出错时的提示声
  
 (ansi-color-for-comint-mode-on)
 (global-font-lock-mode t)
@@ -39,6 +40,20 @@
 (global-set-key (kbd "C-c f") 'ff-find-other-file)
 
 (require `edit-env)
+
+;;; }
+;;; { apple support
+
+(when (eq 'darwin system-type)
+  (setq mac-command-modifier 'meta) ;映射苹果键  
+  (setq mac-control-modifier 'control) ;映射Ctrl键
+  (setq mac-option-modifier 'control) ;映射Alt键 
+
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (setenv "CCACHE" "ccache")
+  (setenv "LD_LIBRARY_PATH" (concat "/usr/local/lib:" (getenv "LD_LIBRARY_PATH")))
+  (add-to-list 'exec-path "/usr/local/bin")
+)
 
 ;;; }
 ;;; { cygwin support
@@ -223,8 +238,26 @@
 ;;; { personal c cpp and objc mode settings
 
 (require `find-file)
-(add-to-list ff-other-file-alist '("\\.m\\'" (".h")))
-(add-to-list ff-other-file-alist '("\\.h\\'" (".m" ".c" ".cpp")))
+
+(mapcar (lambda (x) (add-to-list ff-other-file-alist x))
+        '(("\\.mm?$" (".h"))
+          ("\\.cc$"  (".hh" ".h"))
+          ("\\.hh$"  (".cc" ".C"))
+          ("\\.c$"   (".h"))
+          ("\\.h$"   (".c" ".cc" ".C" ".CC" ".cxx" ".cpp" ".m" ".mm"))
+          ("\\.C$"   (".H"  ".hh" ".h"))
+          ("\\.H$"   (".C"  ".CC"))
+          ("\\.CC$"  (".HH" ".H"  ".hh" ".h"))
+          ("\\.HH$"  (".CC"))
+          ("\\.cxx$" (".hh" ".h"))
+          ("\\.cpp$" (".hpp" ".hh" ".h"))
+          ("\\.hpp$" (".cpp" ".c"))))
+
+(add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@implementation" . objc-mode))
+(add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@interface" . objc-mode))
+(add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@protocol" . objc-mode))
+
+; (add-to-list 'auto-mode-alist '("\\.h\\'" . objc-mode))
  
 (defun personal-c-cpp-setup()
   ;(c-toggle-auto-state)
@@ -405,4 +438,8 @@ occurence of CHAR."
 ;;; { run server
 (require 'server)
 (server-start)
+;;; }
+;;; { desktop
+(desktop-read)
+(desktop-save-mode)
 ;;; }
