@@ -313,6 +313,7 @@
 
 ;;; }
 ;;; { personal perl mode settings
+
 (defvar perl-syntax-bin "perl" "The perl binary used to check syntax.")
 (defun perl-syntax-check-only ()
   "Return a either nill or t depending on whether the current buffer passws perl`s syntax check."
@@ -343,7 +344,7 @@
         (if (null arg)
             (not perl-syntax-mode)
           (> (prefix-numeric-value arg) 0)))
-  (make-local-hook 'write-file-hooks)
+  (make-local-variable 'write-file-hooks)
   (if perl-syntax-mode
       (add-hook 'write-file-hooks 'perl-syntax-write-hook)
     (remove-hook 'write-file-hooks 'perl-syntax-write-hook)))
@@ -384,7 +385,7 @@
 (setq interpreter-mode-alist
       (cons '("perl" . cperl-mode)
             (cons '("perl5" . cperl-mode) interpreter-mode-alist)))
- 
+
 ;;; }
 ;;; { hippie-expand settings
 (global-set-key [(meta ?/)] 'hippie-expand)
@@ -462,6 +463,7 @@ occurence of CHAR."
 (server-start)
 ;;; }
 ;;; { desktop
+(setq desktop-load-locked-desktop t)
 (desktop-read)
 (desktop-save-mode)
 ;;; }
