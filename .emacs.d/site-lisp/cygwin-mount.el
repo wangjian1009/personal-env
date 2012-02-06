@@ -191,7 +191,7 @@
 (defconst cygwin-mount<=1.1.8-mount-regexp
   "^\\([a-z]:[^ \t\n]*\\) +\\([^ \t\n]+\\)")
 (defconst cygwin-mount>=1.3.1-mount-regexp
-  "^\\([a-z]:.*\\)[ \t]+on[ \t]+\\(.+\\) type \\(system\\|user\\)")
+  "^\\([a-zA-Z]:.*\\)[ \t]+on[ \t]+\\(.+\\) type \\(system\\|user\\|ntfs\\|udf\\|smbfs\\)")
 (defconst cygwin-mount-program "mount.exe")
 (defconst cygwin-mount-uname-program "uname.exe")
 (defconst cygwin-mount-buffername " *mount*")
@@ -359,8 +359,7 @@ This is done by calling \"mount --show-cygdrive-prefixes\".
 The result is either \"/\" or \"/<string>/\"."
   (let ((buf (get-buffer-create " *cygdrive*"))
         (fullname (cygwin-mount-get-full-progname cygwin-mount-program))
-	(arg (if (string-match "^1\\.3" (cygwin-mount-get-cygwin-version))
-		 "--show-cygdrive-prefix" "--show-cygdrive-prefixes")))
+	(arg "--show-cygdrive-prefix"))
     (if (null fullname)
         (error "Cannot find the program '%s', please check 'cygwin-mount-cygwin-bin-directory'!" cygwin-mount-program)
       (save-excursion
@@ -665,7 +664,7 @@ NOTE: \"/cygdrive/\" is only an example for the cygdrive-prefix \(see
       (put 'expand-file-name 'cygwin-mount-name nil)
       (put 'substitute-in-file-name 'cygwin-mount-map-drive nil)
       (put 'expand-file-name 'cygwin-mount-map-drive nil)
-      ;; rebind ange-ftp-run-real-handler to it´s original definition.
+      ;; rebind ange-ftp-run-real-handler to it`s original definition.
       (if (featurep 'ange-ftp)
 	  (fset 'ange-ftp-run-real-handler cygwin-mount-original-ange-ftp-handler))
       (setq cygwin-mount-activated nil))))

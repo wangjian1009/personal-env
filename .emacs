@@ -8,6 +8,7 @@
 (tooltip-mode 0)
 (scroll-bar-mode 0)
 (setq default-tab-width 4)
+(setq visible-bell t)                ; 关闭出错时的提示声
  
 (ansi-color-for-comint-mode-on)
 (global-font-lock-mode t)
@@ -41,6 +42,29 @@
 (require `edit-env)
 
 ;;; }
+;;; { apple support
+
+(when (eq 'darwin system-type)
+  (setq mac-command-modifier 'meta) ;映射苹果键  
+  (setq mac-control-modifier 'control) ;映射Ctrl键
+  (setq mac-option-modifier 'control) ;映射Alt键 
+
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (setenv "LD_LIBRARY_PATH" (concat "/usr/local/lib:" (getenv "LD_LIBRARY_PATH")))
+  (setenv "CCACHE" "ccache")
+  (add-to-list 'exec-path "/usr/local/bin")
+
+  (let ((home-dir (getenv "HOME")))
+    (if home-dir
+        (progn
+          (setenv "PATH" (concat home-dir "/bin:" (getenv "PATH")))
+          (setenv "LD_LIBRARY_PATH" (concat home-dir "/lib:" (getenv "LD_LIBRARY_PATH")))
+          (add-to-list 'exec-path (concat home-dir "/bin"))
+          )
+      ))
+)
+
+;;; }
 ;;; { cygwin support
 
 ;; Sets your shell to use cygwin's bash, if Emacs finds it's running
@@ -48,13 +72,15 @@
 ;; not already in your Windows Path (it generally should not be).
 ;;
 (let* ((cygwin-root (getenv "CYGWIN_ROOT"))
-       (cygwin-bin (concat cygwin-root "/bin")))
+       (cygwin-bin (concat cygwin-root "/bin"))
+       (cygwin-local-bin (concat cygwin-root "/local/bin"))
+       )
 
   (when (and (eq 'windows-nt system-type)
              (file-readable-p cygwin-root))
     
     (setq exec-path (cons cygwin-bin exec-path))
-    (setenv "PATH" (concat cygwin-bin ";" (getenv "PATH")))
+    (setenv "PATH" (concat cygwin-local-bin ";" cygwin-bin ";" (getenv "PATH")))
     
     ;; By default use the Windows HOME.
     ;; Otherwise, uncomment below to set a HOME
@@ -70,12 +96,23 @@
     (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
 (when (eq 'windows-nt system-type)
   (require 'cygwin-mount)
-  (setq cygwin-mount-table
-        '(
-          ("F:\\cygwin" . "/")
-          ("F:\\cygwin\\bin" . "/usr/bin/")))
-  (cygwin-mount-activate))
+  (cygwin-mount-activate)
 
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (setenv "LD_LIBRARY_PATH" (concat "/usr/local/lib:" (getenv "LD_LIBRARY_PATH")))
+  (add-to-list 'exec-path "/usr/local/bin")
+
+  (let ((home-dir (getenv "HOME")))
+    (if home-dir
+        (progn
+          (cd home-dir)
+          (setenv "PATH" (concat home-dir "/bin;" (getenv "PATH")))
+          (add-to-list 'exec-path (concat home-dir "/bin"))
+          )
+      ))
+
+  (setenv "PATH" (shell-command-to-string (concat "cygpath -p '" (getenv "PATH") "'")))
+  )
 ;;; }
 ;;; { coding-system
 
@@ -231,8 +268,26 @@
 ;;; { personal c cpp and objc mode settings
 
 (require `find-file)
-(add-to-list ff-other-file-alist '("\\.m\\'" (".h")))
-(add-to-list ff-other-file-alist '("\\.h\\'" (".m" ".c" ".cpp")))
+
+(mapcar (lambda (x) (add-to-list ff-other-file-alist x))
+        '(("\\.mm?$" (".h"))
+          ("\\.cc$"  (".hh" ".h"))
+          ("\\.hh$"  (".cc" ".C"))
+          ("\\.c$"   (".h"))
+          ("\\.h$"   (".c" ".cc" ".C" ".CC" ".cxx" ".cpp" ".m" ".mm"))
+          ("\\.C$"   (".H"  ".hh" ".h"))
+          ("\\.H$"   (".C"  ".CC"))
+          ("\\.CC$"  (".HH" ".H"  ".hh" ".h"))
+          ("\\.HH$"  (".CC"))
+          ("\\.cxx$" (".hh" ".h"))
+          ("\\.cpp$" (".hpp" ".hh" ".h"))
+          ("\\.hpp$" (".cpp" ".c"))))
+
+(add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@implementation" . objc-mode))
+(add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@interface" . objc-mode))
+(add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@protocol" . objc-mode))
+
+; (add-to-list 'auto-mode-alist '("\\.h\\'" . objc-mode))
  
 (defun personal-c-cpp-setup()
   ;(c-toggle-auto-state)
@@ -297,7 +352,7 @@
         (if (null arg)
             (not perl-syntax-mode)
           (> (prefix-numeric-value arg) 0)))
-  (make-local-hook 'write-file-hooks)
+  (make-local-variable 'write-file-hooks)
   (if perl-syntax-mode
       (add-hook 'write-file-hooks 'perl-syntax-write-hook)
     (remove-hook 'write-file-hooks 'perl-syntax-write-hook)))
@@ -414,4 +469,9 @@ occurence of CHAR."
 ;;; { run server
 (require 'server)
 (server-start)
+;;; }
+;;; { desktop
+(setq desktop-load-locked-desktop t)
+(desktop-read)
+(desktop-save-mode)
 ;;; }
