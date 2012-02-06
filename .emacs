@@ -213,6 +213,14 @@
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 
 ;;; }
+;;; { personal nxml model
+(eval-after-load "nxml-mode"
+  '(progn
+     (setq nxml-child-indent 4)
+     )
+  )
+
+;;; }
 ;;; { personal lisp mode settings
 
 (add-hook 'emacs-lisp-mode-hook (lambda () (folding-mode t)))
@@ -258,6 +266,7 @@
 
 ;;; }
 ;;; { personal perl mode settings
+
 (defvar perl-syntax-bin "perl" "The perl binary used to check syntax.")
 (defun perl-syntax-check-only ()
   "Return a either nill or t depending on whether the current buffer passws perl`s syntax check."
@@ -329,7 +338,7 @@
 (setq interpreter-mode-alist
       (cons '("perl" . cperl-mode)
             (cons '("perl5" . cperl-mode) interpreter-mode-alist)))
- 
+
 ;;; }
 ;;; { hippie-expand settings
 (global-set-key [(meta ?/)] 'hippie-expand)
