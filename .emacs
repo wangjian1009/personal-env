@@ -408,7 +408,7 @@
 (autoload 'turn-on-orgtbl "org" "Org tables as a minor mode")
 
 (setq org-directory "~/.emacs.d/org")
-(setq org-default-notes-file "~/.emacs.d/org/.notes")
+(setq org-default-notes-file "~/.notes")
 (setq org-agenda-files '("~/.emacs.d/org/money.org" "~/.emacs.d/org/gtd.org"))
 (setq org-agenda-ndays 7)
 (setq org-agenda-repeating-timestamp-show-all nil)
@@ -477,9 +477,10 @@
 (add-hook 'remember-mode-hook 'org-remember-apply-template)
 (setq org-remember-templates
      '(
-      ("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" "~/.emacs.d/org/gtd.org" "Tasks")
-      ("Private" ?p "\n* %^{topic} %T \n%i%?\n" "~/.emacs.d/org/privnotes.org")
-      ("WordofDay" ?w "\n* %^{topic} \n%i%?\n" "~/.emacs.d/org/wotd.org")
+      ("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" "gtd.org" "Tasks")
+      ("Maby" ?m "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" "someday.org" "Things to Do")
+      ;("Private" ?p "\n* %^{topic} %T \n%i%?\n" "~/.emacs.d/org/privnotes.org")
+      ;("WordofDay" ?w "\n* %^{topic} \n%i%?\n" "~/.emacs.d/org/wotd.org")
       ))
 
 
@@ -491,10 +492,10 @@
 )
 
 ;; key defing
-(global-set-key (kbd "C-c g") 'gtd)
-(global-set-key (kbd "C-c r") 'org-remember)
-(global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c o g") 'gtd)
+(global-set-key (kbd "C-c o r") 'org-remember)
+(global-set-key (kbd "C-c o l") 'org-store-link)
+(global-set-key (kbd "C-c o a") 'org-agenda)
 
 
 ;;; }
