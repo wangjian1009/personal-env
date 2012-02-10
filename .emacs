@@ -248,6 +248,7 @@
 
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 
 ;;; }
 ;;; { personal nxml model
@@ -395,7 +396,118 @@
             (cons '("perl5" . cperl-mode) interpreter-mode-alist)))
 
 ;;; }
+;;; { personal remerber settings
+(autoload 'remember "remember" nil t)
+(autoload 'remember-region "remember" nil t)
+
+;(define-key global-map [f8] 'remember)
+;(define-key global-map [f9] 'remember-region)
+
+;;; }
+;;; { personal org mode settings
+(require 'org-install)
+
+;; These lines only if org-mode is not part of the X/Emacs distribution.
+(autoload 'org-mode "org" "Org mode" t)
+(autoload 'org-diary "org" "Diary entries from Org mode")
+(autoload 'org-agenda "org" "Multi-file agenda from Org mode" t)
+(autoload 'org-store-link "org" "Store a link to the current location" t)
+(autoload 'orgtbl-mode "org" "Org tables as a minor mode" t)
+(autoload 'turn-on-orgtbl "org" "Org tables as a minor mode")
+
+(setq org-directory "~/.emacs.d/org")
+(setq org-default-notes-file "~/.emacs.d/org/.notes")
+(setq org-agenda-files '("~/.emacs.d/org/money.org" "~/.emacs.d/org/gtd.org"))
+(setq org-agenda-ndays 7)
+(setq org-agenda-repeating-timestamp-show-all nil)
+(setq org-agenda-restore-windows-after-quit t)
+(setq org-agenda-show-all-dates t)
+(setq org-agenda-skip-deadline-if-done t)
+(setq org-agenda-skip-scheduled-if-done t)
+(setq org-agenda-sorting-strategy `((agenda time-up priority-down tag-up) (todo tag-up)))
+(setq org-agenda-start-on-weekday nil)
+(setq org-agenda-todo-ignore-deadlines t)
+(setq org-agenda-todo-ignore-scheduled t)
+(setq org-agenda-todo-ignore-with-date t)
+(setq org-agenda-window-setup (quote other-window))
+(setq org-deadline-warning-days 7)
+(setq org-export-html-style "<link rel=\"stylesheet\" type=\"text/css\" href=\"mystyles.css\">")
+(setq org-fast-tag-selection-single-key nil)
+(setq org-log-done (quote (done)))
+(setq org-refile-targets (quote (("gtd.org" :maxlevel . 1) ("someday.org" :level . 2))))
+(setq org-reverse-note-order nil)
+(setq org-tags-column -78)
+(setq org-tags-match-list-sublevels nil)
+(setq org-time-stamp-rounding-minutes '(5))
+(setq org-use-fast-todo-selection t)
+(setq org-use-tag-inheritance nil)
+
+;(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(setq org-log-done nil)
+(setq org-agenda-include-diary nil)
+(setq org-deadline-warning-days 7)
+(setq org-timeline-show-empty-dates t)
+(setq org-insert-mode-line-in-empty-file t)
+
+(setq org-agenda-exporter-settings
+      '((ps-number-of-columns 1)
+        (ps-landscape-mode t)
+        (htmlize-output-type 'css)))
+
+(setq org-agenda-custom-commands
+      '(
+
+        ("P" "Projects"   
+         ((tags "PROJECT")))
+
+        ("H" "Office and Home Lists"
+         ((agenda)
+          (tags-todo "OFFICE")
+          (tags-todo "HOME")
+          (tags-todo "COMPUTER")
+          (tags-todo "DVD")
+          (tags-todo "READING")))
+
+        ("D" "Daily Action List"
+         (
+          (agenda "" ((org-agenda-ndays 1)
+                      (org-agenda-sorting-strategy
+                       (quote ((agenda time-up priority-down tag-up) )))
+                      (org-deadline-warning-days 0)
+                      ))))
+        )
+      )
+
+(add-hook 'remember-mode-hook 'org-remember-apply-template)
+(setq remember-annotation-functions '(org-remember-annotation))
+(setq remember-handler-functions '(org-remember-handler))
+(add-hook 'remember-mode-hook 'org-remember-apply-template)
+(add-hook 'remember-mode-hook 'org-remember-apply-template)
+(setq org-remember-templates
+     '(
+      ("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" "~/.emacs.d/org/gtd.org" "Tasks")
+      ("Private" ?p "\n* %^{topic} %T \n%i%?\n" "~/.emacs.d/org/privnotes.org")
+      ("WordofDay" ?w "\n* %^{topic} \n%i%?\n" "~/.emacs.d/org/wotd.org")
+      ))
+
+
+;(add-hook 'org-agenda-mode-hook 'hl-line-mode)
+
+(defun gtd()
+    (interactive)
+    (find-file "~/.emacs.d/org/gtd.org")
+)
+
+;; key defing
+(global-set-key (kbd "C-c g") 'gtd)
+(global-set-key (kbd "C-c r") 'org-remember)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+
+
+;;; }
 ;;; { hippie-expand settings
+
 (global-set-key [(meta ?/)] 'hippie-expand)
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
@@ -409,8 +521,10 @@
         try-expand-line
         try-complete-lisp-symbol-partially
         try-complete-lisp-symbol))
+
 ;;; }
 ;;; { utility go-to-cha
+
 (defun wy-go-to-char (n char)
   "Move forward to Nth occurence of CHAR.
 Typing `wy-go-to-char-key' again will move forwad to the next Nth
@@ -423,6 +537,7 @@ occurence of CHAR."
   (setq unread-command-events (list last-input-event)))
  
 (define-key global-map (kbd "C-c C-g") 'wy-go-to-char)
+
 ;;; }
 ;;; { utility match-parten
 (global-set-key "%" 'match-paren)
@@ -467,8 +582,10 @@ occurence of CHAR."
 
 ;;; }
 ;;; { run server
+
 (require 'server)
 (server-start)
+
 ;;; }
 ;;; { desktop
 (setq desktop-load-locked-desktop t)

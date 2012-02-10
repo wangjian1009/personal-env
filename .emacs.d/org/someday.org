@@ -1,0 +1,10 @@
+* Someday
+** Books to Read
+** Films to Watch
+** Things to Do
+*** TODO 约老同事到家里来看看
+*** TODO 做一个通用的进程内cron服务?
+*** TODO 开发 cpe.dr到yml的支持
+** Things to Learn
+** New Projects
+

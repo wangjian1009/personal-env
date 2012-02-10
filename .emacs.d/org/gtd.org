@@ -1,0 +1,36 @@
+* Tasks
+** TODO 开发 cpe.dr全面支持动态数组                                  :PROJECT:
+** TODO 开发 cpe.dr 支持dump出cfg                           :COMPUTER:PROJECT:
+** TODO 开发 Tank服务端程序                                         :COMPUTER:
+** TODO 开发 Tank客户端联网框架                                     :COMPUTER:
+** TODO 处理 所有信用卡的还款计划                                   :COMPUTER:
+** TODO 处理 带老婆挂号看病
+   SCHEDULED: <2012-02-14 Tue>
+** TODO 提问 腾讯人事办理医保卡细节                                   :OFFICE:
+** WAITING 办理 医保卡
+** WAITING 规划 看牙计划
+** TODO 购入 碟机                                                       :HOME:
+** APPT 约李亚楠见面讨论跳槽的事情
+   SCHEDULED: <2012-02-13 Mon>
+
+* Projects
+** TODO 看牙齿
+** TODO 老婆看病
+** TODO 车牌年检
+** TODO 李亚楠跳槽来腾讯
+** TODO 包明游戏项目
+** TODO 海盗项目
+
+* Readme
+** Next Action
+   处理，提问，回避，购买，变更，明确，收集，委托，从事，深思，想象，决定，
+   延期，开发，废弃，重新实现，下载，输入，整理，跟踪，雇佣，改善，增加，
+   报告，寻找，维持，测定，检测，订货，描画，打电话，设置优先级，购入，减少，
+   记忆，修理，回复，调查，回顾，时间安排，卖，送，服务，指定，开始，停止，
+   建议，规划，坐车，更新，升级，写，办理
+* org-mode configuration
+#+STARTUP: overview
+#+TAGS: { OFFICE(o) HOME(h) } COMPUTER(c) PROJECT(p) READING(r)
+#+TAGS: DVD(d) LUNCHTIME(l)
+#+STARTUP: hidestars
+#+SEQ_TODO: TODO(t) STARTED(s) WAITING(w) APPT(a) | DONE(d) CANCELLED(c) DEFERED(f)
