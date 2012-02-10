@@ -416,7 +416,7 @@
 (setq org-agenda-show-all-dates t)
 (setq org-agenda-skip-deadline-if-done t)
 (setq org-agenda-skip-scheduled-if-done t)
-(setq org-agenda-sorting-strategy (quote ((agenda time-up priority-down tag-up) (todo tag-up))))
+(setq org-agenda-sorting-strategy `((agenda time-up priority-down tag-up) (todo tag-up)))
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-todo-ignore-deadlines t)
 (setq org-agenda-todo-ignore-scheduled t)
@@ -430,7 +430,7 @@
 (setq org-reverse-note-order nil)
 (setq org-tags-column -78)
 (setq org-tags-match-list-sublevels nil)
-(setq org-time-stamp-rounding-minutes 5)
+(setq org-time-stamp-rounding-minutes '(5))
 (setq org-use-fast-todo-selection t)
 (setq org-use-tag-inheritance nil)
 
@@ -516,6 +516,7 @@
 
 ;;; }
 ;;; { utility go-to-cha
+
 (defun wy-go-to-char (n char)
   "Move forward to Nth occurence of CHAR.
 Typing `wy-go-to-char-key' again will move forwad to the next Nth
@@ -528,6 +529,7 @@ occurence of CHAR."
   (setq unread-command-events (list last-input-event)))
  
 (define-key global-map (kbd "C-c C-g") 'wy-go-to-char)
+
 ;;; }
 ;;; { utility match-parten
 (global-set-key "%" 'match-paren)
