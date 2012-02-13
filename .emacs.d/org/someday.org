@@ -8,3 +8,4 @@
 ** Things to Learn
 ** New Projects
 
+#+STARTUP: showall

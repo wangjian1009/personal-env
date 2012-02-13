@@ -426,7 +426,7 @@
 (setq org-export-html-style "<link rel=\"stylesheet\" type=\"text/css\" href=\"mystyles.css\">")
 (setq org-fast-tag-selection-single-key nil)
 (setq org-log-done (quote (done)))
-(setq org-refile-targets (quote (("gtd.org" :maxlevel . 1) ("someday.org" :level . 2))))
+(setq org-refile-targets (quote (("gtd.org" :level . 1) ("someday.org" :level . 2))))
 (setq org-reverse-note-order nil)
 (setq org-tags-column -78)
 (setq org-tags-match-list-sublevels nil)
@@ -435,7 +435,7 @@
 (setq org-use-tag-inheritance nil)
 
 ;(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(setq org-log-done nil)
+(setq org-log-done 'time)
 (setq org-agenda-include-diary nil)
 (setq org-deadline-warning-days 7)
 (setq org-timeline-show-empty-dates t)
@@ -486,13 +486,19 @@
 
 ;(add-hook 'org-agenda-mode-hook 'hl-line-mode)
 
-(defun gtd()
+(defun loki-open-gtd()
     (interactive)
     (find-file "~/.emacs.d/org/gtd.org")
 )
 
+(defun loki-open-money()
+    (interactive)
+    (find-file "~/.emacs.d/org/money.org")
+)
+
 ;; key defing
-(global-set-key (kbd "C-c o g") 'gtd)
+(global-set-key (kbd "C-c o g") 'loki-open-gtd)
+(global-set-key (kbd "C-c o m") 'loki-open-money)
 (global-set-key (kbd "C-c o r") 'org-remember)
 (global-set-key (kbd "C-c o l") 'org-store-link)
 (global-set-key (kbd "C-c o a") 'org-agenda)
