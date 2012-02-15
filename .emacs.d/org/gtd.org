@@ -5,7 +5,8 @@
 ** TODO 决定 何时带爸妈去泡温泉                                         :HOME:
 
 Added: [2012-02-10 Fri 18:10]
-** STARTED 决定数据如何测试                                         :COMPUTER:
+** DONE 决定数据如何测试                                            :COMPUTER:
+   CLOSED: [2012-02-13 周一 16:30]
 
 Added: [2012-02-10 Fri 18:15]
 ** TODO 修改Mac上的X系统按键，方便emacs使用                         :COMPUTER:
@@ -14,16 +15,21 @@ Added: [2012-02-10 Fri 18:20]
 ** TODO 实现一个地图信息的转换脚步 
 
 Added: [2012-02-10 Fri 18:30]
-** TODO 解决配置文件转换脚步(Makefile)在linux下执行失败问题                :C:
+** TODO 解决配置文件转换脚步(Makefile)在linux下执行失败问题                :COMPUTER:
 
 Added: [2012-02-10 Fri 18:30]
-** TODO 查询罚单情况，联系谈杰帮忙交罚单                              :OFFICE:
-    SCHEDULED: <2012-02-12 Sun>
+** DONE 查询罚单情况，联系谈杰帮忙交罚单                              :OFFICE:
+    SCHEDULED: <2012-02-12 Sun> CLOSED: [2012-02-13 周一 09:55]
 ** TODO 去嘉兴办理汽车年检                                          :OUTGOING:
     DEADLINE: <2012-02-29 Wed>
-** TODO 确认 姥姥有没有收到香烟                                         :HOME:
+** DONE 确认 姥姥有没有收到香烟                                         :HOME:
+   CLOSED: [2012-02-13 周一 16:30]
 
 Added: [2012-02-11 Sat 09:55]
+** CANCELLED 邮寄老婆的驾驶证办理罚单                                   :HOME:
+   SCHEDULED: <2012-02-15 周三> CLOSED: [2012-02-13 周一 16:30]
+
+Added: [2012-02-13 周一 09:50]
 * Projects
 #+CATEGORY: Projects
 ** 看牙齿
@@ -42,9 +48,17 @@ Added: [2012-02-11 Sat 09:55]
 ** 包明游戏项目
 *** TODO 开发 Tank服务端程序                                        :COMPUTER:
 *** TODO 开发 Tank客户端联网框架                             :OFFICE:COMPUTER:
+*** TODO 和包明碰头看一下进展                                       :OUTGOING:
+    SCHEDULED: <2012-02-15 周三 19:00>
 ** 海盗项目
 *** TODO 开发 cpe.dr全面支持动态数组                                 :PROJECT:
-*** TODO 开发 cpe.dr 支持dump出cfg                          :COMPUTER:PROJECT:
+*** TODO 写 海盗项目tdr1文档
+    DEADLINE: <2012-03-05 周一>
+*** TODO 海盗项目爹代会议                                             :OFFICE:
+    SCHEDULED: <2012-02-13 周一 +2w>
+*** TODO 根据物品刷新表生成地图刷新信息                               :OFFICE:
+    DEADLINE: <2012-03-10 周六>
+
 * Readme
 ** Next Action
    处理，提问，回避，购买，变更，明确，收集，委托，从事，深思，想象，决定，
