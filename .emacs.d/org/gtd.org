@@ -1,25 +1,63 @@
 * Tasks
-** TODO 开发 cpe.dr全面支持动态数组                                  :PROJECT:
-** TODO 开发 cpe.dr 支持dump出cfg                           :COMPUTER:PROJECT:
-** TODO 开发 Tank服务端程序                                         :COMPUTER:
-** TODO 开发 Tank客户端联网框架                                     :COMPUTER:
 ** TODO 处理 所有信用卡的还款计划                                   :COMPUTER:
-** TODO 处理 带老婆挂号看病
-   SCHEDULED: <2012-02-14 Tue>
-** TODO 提问 腾讯人事办理医保卡细节                                   :OFFICE:
-** WAITING 办理 医保卡
-** WAITING 规划 看牙计划
+   SCHEDULED: <2012-02-13 Mon>
 ** TODO 购入 碟机                                                       :HOME:
-** APPT 约李亚楠见面讨论跳槽的事情
+** TODO 决定 何时带爸妈去泡温泉                                         :HOME:
+
+Added: [2012-02-10 Fri 18:10]
+** DONE 决定数据如何测试                                            :COMPUTER:
+   CLOSED: [2012-02-13 周一 16:30]
+
+Added: [2012-02-10 Fri 18:15]
+** TODO 修改Mac上的X系统按键，方便emacs使用                         :COMPUTER:
+
+Added: [2012-02-10 Fri 18:20]
+** TODO 实现一个地图信息的转换脚步 
+
+Added: [2012-02-10 Fri 18:30]
+** TODO 解决配置文件转换脚步(Makefile)在linux下执行失败问题                :COMPUTER:
+
+Added: [2012-02-10 Fri 18:30]
+** DONE 查询罚单情况，联系谈杰帮忙交罚单                              :OFFICE:
+    SCHEDULED: <2012-02-12 Sun> CLOSED: [2012-02-13 周一 09:55]
+** TODO 去嘉兴办理汽车年检                                          :OUTGOING:
+    DEADLINE: <2012-02-29 Wed>
+** DONE 确认 姥姥有没有收到香烟                                         :HOME:
+   CLOSED: [2012-02-13 周一 16:30]
+
+Added: [2012-02-11 Sat 09:55]
+** CANCELLED 邮寄老婆的驾驶证办理罚单                                   :HOME:
+   SCHEDULED: <2012-02-15 周三> CLOSED: [2012-02-13 周一 16:30]
+
+Added: [2012-02-13 周一 09:50]
+* Projects
+#+CATEGORY: Projects
+** 看牙齿
+*** TODO 提问 腾讯人事办理医保卡细节                                  :OFFICE:
+    DEADLINE: <2012-02-13 Mon>
+*** WAITING 办理 医保卡                                             :OUTGOING:
+*** WAITING 规划 看牙计划                                             :OFFICE:
+** 老婆看病
+*** TODO 处理 带老婆挂号看病                                        :OUTGOING:
+   SCHEDULED: <2012-02-14 Tue>
+*** TODO 处理 带老婆看中医
+** 李亚楠跳槽来腾讯
+*** TODO 约李亚楠见面讨论跳槽的事情                                 :OUTGOING:
    SCHEDULED: <2012-02-13 Mon>
 
-* Projects
-** TODO 看牙齿
-** TODO 老婆看病
-** TODO 车牌年检
-** TODO 李亚楠跳槽来腾讯
-** TODO 包明游戏项目
-** TODO 海盗项目
+** 包明游戏项目
+*** TODO 开发 Tank服务端程序                                        :COMPUTER:
+*** TODO 开发 Tank客户端联网框架                             :OFFICE:COMPUTER:
+*** TODO 和包明碰头看一下进展                                       :OUTGOING:
+    SCHEDULED: <2012-02-15 周三 19:00>
+** 海盗项目
+*** TODO 开发 cpe.dr全面支持动态数组                                 :PROJECT:
+*** TODO 写 海盗项目tdr1文档
+    DEADLINE: <2012-03-05 周一>
+*** TODO 海盗项目爹代会议                                             :OFFICE:
+    SCHEDULED: <2012-02-13 周一 +2w>
+*** TODO 根据物品刷新表生成地图刷新信息                               :OFFICE:
+    DEADLINE: <2012-03-10 周六>
 
 * Readme
 ** Next Action
@@ -28,9 +66,18 @@
    报告，寻找，维持，测定，检测，订货，描画，打电话，设置优先级，购入，减少，
    记忆，修理，回复，调查，回顾，时间安排，卖，送，服务，指定，开始，停止，
    建议，规划，坐车，更新，升级，写，办理
+** Todo
+- TODO       这个项目是指该项目不久以后，或者某一天（也许某一时间）准备开始的项目。它是与预定相关的标签。一些任务会有DEADLINE来表明该任务安成的最终截止期限。
+- STARTED    对于已经开始的任务，我会使用该标签。
+- WAITING    我只能等待任务的结果的时候，使用该标签。使用该标签的时候，在任务的内容中填写记录。为了将来想起该任务将其添加到预定中。
+- APPT       并不是任何时候都执行的任务，而是在特定的时间，日期需要完成的时候使用该标签。
+- DONE       安成的任务
+- CANCELLED  该任务决定不需要执行的时候在文件中用该标签标记
+- DEFERRED   为了明确当前还没有开始执行的项目，使用该标签。理由是因为很多的情况下在任务的内容中记录了大量的笔记。
+
 * org-mode configuration
 #+STARTUP: overview
-#+TAGS: { OFFICE(o) HOME(h) } COMPUTER(c) PROJECT(p) READING(r)
+#+TAGS: { OFFICE(o) HOME(h) OUTGOING(u) } COMPUTER(c) PROJECT(p) READING(r)
 #+TAGS: DVD(d) LUNCHTIME(l)
 #+STARTUP: hidestars
 #+SEQ_TODO: TODO(t) STARTED(s) WAITING(w) APPT(a) | DONE(d) CANCELLED(c) DEFERED(f)

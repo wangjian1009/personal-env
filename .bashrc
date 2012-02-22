@@ -12,7 +12,12 @@ elif [ "$OSTYPE" == "linux" ] ; then
 fi
 
 if [ "$PS" == "" ] ; then
-    export PS1="[\h \w]\$ "
+    if [ "$USER" == "root" ] ; then
+        export PS1="[\h \w]\# "
+    else
+        export PS1="[\h \w]\$ "
+    fi
+
     if [ "$TERM" == "xterm" ] ; then
         export PS1="\[\e[34m\]$PS1\[\e[0m\]"
     elif [ "$TERM" == "cygwin" ] ; then
@@ -41,10 +46,10 @@ fi
 # ------------------------
 # path
 # ------------------------
-export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin/usr/x11R6/bin
-export LD_LIBRARY_PATH=$HOME/lib:/usr/local/lib:/usr/lib:/lib
-export MANPATH=$HOME/man:$HOME/share/man:/usr/local/man:/usr/local/share/man:/usr/man:/usr/share/man:$MANPATH
-export INFOPATH=$HOME/info:$HOME/share/info:/usr/local/info:/usr/local/share/info:/usr/info:/usr/share/info:$INFOPATH
+export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin:/usr/X11R6/bin
+export LD_LIBRARY_PATH=$HOME/lib:/usr/local/lib:/usr/lib:/lib:/usr/X11R6/lib
+export MANPATH=$HOME/man:$HOME/share/man:/usr/local/man:/usr/local/share/man:/usr/man:/usr/share/man:/usr/X11R6/man
+export INFOPATH=$HOME/info:$HOME/share/info:/usr/local/info:/usr/local/share/info:/usr/info:/usr/share/info
 
 # ------------------------
 # alias

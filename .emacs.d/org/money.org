@@ -1,0 +1,13 @@
+* 信用卡
+** TODO 招商银行信用卡
+   DEADLINE: <2012-02-23 Thu +1m>
+
+* 账单
+** TODO 金地芙蓉世家房贷还款
+   DEADLINE: <2012-02-15 周三 +1m>
+
+** TODO 金地湾流域房贷还款
+   DEADLINE: <2012-02-20 Wed +1m -3d>
+
+* configuration
+#+STARTUP: logrepeat
