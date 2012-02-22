@@ -59,6 +59,7 @@
         (progn
           (setenv "PATH" (concat home-dir "/bin:" (getenv "PATH")))
           (setenv "LD_LIBRARY_PATH" (concat home-dir "/lib:" (getenv "LD_LIBRARY_PATH")))
+          (setenv "PERL5PATH" (concat home-dir "/lib:" (getenv "LD_LIBRARY_PATH")))
           (add-to-list 'exec-path (concat home-dir "/bin"))
           )
       ))
