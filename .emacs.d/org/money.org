@@ -1,6 +1,10 @@
 * 信用卡
 ** TODO 招商银行信用卡
-   DEADLINE: <2012-02-23 Thu +1m>
+   DEADLINE: <2012-03-23 Thu +1m>
+   - State "DONE"       from "TODO"       [2012-02-23 周四 08:42]
+   :PROPERTIES:
+   :LAST_REPEAT: [2012-02-23 周四 08:42]
+   :END:
 
 * 账单
 ** TODO 金地芙蓉世家房贷还款

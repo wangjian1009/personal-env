@@ -12,7 +12,8 @@ Added: [2012-02-10 Fri 18:15]
 ** TODO 修改Mac上的X系统按键，方便emacs使用                         :COMPUTER:
 
 Added: [2012-02-10 Fri 18:20]
-** TODO 实现一个地图信息的转换脚步 
+** DONE 实现一个地图信息的转换脚步 
+   CLOSED: [2012-02-23 周四 08:50]
 
 Added: [2012-02-10 Fri 18:30]
 ** DONE 解决配置文件转换脚步(Makefile)在linux下执行失败问题         :COMPUTER:
@@ -41,13 +42,17 @@ Added: [2012-02-13 周一 09:50]
 ** 老婆看病
 *** DONE 处理 带老婆挂号看病                                        :OUTGOING:
    SCHEDULED: <2012-02-14 Tue> CLOSED: [2012-02-14 周二 10:10]
-*** TODO 带老婆做肠镜                                               :OUTGOING:
-    SCHEDULED: <2012-02-22 周三>
+*** DONE 带老婆做肠镜                                               :OUTGOING:
+    SCHEDULED: <2012-02-22 周三> CLOSED: [2012-02-23 周四 08:40]
+*** TODO 带老婆复测并预定胃镜
+    SCHEDULED: <2012-02-25 周六>
 *** TODO 处理 带老婆看中医
 ** 李亚楠跳槽来腾讯
 *** DONE 约李亚楠见面讨论跳槽的事情                                 :OUTGOING:
    SCHEDULED: <2012-02-13 Mon> CLOSED: [2012-02-21 周二 10:00]    
 *** TODO 给李亚楠Email简历
+*** TODO 给亚楠发送简历
+    SCHEDULED: <2012-02-23 周四>
 *** TODO 确认亚楠简历是否OK
     SCHEDULED: <2012-02-26 周日>
 ** 包明游戏项目                                                     :COMPUTER:
@@ -61,7 +66,7 @@ Added: [2012-02-13 周一 09:50]
 ** 海盗项目                                                           :OFFICE:
 *** TODO 开发 cpe.dr全面支持动态数组                                 :PROJECT:
 *** TODO 写 海盗项目tdr1文档
-    DEADLINE: <2012-03-05 周一>
+    DEADLINE: <2012-03-05 周一> SCHEDULED: <2012-02-27 周一>
 *** TODO 海盗项目爹迭代会议                                           :OFFICE:
     SCHEDULED: <2012-02-27 周一 +2w>
     - State "DONE"       from "TODO"       [2012-02-22 周三 09:51]
@@ -82,7 +87,7 @@ Added: [2012-02-13 周一 09:50]
 *** STARTED 战斗联网协议，处理奖品
 *** TODO 战斗接入GUI战斗模块进行验证
 *** TODO 支持物品组配置
-    SCHEDULED: <2012-02-22 周三>
+    SCHEDULED: <2012-02-23 周四>
 *** TODO 支持战斗后得到地图碎片
     SCHEDULED: <2012-02-23 周四>
 *** DONE 布置船阵
