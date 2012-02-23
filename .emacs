@@ -59,6 +59,7 @@
         (progn
           (setenv "PATH" (concat home-dir "/bin:" (getenv "PATH")))
           (setenv "LD_LIBRARY_PATH" (concat home-dir "/lib:" (getenv "LD_LIBRARY_PATH")))
+          (setenv "PERL5PATH" (concat home-dir "/lib:" (getenv "LD_LIBRARY_PATH")))
           (add-to-list 'exec-path (concat home-dir "/bin"))
           )
       ))
@@ -249,6 +250,14 @@
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+
+;;; }
+;;; { personal nxml model
+(eval-after-load "nxml-mode"
+  '(progn
+     (setq nxml-child-indent 4)
+     )
+  )
 
 ;;; }
 ;;; { personal lisp mode settings
