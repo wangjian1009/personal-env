@@ -391,7 +391,7 @@
   )
  
 (setq auto-mode-alist
-      (cons '("\\.\\(pl\\|pm\\)\\'" . cperl-mode) auto-mode-alist))
+      (cons '("\\.\\(pl\\|pm\\|pod\\)\\'" . cperl-mode) auto-mode-alist))
 (setq interpreter-mode-alist
       (cons '("perl" . cperl-mode)
             (cons '("perl5" . cperl-mode) interpreter-mode-alist)))
@@ -597,7 +597,9 @@ occurence of CHAR."
 
 ;;; }
 ;;; { desktop
+
 (setq desktop-load-locked-desktop t)
 (desktop-read)
 (desktop-save-mode)
+
 ;;; }
