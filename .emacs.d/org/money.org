@@ -22,7 +22,11 @@
    :END:
 
 ** TODO 水费账单
-   DEADLINE: <2012-02-15 周四 +2m>
+   DEADLINE: <2012-03-25 周四 +2m>
+   - State "DONE"       from "TODO"       [2012-02-27 周一 17:46]
+   :PROPERTIES:
+   :LAST_REPEAT: [2012-02-27 周一 17:46]
+   :END:
 
 ** TODO 煤气费账单
    DEADLINE: <2012-03-15 周四 +2m>

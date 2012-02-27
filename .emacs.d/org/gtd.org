@@ -8,8 +8,15 @@ Added: [2012-02-10 Fri 18:10]
 ** TODO 修改Mac上的X系统按键，方便emacs使用                         :COMPUTER:
 
 Added: [2012-02-10 Fri 18:20]
-** TODO 去嘉兴办理汽车年检                                          :OUTGOING:
-    DEADLINE: <2012-02-29 Wed -3d> SCHEDULED: <2012-02-26 周日>
+** DONE 去嘉兴办理汽车年检                                          :OUTGOING:
+    DEADLINE: <2012-02-29 Wed -3d> SCHEDULED: <2012-02-26 周日> CLOSED: [2012-02-27 周一 17:45]
+** TODO 中转系统设计-PDI-上海-20120330                                :OFFICE:
+   SCHEDULED: <2012-03-30 周一>
+** TODO 后台服务架构设计入门-PDI-上海-20120306                        :OFFICE:
+   SCHEDULED: <2012-03-06 周二>
+
+** TODO 从游戏性方面浅析DNF百万的成功-PDI-上海-20120302
+   SCHEDULED: <2012-03-02 周五>
 * Projects
 #+CATEGORY: Projects
 ** 看牙齿
@@ -19,7 +26,7 @@ Added: [2012-02-10 Fri 18:20]
 *** WAITING 规划 看牙计划                                             :OFFICE:
 ** 老婆看病
 *** TODO 带老婆复测并预定胃镜
-    SCHEDULED: <2012-02-25 周六>
+    SCHEDULED: <2012-03-03 周六>
 *** WAITING 处理 带老婆看中医
 ** 李亚楠跳槽来腾讯
 *** DONE 约李亚楠见面讨论跳槽的事情                                 :OUTGOING:
@@ -34,6 +41,11 @@ Added: [2012-02-10 Fri 18:20]
 *** TODO 开发 Tank客户端联网框架                             :COMPUTER:
 *** DONE 和包明碰头看一下进展                                       :OUTGOING:
     SCHEDULED: <2012-02-15 周三 19:00> CLOSED: [2012-02-21 周二 10:00]    
+** TODO 和包明碰头，聊一下下一步的发展                                     :OFFICE:
+   SCHEDULED: <2012-02-29 周三 19:00>
+
+Added: [2012-02-27 周一 18:00]
+
 *** TODO 配置文件存盘
 *** TODO 联网协议定义工具                                           :COMPUTER:
 *** TODO 截获Event送到网络                                          :COMPUTER:
@@ -57,17 +69,26 @@ Added: [2012-02-10 Fri 18:20]
     SCHEDULED: <2012-02-23 周四> CLOSED: [2012-02-24 周五 16:35]
 *** DONE 刷新后更新客户端地图数据
     SCHEDULED: <2012-02-24 周五> CLOSED: [2012-02-24 周五 16:35]
-*** TODO dr.cfg支持读入和导出union，并完成单元测试修改
-*** TODO 整理协议，将统一的错误码放到包头
+*** DONE dr.cfg支持读入和导出union，并完成单元测试修改
+    CLOSED: [2012-02-27 周一 17:50]
+*** TODO 完成挖宝后数据存储的设计                                     :OFFICE:
+    SCHEDULED: <2012-02-28 周二>
 *** TODO 写 海盗项目tdr1文档                                          :OFFICE:
-    DEADLINE: <2012-03-05 周一> SCHEDULED: <2012-02-27 周一>
+    DEADLINE: <2012-03-05 周一> SCHEDULED: <2012-02-28 周二>
+*** TODO 完成背包物品整理的协议
+    SCHEDULED: <2012-03-02 周五>
+*** TODO 和苏继强确认一下本轮迭代的工作安排
+    SCHEDULED: <2012-02-29 周三>
+*** TODO 整理协议，将统一的错误码放到包头
 *** TODO 海盗项目爹迭代会议                                           :OFFICE:
-    SCHEDULED: <2012-02-27 周一 +2w>
+    SCHEDULED: <2012-03-12 周一 +2w>
+    - State "DONE"       from "TODO"       [2012-02-27 周一 17:45]
     - State "DONE"       from "TODO"       [2012-02-22 周三 09:51]
     :PROPERTIES:
-    :LAST_REPEAT: [2012-02-22 周三 09:51]
+    :LAST_REPEAT: [2012-02-27 周一 17:45]
     :END:
 *** TODO 服务器数据存盘                                               :OFFICE:
+*** TODO 设计一个好友关联度的处理算法                                 :OFFICE:
 *** TODO 定时刷新宝箱                                                 :OFFICE:
 *** TODO 定时刷新NPC                                                  :OFFICE:
 *** TODO 用户在线离线处理                                             :OFFICE:
