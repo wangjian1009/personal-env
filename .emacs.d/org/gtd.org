@@ -1,4 +1,5 @@
 * Tasks
+#+CATEGORY: gtd
 ** TODO 处理 所有信用卡的还款计划                                   :COMPUTER:
    SCHEDULED: <2012-02-13 Mon>
 ** TODO 购入 碟机                                                       :HOME:
@@ -15,18 +16,19 @@ Added: [2012-02-10 Fri 18:20]
 ** TODO 后台服务架构设计入门-PDI-上海-20120306                        :OFFICE:
    SCHEDULED: <2012-03-06 周二>
 
-** TODO 从游戏性方面浅析DNF百万的成功-PDI-上海-20120302
-   SCHEDULED: <2012-03-02 周五>
+** CANCELLED 从游戏性方面浅析DNF百万的成功-PDI-上海-20120302
+   SCHEDULED: <2012-03-02 周五> CLOSED: [2012-03-05 周一 17:55]
 * Projects
-#+CATEGORY: Projects
 ** 看牙齿
 *** TODO 提问 腾讯人事办理医保卡细节                                  :OFFICE:
     DEADLINE: <2012-02-13 Mon>
 *** WAITING 办理 医保卡                                             :OUTGOING:
 *** WAITING 规划 看牙计划                                             :OFFICE:
 ** 老婆看病
-*** TODO 带老婆复测并预定胃镜
-    SCHEDULED: <2012-03-03 周六>
+*** TODO 等胃镜报告出来看病
+    SCHEDULED: <2012-03-13 周二>
+*** DONE 带老婆复测并预定胃镜
+    SCHEDULED: <2012-03-03 周六> DEADLINE: <2012-03-05 周一> CLOSED: [2012-03-05 周一 18:00]
 *** WAITING 处理 带老婆看中医
 ** 李亚楠跳槽来腾讯
 *** DONE 约李亚楠见面讨论跳槽的事情                                 :OUTGOING:
@@ -35,66 +37,83 @@ Added: [2012-02-10 Fri 18:20]
 *** DONE 给亚楠发送简历
     SCHEDULED: <2012-02-23 周四> CLOSED: [2012-02-24 周五 16:40]
 *** TODO 确认亚楠简历是否OK
-    SCHEDULED: <2012-02-26 周日>
+    SCHEDULED: <2012-03-05 周一>
 ** 包明游戏项目                                                     :COMPUTER:
 #+CATEGORY: Tank
 *** TODO 开发 Tank客户端联网框架                             :COMPUTER:
 *** DONE 和包明碰头看一下进展                                       :OUTGOING:
     SCHEDULED: <2012-02-15 周三 19:00> CLOSED: [2012-02-21 周二 10:00]    
-** TODO 和包明碰头，聊一下下一步的发展                                     :OFFICE:
-   SCHEDULED: <2012-02-29 周三 19:00>
+*** DONE 和包明碰头，聊一下下一步的发展                               :OFFICE:
+    SCHEDULED: <2012-02-29 周三 19:00> CLOSED: [2012-03-02 周五 15:30]
 
 Added: [2012-02-27 周一 18:00]
 
 *** TODO 配置文件存盘
+*** DONE 修改makefile,支持domain
+    SCHEDULED: <2012-03-05 周一> CLOSED: [2012-03-06 周二 10:55]
 *** TODO 联网协议定义工具                                           :COMPUTER:
 *** TODO 截获Event送到网络                                          :COMPUTER:
 *** TODO 开发 Tank服务端接入联往状态                                :COMPUTER:
 ** 海盗项目                                                           :OFFICE:
-#+CATEGORY: Pirate
-*** DONE 根据物品刷新表生成地图刷新信息                               :OFFICE:
+*** 迭代五
+**** DONE 根据物品刷新表生成地图刷新信息                              :OFFICE:
     DEADLINE: <2012-03-10 周六> CLOSED: [2012-02-22 周三 10:00]
-*** DONE 拾取地图物品到临时背包                                       :OFFICE:
+**** DONE 拾取地图物品到临时背包                                      :OFFICE:
     SCHEDULED: <2012-02-22 周三> CLOSED: [2012-02-22 周三 11:40]
-*** DONE 拾取零时物品背包到背包                                       :OFFICE:
+**** DONE 拾取零时物品背包到背包                                      :OFFICE:
     SCHEDULED: <2012-02-22 周三> CLOSED: [2012-02-22 周三 11:40]
-*** DONE 布置船阵
+**** DONE 布置船阵
     CLOSED: [2012-02-21 周二 09:55]
 
-*** DONE 支持物品组配置
+**** DONE 支持物品组配置
     SCHEDULED: <2012-02-23 周四> CLOSED: [2012-02-24 周五 10:40]
-*** DONE 战斗联网协议，处理奖品
+**** DONE 战斗联网协议，处理奖品
     CLOSED: [2012-02-24 周五 13:15]
-*** DONE 支持战斗后得到地图碎片
+**** DONE 支持战斗后得到地图碎片
     SCHEDULED: <2012-02-23 周四> CLOSED: [2012-02-24 周五 16:35]
-*** DONE 刷新后更新客户端地图数据
+**** DONE 刷新后更新客户端地图数据
     SCHEDULED: <2012-02-24 周五> CLOSED: [2012-02-24 周五 16:35]
-*** DONE dr.cfg支持读入和导出union，并完成单元测试修改
+*** 迭代六
+#+CATEGORY: Pirate-6
+    DEADLINE: <2012-03-09 周五>
+**** DONE dr.cfg支持读入和导出union，并完成单元测试修改
     CLOSED: [2012-02-27 周一 17:50]
-*** TODO 完成挖宝后数据存储的设计                                     :OFFICE:
+**** TODO 完成挖宝后数据存储的设计                                    :OFFICE:
     SCHEDULED: <2012-02-28 周二>
-*** TODO 写 海盗项目tdr1文档                                          :OFFICE:
-    DEADLINE: <2012-03-05 周一> SCHEDULED: <2012-02-28 周二>
-*** TODO 完成背包物品整理的协议
+**** TODO 写 海盗项目tdr1文档                                         :OFFICE:
+     SCHEDULED: <2012-02-28 周二> DEADLINE: <2012-03-09 周五>
+**** TODO 完成背包物品整理的协议
     SCHEDULED: <2012-03-02 周五>
-*** TODO 和苏继强确认一下本轮迭代的工作安排
-    SCHEDULED: <2012-02-29 周三>
-*** TODO 整理协议，将统一的错误码放到包头
-*** TODO 海盗项目爹迭代会议                                           :OFFICE:
+**** TODO 战斗体力控制
+**** DONE 完成异步服务器调用框架
+    SCHEDULED: <2012-02-28 周二> CLOSED: [2012-03-05 周一 18:00]
+**** DONE 和苏继强确认一下本轮迭代的工作安排
+    SCHEDULED: <2012-02-29 周三> CLOSED: [2012-03-02 周五 15:30]
+**** DONE SelectItemSet需要调试
+     CLOSED: [2012-03-06 周二 10:55]
+**** TODO 生成藏宝图位置
+**** DONE MapFindTrea需要调试
+     CLOSED: [2012-03-05 周一 18:00]
+*** 后续
+#+CATEGORY: Pirate-left
+**** TODO 接入邮件协议
+**** TODO aa
+**** TODO 整理协议，将统一的错误码放到包头
+**** TODO 海盗项目爹迭代会议                                          :OFFICE:
     SCHEDULED: <2012-03-12 周一 +2w>
     - State "DONE"       from "TODO"       [2012-02-27 周一 17:45]
     - State "DONE"       from "TODO"       [2012-02-22 周三 09:51]
     :PROPERTIES:
     :LAST_REPEAT: [2012-02-27 周一 17:45]
     :END:
-*** TODO 服务器数据存盘                                               :OFFICE:
-*** TODO 设计一个好友关联度的处理算法                                 :OFFICE:
-*** TODO 定时刷新宝箱                                                 :OFFICE:
-*** TODO 定时刷新NPC                                                  :OFFICE:
-*** TODO 用户在线离线处理                                             :OFFICE:
-*** TODO 刷新非好友玩家在地图上
-*** TODO 战斗接入GUI战斗模块进行验证
-*** TODO 调整数据页面管理框架，支持Transaction
+**** TODO 服务器数据存盘                                              :OFFICE:
+**** TODO 设计一个好友关联度的处理算法                                :OFFICE:
+**** TODO 定时刷新宝箱                                                :OFFICE:
+**** TODO 定时刷新NPC                                                 :OFFICE:
+**** TODO 用户在线离线处理                                            :OFFICE:
+**** TODO 刷新非好友玩家在地图上
+**** TODO 战斗接入GUI战斗模块进行验证
+**** TODO 调整数据页面管理框架，支持Transaction
 
 * Readme
 ** Next Action

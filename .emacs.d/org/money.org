@@ -12,6 +12,12 @@
    :PROPERTIES:
    :LAST_REPEAT: [2012-02-24 周五 17:18]
    :END:
+** TODO 民生银行信用卡（账单日27，还款日18）
+   DEADLINE: <2012-04-18 周日 +1m>
+   - State "DONE"       from "TODO"       [2012-02-29 周三 08:26]
+   :PROPERTIES:
+   :LAST_REPEAT: [2012-02-29 周三 08:26]
+   :END:
 
 * 账单
 ** TODO 电费账单
@@ -47,6 +53,13 @@
 
 ** TODO 金地湾流域房贷还款
    DEADLINE: <2012-02-20 Wed +1m -3d>
+
+** TODO 公司交停车费
+   DEADLINE: <2012-03-31 周六 +1m>
+   - State "DONE"       from "TODO"       [2012-03-02 周五 15:32]
+   :PROPERTIES:
+   :LAST_REPEAT: [2012-03-02 周五 15:32]
+   :END:
 
 * configuration
 #+STARTUP: logrepeat
