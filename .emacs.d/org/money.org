@@ -35,10 +35,11 @@
    :END:
 
 ** TODO 煤气费账单
-   DEADLINE: <2012-03-15 周四 +2m>
+   DEADLINE: <2012-05-15 Tue +2w>
+   - State "DONE"       from "TODO"       [2012-03-14 Wed 15:07]
    - State "DONE"       from "TODO"       [2012-02-24 周五 16:44]
    :PROPERTIES:
-   :LAST_REPEAT: [2012-02-24 周五 16:44]
+   :LAST_REPEAT: [2012-03-14 Wed 15:07]
    :END:
 
 ** TODO 金地芙蓉世家房贷还款
@@ -52,7 +53,11 @@
    SCHEDULED: <2012-04-15 周日 -10d>
 
 ** TODO 金地湾流域房贷还款
-   DEADLINE: <2012-02-20 Wed +1m -3d>
+   DEADLINE: <2012-03-20 Wed +1m -3d>
+   - State "DONE"       from "TODO"       [2012-03-14 Wed 15:08]
+   :PROPERTIES:
+   :LAST_REPEAT: [2012-03-14 Wed 15:08]
+   :END:
 
 ** TODO 公司交停车费
    DEADLINE: <2012-03-31 周六 +1m>

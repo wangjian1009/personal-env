@@ -418,7 +418,7 @@
 
 (setq org-directory "~/.emacs.d/org")
 (setq org-default-notes-file "~/.notes")
-(setq org-agenda-files '("~/.emacs.d/org/money.org" "~/.emacs.d/org/gtd.org"))
+(setq org-agenda-files '("~/.emacs.d/org/money.org" "~/.emacs.d/org/gtd.org" "~/.emacs.d/org/someday.org"))
 (setq org-agenda-ndays 7)
 (setq org-agenda-repeating-timestamp-show-all t)
 (setq org-agenda-skip-scheduled-if-done t)
