@@ -2,6 +2,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
 (add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-goodies-el")
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -51,6 +52,8 @@
 
   (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
   (setenv "LD_LIBRARY_PATH" (concat "/usr/local/lib:" (getenv "LD_LIBRARY_PATH")))
+  (setenv "INFOPATH" (concat "/usr/local/info:/usr/local/share/info:/usr/info:/usr/share/info:" (getenv "INFOPATH")))
+  (setenv "MANPATH" (concat "/usr/local/man:/usr/local/share/man:/usr/man:/usr/share/man:" (getenv "MANPATH")))
   (setenv "CCACHE" "ccache")
   (add-to-list 'exec-path "/usr/local/bin")
 
@@ -114,6 +117,7 @@
 
   (setenv "PATH" (shell-command-to-string (concat "cygpath -p '" (getenv "PATH") "'")))
   )
+
 ;;; }
 ;;; { coding-system
 
@@ -406,113 +410,118 @@
 
 ;;; }
 ;;; { personal org mode settings
-(require 'org-install)
+(defvar personal-org-dir (getenv "PERSONAL_ORG_HOME") "个人ORG文件配置")
+(if personal-org-dir
+    (progn
+      (require 'org-install)
 
-;; These lines only if org-mode is not part of the X/Emacs distribution.
-(autoload 'org-mode "org" "Org mode" t)
-(autoload 'org-diary "org" "Diary entries from Org mode")
-(autoload 'org-agenda "org" "Multi-file agenda from Org mode" t)
-(autoload 'org-store-link "org" "Store a link to the current location" t)
-(autoload 'orgtbl-mode "org" "Org tables as a minor mode" t)
-(autoload 'turn-on-orgtbl "org" "Org tables as a minor mode")
+      ;; These lines only if org-mode is not part of the X/Emacs distribution.
+      (autoload 'org-mode "org" "Org mode" t)
+      (autoload 'org-diary "org" "Diary entries from Org mode")
+      (autoload 'org-agenda "org" "Multi-file agenda from Org mode" t)
+      (autoload 'org-store-link "org" "Store a link to the current location" t)
+      (autoload 'orgtbl-mode "org" "Org tables as a minor mode" t)
+      (autoload 'turn-on-orgtbl "org" "Org tables as a minor mode")
 
-(setq org-directory "~/.emacs.d/org")
-(setq org-default-notes-file "~/.notes")
-(setq org-agenda-files '("~/.emacs.d/org/money.org" "~/.emacs.d/org/gtd.org" "~/.emacs.d/org/someday.org"))
-(setq org-agenda-ndays 7)
-(setq org-agenda-repeating-timestamp-show-all t)
-(setq org-agenda-skip-scheduled-if-done t)
-(setq org-agenda-restore-windows-after-quit t)
-(setq org-agenda-show-all-dates t)
-(setq org-agenda-skip-deadline-if-done t)
-(setq org-agenda-skip-scheduled-if-done t)
-(setq org-agenda-sorting-strategy `((agenda time-up priority-down tag-up) (todo tag-up)))
-(setq org-agenda-start-on-weekday nil)
-(setq org-agenda-todo-ignore-deadlines t)
-(setq org-agenda-todo-ignore-scheduled t)
-(setq org-agenda-todo-ignore-with-date t)
-(setq org-agenda-window-setup (quote other-window))
-(setq org-deadline-warning-days 7)
-(setq org-export-html-style "<link rel=\"stylesheet\" type=\"text/css\" href=\"mystyles.css\">")
-(setq org-fast-tag-selection-single-key nil)
-(setq org-log-done (quote (done)))
-(setq org-refile-targets (quote (("gtd.org" :level . 1) ("someday.org" :level . 2))))
-(setq org-reverse-note-order nil)
-(setq org-tags-column -78)
-(setq org-tags-match-list-sublevels nil)
-(setq org-time-stamp-rounding-minutes '(5))
-(setq org-use-fast-todo-selection t)
-(setq org-use-tag-inheritance nil)
+      (setq org-directory personal-org-dir)
+      (setq org-default-notes-file "~/.notes")
+      (setq org-agenda-files (mapcar (lambda (x) (concat personal-org-dir "/" x))
+                                     '("private.org"
+                                       "work.org"
+                                       "money.org"
+                                       "gtd.org"
+                                       "someday.org")))
+      (setq org-agenda-ndays 7)
+      (setq org-agenda-repeating-timestamp-show-all t)
+      (setq org-agenda-skip-scheduled-if-done t)
+      (setq org-agenda-restore-windows-after-quit t)
+      (setq org-agenda-show-all-dates t)
+      (setq org-agenda-skip-deadline-if-done t)
+      (setq org-agenda-skip-scheduled-if-done t)
+      (setq org-agenda-sorting-strategy `((agenda time-up priority-down tag-up) (todo tag-up)))
+      (setq org-agenda-start-on-weekday nil)
+      (setq org-agenda-todo-ignore-deadlines t)
+      (setq org-agenda-todo-ignore-scheduled t)
+      (setq org-agenda-todo-ignore-with-date t)
+      (setq org-agenda-window-setup (quote other-window))
+      (setq org-tags-match-list-sublevels t)
+      (setq org-deadline-warning-days 7)
+      (setq org-export-html-style "<link rel=\"stylesheet\" type=\"text/css\" href=\"mystyles.css\">")
+      (setq org-fast-tag-selection-single-key nil)
+      (setq org-log-done (quote (done)))
+      (setq org-refile-targets (quote (("gtd.org" :level . 1) ("someday.org" :level . 2))))
+      (setq org-reverse-note-order nil)
+      (setq org-tags-column -78)
+      (setq org-tags-match-list-sublevels nil)
+      (setq org-time-stamp-rounding-minutes '(5))
+      (setq org-use-fast-todo-selection t)
+      (setq org-use-tag-inheritance t)
 
-;(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(setq org-log-done 'time)
-(setq org-agenda-include-diary nil)
-(setq org-deadline-warning-days 7)
-(setq org-timeline-show-empty-dates t)
-(setq org-insert-mode-line-in-empty-file t)
+      (setq org-log-done 'time)
+      (setq org-agenda-include-diary nil)
+      (setq org-deadline-warning-days 7)
+      (setq org-timeline-show-empty-dates t)
+      (setq org-insert-mode-line-in-empty-file t)
 
-(setq org-agenda-exporter-settings
-      '((ps-number-of-columns 1)
-        (ps-landscape-mode t)
-        (htmlize-output-type 'css)))
+      (setq org-agenda-exporter-settings
+            '((ps-number-of-columns 1)
+              (ps-landscape-mode t)
+              (htmlize-output-type 'css)))
 
-(setq org-agenda-custom-commands
-      '(
+      (setq org-agenda-custom-commands
+            '(
 
-        ("P" "Projects"   
-         ((tags "PROJECT")))
+              ("P" "Projects"   
+               ((tags "PROJECT")))
 
-        ("H" "Office and Home Lists"
-         ((agenda)
-          (tags-todo "OFFICE")
-          (tags-todo "HOME")
-          (tags-todo "COMPUTER")
-          (tags-todo "DVD")
-          (tags-todo "READING")))
+              ("H" "Office and Home Lists"
+               ((agenda)
+                (tags-todo "OFFICE")
+                (tags-todo "HOME")
+                (tags-todo "COMPUTER")
+                (tags-todo "DVD")
+                (tags-todo "READING")))
 
-        ("D" "Daily Action List"
-         (
-          (agenda "" ((org-agenda-ndays 1)
-                      (org-agenda-sorting-strategy
-                       (quote ((agenda time-up priority-down tag-up) )))
-                      (org-deadline-warning-days 0)
-                      ))))
-        )
+              ("D" "Daily Action List"
+               (
+                (agenda "" ((org-agenda-ndays 1)
+                            (org-agenda-sorting-strategy
+                             (quote ((agenda time-up priority-down tag-up) )))
+                            (org-deadline-warning-days 0)
+                            ))))
+              )
+            )
+
+      (add-hook 'remember-mode-hook 'org-remember-apply-template)
+      (setq remember-annotation-functions '(org-remember-annotation))
+      (setq remember-handler-functions '(org-remember-handler))
+      (add-hook 'remember-mode-hook 'org-remember-apply-template)
+      (add-hook 'remember-mode-hook 'org-remember-apply-template)
+      (setq org-remember-templates
+            '(
+              ("Todo" ?g "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" "gtd.org" "Tasks")
+              ("Maby" ?m "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" "someday.org" "Things to Do")
+              ("Private" ?p "\n* %^{topic} %T \n%i%?\n" "~/Dropbox/Org/project_tank.org" "")
+              ("Work" ?w "\n* %^{topic} \n%i%?\n" "~/Dropbox/Org/project_pirate.org")
+              ))
+
+      (global-set-key (kbd "C-c o g") '(lambda () (interactive) (find-file (concat personal-org-dir "/gtd.org"))))
+      (global-set-key (kbd "C-c o w") '(lambda () (interactive) (find-file (concat personal-org-dir "/work.org"))))
+      (global-set-key (kbd "C-c o p") '(lambda () (interactive) (find-file (concat personal-org-dir "/private.org"))))
+      (global-set-key (kbd "C-c o m") '(lambda () (interactive) (find-file (concat personal-org-dir "/money.org"))))
+
+      (global-set-key (kbd "C-c o r") 'org-remember)
+      (global-set-key (kbd "C-c o l") 'org-store-link)
+      (global-set-key (kbd "C-c o a") 'org-agenda)
       )
+  )
 
-(add-hook 'remember-mode-hook 'org-remember-apply-template)
-(setq remember-annotation-functions '(org-remember-annotation))
-(setq remember-handler-functions '(org-remember-handler))
-(add-hook 'remember-mode-hook 'org-remember-apply-template)
-(add-hook 'remember-mode-hook 'org-remember-apply-template)
-(setq org-remember-templates
-     '(
-      ("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" "gtd.org" "Tasks")
-      ("Maby" ?m "* TODO %^{Brief Description} %^g\n%?\nAdded: %U" "someday.org" "Things to Do")
-      ;("Private" ?p "\n* %^{topic} %T \n%i%?\n" "~/.emacs.d/org/privnotes.org")
-      ;("WordofDay" ?w "\n* %^{topic} \n%i%?\n" "~/.emacs.d/org/wotd.org")
-      ))
+;;; }
+;;; { personal mail settings
 
-
-;(add-hook 'org-agenda-mode-hook 'hl-line-mode)
-
-(defun loki-open-gtd()
-    (interactive)
-    (find-file "~/.emacs.d/org/gtd.org")
-)
-
-(defun loki-open-money()
-    (interactive)
-    (find-file "~/.emacs.d/org/money.org")
-)
-
-;; key defing
-(global-set-key (kbd "C-c o g") 'loki-open-gtd)
-(global-set-key (kbd "C-c o m") 'loki-open-money)
-(global-set-key (kbd "C-c o r") 'org-remember)
-(global-set-key (kbd "C-c o l") 'org-store-link)
-(global-set-key (kbd "C-c o a") 'org-agenda)
-
+(setq mail-user-agent `mh-e-user-agent)
+(setq read-mail-command `mh-rmail)
+(load "mailutils-mh")
 
 ;;; }
 ;;; { hippie-expand settings
