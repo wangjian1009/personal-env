@@ -518,11 +518,11 @@
 
 ;;; }
 ;;; { personal mail settings
-
-(setq mail-user-agent `mh-e-user-agent)
-(setq read-mail-command `mh-rmail)
-(load "mailutils-mh")
-
+(if (load "mailutils-mh" t)
+    (progn
+      (setq mail-user-agent `mh-e-user-agent)
+      (setq read-mail-command `mh-rmail))
+  )
 ;;; }
 ;;; { hippie-expand settings
 
