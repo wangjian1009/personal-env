@@ -234,8 +234,10 @@
 
 ;;; }
 ;;; { git-emacs
+
 (add-to-list 'load-path "~/.emacs.d/site-lisp/git-emacs")
 (require 'git-emacs)
+
 ;;; }
 ;;; { markdown mode
 (autoload 'markdown-mode "markdown-mode.el"
@@ -611,4 +613,8 @@ occurence of CHAR."
 (desktop-read)
 (desktop-save-mode)
 
+;;; }
+;;; { emacs local
+(if (file-exists-p "~/.emacs.local")
+    (load-file "~/.emacs.local"))
 ;;; }
