@@ -122,11 +122,11 @@
 ;;; { coding-system
 
 ;(add-to-list `process-coding-system-alist `("bash" . gb2312))
-(add-to-list `process-coding-system-alist `("git*" . gb2312))
+;(add-to-list `process-coding-system-alist `("git*" . gb2312))
 ;(add-to-list 'file-coding-system-alist '("\\.[hc]\\(pp\\)?\\'" .gb2312 ))
 
-(prefer-coding-system 'chinese-gbk)
 (prefer-coding-system 'utf-8)
+(prefer-coding-system 'chinese-gbk)
 
 ;;; }
 ;;; { ido mode setup
@@ -240,16 +240,20 @@
 
 ;;; }
 ;;; { markdown mode
+
 (autoload 'markdown-mode "markdown-mode.el"
   "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
       (cons '("\\.\\(md\\|markdown\\)\\'" . markdown-mode) auto-mode-alist))
+
 ;;; }
 ;;; { backup settings
+
 (setq-default make-backup-files nil)
 (setq backup-directory-alist '(("" . "~/emacs.d/autosave")))
 (auto-save-mode nil)
 (setq delete-auto-save-files t)
+
 ;;; }
 ;;; { personal yaml model
 
@@ -430,13 +434,6 @@
 ;(define-key global-map [f9] 'remember-region)
 
 ;;; }
-;;; { personal mail settings
-(if (load "mailutils-mh" t)
-    (progn
-      (setq mail-user-agent `mh-e-user-agent)
-      (setq read-mail-command `mh-rmail))
-  )
-;;; }
 ;;; { hippie-expand settings
 
 (global-set-key [(meta ?/)] 'hippie-expand)
@@ -518,14 +515,14 @@ occurence of CHAR."
 (server-start)
 
 ;;; }
+;;; { emacs local
+(if (file-exists-p "~/.emacs.local")
+    (load-file "~/.emacs.local"))
+;;; }
 ;;; { desktop
 
 (setq desktop-load-locked-desktop t)
 (desktop-read)
 (desktop-save-mode)
 
-;;; }
-;;; { emacs local
-(if (file-exists-p "~/.emacs.local")
-    (load-file "~/.emacs.local"))
 ;;; }
