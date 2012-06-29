@@ -235,6 +235,7 @@
 ;;; }
 ;;; { git-emacs
 
+(add-to-list `process-coding-system-alist `("git*" . utf-8))
 (add-to-list 'load-path "~/.emacs.d/site-lisp/git-emacs")
 (require 'git-emacs)
 
