@@ -223,19 +223,8 @@
 (setq folding-fold-on-startup t)
 (folding-mode-add-find-file-hook)
 ;;; }
-;;; { gtags
-(add-to-list 'load-path "/usr/local/share/gtags")
-(let ((gtags-suggested-key-mapping t))
-  (require 'gtags))
-(define-key gtags-mode-map (kbd "M-.") 'gtags-find-tag)
-(define-key gtags-mode-map (kbd "C-M-.") 'gtags-find-with-grep)
-(define-key gtags-mode-map (kbd "C-x 5 .") 'gtags-find-tag-other-window)
-(define-key gtags-mode-map (kbd "C-c f") 'ff-find-other-file)
-
-;;; }
 ;;; { git-emacs
 
-(add-to-list `process-coding-system-alist `("git*" . utf-8))
 (add-to-list 'load-path "~/.emacs.d/site-lisp/git-emacs")
 (require 'git-emacs)
 
