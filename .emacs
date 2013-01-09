@@ -35,6 +35,8 @@
 (setq display-time-24hr-format t)
 (setq display-time-day-and-date t)
 
+(setq password-cache-expiry nil)
+
 (global-set-key (kbd "ESC C-l") 'revert-buffer)
 (global-set-key (kbd "ESC C-M-l") 'revert-buffer-with-coding-system)
 (global-set-key (kbd "C-c c") 'compile)
@@ -125,8 +127,8 @@
 ;(add-to-list `process-coding-system-alist `("git*" . gb2312))
 ;(add-to-list 'file-coding-system-alist '("\\.[hc]\\(pp\\)?\\'" .gb2312 ))
 
-(prefer-coding-system 'utf-8)
 (prefer-coding-system 'chinese-gbk)
+(prefer-coding-system 'utf-8)
 
 ;;; }
 ;;; { ido mode setup
@@ -219,9 +221,14 @@
 (color-theme-classic)
 ;;; }
 ;;; { folding
+
 (require 'folding)
 (setq folding-fold-on-startup t)
 (folding-mode-add-find-file-hook)
+<<<<<<< HEAD
+=======
+
+>>>>>>> update
 ;;; }
 ;;; { git-emacs
 
@@ -267,6 +274,13 @@
 (folding-add-to-marks-list 'emacs-lisp-mode ";;; {" ";;; }" "")
 
 ;;; }
+;;; { personal common-lisp model settings
+(setenv "INFOPATH" (concat "~/.emacs.d/site-lisp/slime/doc:" (getenv "INFOPATH")))
+(add-to-list 'load-path "~/.emacs.d/site-lisp/slime")
+(setq inferior-lisp-program "/usr/local/bin/ccl64")
+(require 'slime)
+(slime-setup)
+;;; }
 ;;; { personal c cpp and objc mode settings
 
 (require `find-file)
@@ -288,6 +302,7 @@
 (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@implementation" . objc-mode))
 (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@interface" . objc-mode))
 (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@protocol" . objc-mode))
+(add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n\\(class\\|namespace\\)" . c++-mode))
 
 ; (add-to-list 'auto-mode-alist '("\\.h\\'" . objc-mode))
  
