@@ -225,10 +225,7 @@
 (require 'folding)
 (setq folding-fold-on-startup t)
 (folding-mode-add-find-file-hook)
-<<<<<<< HEAD
-=======
 
->>>>>>> update
 ;;; }
 ;;; { git-emacs
 
@@ -275,11 +272,13 @@
 
 ;;; }
 ;;; { personal common-lisp model settings
+
 (setenv "INFOPATH" (concat "~/.emacs.d/site-lisp/slime/doc:" (getenv "INFOPATH")))
 (add-to-list 'load-path "~/.emacs.d/site-lisp/slime")
 (setq inferior-lisp-program "/usr/local/bin/ccl64")
 (require 'slime)
 (slime-setup)
+
 ;;; }
 ;;; { personal c cpp and objc mode settings
 
@@ -299,6 +298,7 @@
           ("\\.cpp$" (".hpp" ".hh" ".h"))
           ("\\.hpp$" (".cpp" ".c"))))
 
+(add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
 (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@implementation" . objc-mode))
 (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@interface" . objc-mode))
 (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@protocol" . objc-mode))
@@ -432,12 +432,22 @@
 
 ;;; }
 ;;; { personal remerber settings
+
 (autoload 'remember "remember" nil t)
 (autoload 'remember-region "remember" nil t)
 
 ;(define-key global-map [f8] 'remember)
 ;(define-key global-map [f9] 'remember-region)
 
+;;; }
+;;; { personal android develop settings....
+(add-to-list 'load-path "~/.emacs.d/site-lisp/android-mode")
+;; (require 'android-mode)
+;; (setq android-mode-sdk-dir "~/work/android/android")
+;; (add-hook 'gud-mode-hook
+;;           (lambda ()
+;;             (add-to-list 'gud-jdb-classpath "/home/gregj/work/android-sdk-linux_86/platforms/android-7/android.jar")
+;;             ))
 ;;; }
 ;;; { hippie-expand settings
 
