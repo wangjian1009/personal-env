@@ -56,8 +56,6 @@
   (setenv "LD_LIBRARY_PATH" (concat "/usr/local/lib:" (getenv "LD_LIBRARY_PATH")))
   (setenv "INFOPATH" (concat "/usr/local/info:/usr/local/share/info:/usr/info:/usr/share/info:" (getenv "INFOPATH")))
   (setenv "MANPATH" (concat "/usr/local/man:/usr/local/share/man:/usr/man:/usr/share/man:" (getenv "MANPATH")))
-  (setenv "CCACHE" "ccache")
-  (add-to-list 'exec-path "/usr/local/bin")
 
   (let ((home-dir (getenv "HOME")))
     (if home-dir
@@ -248,6 +246,16 @@
 (auto-save-mode nil)
 (setq delete-auto-save-files t)
 
+;;; }
+;;; { smex model
+(add-to-list 'load-path "~/.emacs.d/site-lisp/smex")
+(require 'smex); Not needed if you use package.el
+(smex-initialize) ; Can be omitted. This might cause a (minimal) delay
+                  ; when Smex is auto-initialized on its first run.
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 ;;; }
 ;;; { personal yaml model
 
