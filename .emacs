@@ -209,9 +209,11 @@
 
 ;;; }
 ;;; { ibuffer settings
+
 (require 'ibuffer)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (define-key-after ibuffer-mode-map (kbd "C-x C-f") 'ido-find-file)
+
 ;;; }
 ;;; { color-theme
 (require 'color-theme)
@@ -248,6 +250,7 @@
 
 ;;; }
 ;;; { smex model
+
 (add-to-list 'load-path "~/.emacs.d/site-lisp/smex")
 (require 'smex); Not needed if you use package.el
 (smex-initialize) ; Can be omitted. This might cause a (minimal) delay
@@ -256,6 +259,7 @@
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 ;; This is your old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
 ;;; }
 ;;; { personal yaml model
 
@@ -326,7 +330,6 @@
   (c-set-offset 'namespace-close -80)
   (c-set-offset 'block-open -4)
   (c-set-offset 'template-args-cont '+)
-  (gtags-mode t)
   )
  
 (add-hook 'c-mode-hook 'personal-c-cpp-setup)
