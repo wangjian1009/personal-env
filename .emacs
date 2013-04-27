@@ -283,15 +283,7 @@
 (folding-add-to-marks-list 'emacs-lisp-mode ";;; {" ";;; }" "")
 
 ;;; }
-;;; { personal common-lisp model settings
 
-(setenv "INFOPATH" (concat "~/.emacs.d/site-lisp/slime/doc:" (getenv "INFOPATH")))
-(add-to-list 'load-path "~/.emacs.d/site-lisp/slime")
-(setq inferior-lisp-program "/usr/local/bin/ccl64")
-(require 'slime)
-(slime-setup)
-
-;;; }
 ;;; { personal c cpp and objc mode settings
 
 (require `find-file)
