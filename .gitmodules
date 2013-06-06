@@ -10,3 +10,9 @@
 [submodule ".emacs.d/site-lisp/php-mode"]
 	path = .emacs.d/site-lisp/php-mode
 	url = https://github.com/ejmr/php-mode.git
+[submodule "/Users/wangjian/.emacs.d/site-lisp/yasnippet"]
+	path = /Users/wangjian/.emacs.d/site-lisp/yasnippet
+	url = https://github.com/capitaomorte/yasnippet.git
+[submodule "/Users/wangjian/.emacs.d/site-lisp/php-auto-yasnippets"]
+	path = /Users/wangjian/.emacs.d/site-lisp/php-auto-yasnippets
+	url = https://github.com/ejmr/php-auto-yasnippets.git

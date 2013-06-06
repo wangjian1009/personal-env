@@ -261,6 +261,11 @@
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;;; }
+;;; { yasnippet model
+(add-to-list 'load-path "~/.emacs.d/site-lisp/yasnippet")
+(require 'yasnippet)
+(add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+;;; }
 ;;; { personal yaml model
 
 (require 'yaml-mode)
@@ -283,7 +288,6 @@
 (folding-add-to-marks-list 'emacs-lisp-mode ";;; {" ";;; }" "")
 
 ;;; }
-
 ;;; { personal c cpp and objc mode settings
 
 (require `find-file)
@@ -312,6 +316,7 @@
  
 (defun personal-c-cpp-setup()
   ;(c-toggle-auto-state)
+  (yas-minor-mode)
   (c-toggle-hungry-state t)
   (which-function-mode t)
   (c-set-style "stroustrup")
@@ -420,6 +425,7 @@
      (setq cperl-electric-parens nil)
    
      (defun my-perl-mode()
+       (yas-minor-mode)
        )
  
      (add-hook 'cperl-mode-hook 'my-perl-mode)
@@ -432,6 +438,58 @@
 (setq interpreter-mode-alist
       (cons '("perl" . cperl-mode)
             (cons '("perl5" . cperl-mode) interpreter-mode-alist)))
+
+;;; }
+;;; { personal php mode
+
+(add-to-list 'load-path "~/.emacs.d/site-lisp/php-mode")
+(autoload 'php-mode "php-mode" "Major mode for editing php code." t)
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+
+(defun company-my-php-backend (command &optional arg &rest ignored)
+  (case command
+    ('prefix (and (eq major-mode 'php-mode)
+                  (company-grab-symbol)))
+    ('sorted t)
+    ('candidates (all-completions
+                  arg 
+                  (if (and (boundp 'my-php-symbol-hash)
+                           my-php-symbol-hash)
+                      my-php-symbol-hash
+
+                    (message "Fetching completion list...")
+
+                    (with-current-buffer
+                        (url-retrieve-synchronously "http://php.net/quickref.php")
+
+                      (goto-char (point-min))
+
+                      (if (re-search-forward "<!-- result list start -->" nil t)
+                          (let ((end (save-excursion
+                                       (if (re-search-forward "<!-- result list end -->" nil t)
+                                           (point)))))
+                            (if end
+                                (let ((hash (make-hash-table)))
+                                  (while (re-search-forward ">\\([^<]+\\)</a>" end t)
+                                    (puthash (match-string 1) t hash))
+                                  (setq my-php-symbol-hash hash)))))))))))
+
+(eval-after-load "php-mode"
+  '(progn
+     (add-to-list 'load-path "~/.emacs.d/site-lisp/php-auto-yasnippets")
+
+     (require 'php-auto-yasnippets)
+     ;(setq php-auto-yasnippet-php-program "~/path/to/Create-PHP-YASnippet.php")
+
+     (define-key php-mode-map (kbd "C-c C-y") 'yas/create-php-snippet)
+
+     (defun my-php-mode()
+       (yas-minor-mode)
+       )
+ 
+     (add-hook 'php-mode-hook 'my-php-mode)
+     )
+  )
 
 ;;; }
 ;;; { personal remerber settings
@@ -451,10 +509,6 @@
 ;;           (lambda ()
 ;;             (add-to-list 'gud-jdb-classpath "/home/gregj/work/android-sdk-linux_86/platforms/android-7/android.jar")
 ;;             ))
-;;; }
-;;; { personal php mode
-(add-to-list 'load-path "~/.emacs.d/site-lisp/php-mode")
-(require 'php-mode)
 ;;; }
 ;;; { hippie-expand settings
 
