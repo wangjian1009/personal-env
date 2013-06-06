@@ -16,3 +16,9 @@
 [submodule "/Users/wangjian/.emacs.d/site-lisp/php-auto-yasnippets"]
 	path = /Users/wangjian/.emacs.d/site-lisp/php-auto-yasnippets
 	url = https://github.com/ejmr/php-auto-yasnippets.git
+[submodule "/Users/wangjian/.emacs.d/site-lisp/company-mode"]
+	path = /Users/wangjian/.emacs.d/site-lisp/company-mode
+	url = https://github.com/company-mode/company-mode.git
+[submodule "/Users/wangjian/.emacs.d/site-lisp/mmm-mode"]
+	path = /Users/wangjian/.emacs.d/site-lisp/mmm-mode
+	url = https://github.com/purcell/mmm-mode

@@ -266,6 +266,19 @@
 (require 'yasnippet)
 (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
 ;;; }
+;;; { company-mode
+;(add-to-list 'load-path "~/.emacs.d/site-lisp/company-mode")
+;(require 'company)
+;(add-hook 'after-init-hook 'global-company-mode)
+;(define-key company-mode-map (kbd "C-c C-.") 'company-complete-common)
+;(define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
+;(define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
+;;; }
+;;; { mmm-mode
+(add-to-list 'load-path "~/.emacs.d/site-lisp/mmm-mode")
+(require 'mmm-mode)
+(setq mmm-global-mode 'maybe)
+;;; }
 ;;; { personal yaml model
 
 (require 'yaml-mode)
@@ -274,6 +287,7 @@
 
 ;;; }
 ;;; { personal nxml model
+
 (eval-after-load "nxml-mode"
   '(progn
      (setq nxml-child-indent 4)
@@ -285,6 +299,7 @@
 
 (add-hook 'emacs-lisp-mode-hook (lambda () (folding-mode t)))
 (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'comment-region)
+
 (folding-add-to-marks-list 'emacs-lisp-mode ";;; {" ";;; }" "")
 
 ;;; }
@@ -444,35 +459,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/php-mode")
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
-(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
-
-(defun company-my-php-backend (command &optional arg &rest ignored)
-  (case command
-    ('prefix (and (eq major-mode 'php-mode)
-                  (company-grab-symbol)))
-    ('sorted t)
-    ('candidates (all-completions
-                  arg 
-                  (if (and (boundp 'my-php-symbol-hash)
-                           my-php-symbol-hash)
-                      my-php-symbol-hash
-
-                    (message "Fetching completion list...")
-
-                    (with-current-buffer
-                        (url-retrieve-synchronously "http://php.net/quickref.php")
-
-                      (goto-char (point-min))
-
-                      (if (re-search-forward "<!-- result list start -->" nil t)
-                          (let ((end (save-excursion
-                                       (if (re-search-forward "<!-- result list end -->" nil t)
-                                           (point)))))
-                            (if end
-                                (let ((hash (make-hash-table)))
-                                  (while (re-search-forward ">\\([^<]+\\)</a>" end t)
-                                    (puthash (match-string 1) t hash))
-                                  (setq my-php-symbol-hash hash)))))))))))
+;(add-to-list 'auto-mode-alist '("\\.php$" . php-mode)) defined in personal web env
 
 (eval-after-load "php-mode"
   '(progn
@@ -492,6 +479,43 @@
   )
 
 ;;; }
+;;; { personal css mode
+(eval-after-load "css-mode"
+  '(progn
+     (setq cssm-indent-function 'cssm-c-style-indenter)
+     (setq cssm-indent-level '2)
+     ))
+;;; }
+;;; { personal web env
+(require 'php-mode)
+
+(mmm-add-group
+ 'fancy-html
+ '(
+   (html-php-tagged
+    :submode php-mode
+    :face mmm-code-submode-face
+    :front "<[?]php"
+    :back "[?]>")
+   (html-css-attribute
+    :submode css-mode
+    :face mmm-declaration-submode-face
+    :front "styleREMOVEME=\""
+    :back "\"")))
+
+;; What files to invoke the new html-mode for?
+(add-to-list 'auto-mode-alist '("\\.inc\\'" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.php[s345t]?\\'" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.[sj]?html?\\'" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
+
+;; What features should be turned on in this html-mode?
+(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil html-js))
+(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil embedded-css))
+(add-to-list 'mmm-mode-ext-classes-alist '(html-modep nil fancy-html))
+
+;;; }
 ;;; { personal remerber settings
 
 (autoload 'remember "remember" nil t)
@@ -502,6 +526,7 @@
 
 ;;; }
 ;;; { personal android develop settings....
+
 (add-to-list 'load-path "~/.emacs.d/site-lisp/android-mode")
 ;; (require 'android-mode)
 ;; (setq android-mode-sdk-dir "~/work/android/android")
@@ -509,6 +534,7 @@
 ;;           (lambda ()
 ;;             (add-to-list 'gud-jdb-classpath "/home/gregj/work/android-sdk-linux_86/platforms/android-7/android.jar")
 ;;             ))
+
 ;;; }
 ;;; { hippie-expand settings
 
