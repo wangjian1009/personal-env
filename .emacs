@@ -275,9 +275,11 @@
 ;(define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
 ;;; }
 ;;; { mmm-mode
+
 (add-to-list 'load-path "~/.emacs.d/site-lisp/mmm-mode")
 (require 'mmm-mode)
 (setq mmm-global-mode 'maybe)
+
 ;;; }
 ;;; { personal yaml model
 
@@ -480,6 +482,7 @@
 
 ;;; }
 ;;; { personal css mode
+(require 'css-mode)
 (eval-after-load "css-mode"
   '(progn
      (setq cssm-indent-function 'cssm-c-style-indenter)
@@ -487,6 +490,7 @@
      ))
 ;;; }
 ;;; { personal web env
+
 (require 'php-mode)
 
 (mmm-add-group
@@ -512,8 +516,8 @@
 
 ;; What features should be turned on in this html-mode?
 (add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil html-js))
-(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil embedded-css))
-(add-to-list 'mmm-mode-ext-classes-alist '(html-modep nil fancy-html))
+;(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil embedded-css))
+(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil fancy-html))
 
 ;;; }
 ;;; { personal remerber settings
