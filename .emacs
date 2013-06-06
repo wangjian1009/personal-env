@@ -452,6 +452,10 @@
 ;;             (add-to-list 'gud-jdb-classpath "/home/gregj/work/android-sdk-linux_86/platforms/android-7/android.jar")
 ;;             ))
 ;;; }
+;;; { personal php mode
+(add-to-list 'load-path "~/.emacs.d/site-lisp/php-mode")
+(require 'php-mode)
+;;; }
 ;;; { hippie-expand settings
 
 (global-set-key [(meta ?/)] 'hippie-expand)
