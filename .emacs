@@ -227,6 +227,15 @@
 (folding-mode-add-find-file-hook)
 
 ;;; }
+;;; { gtags
+(eval-after-load "gtags"
+  '(progn
+     (define-key gtags-mode-map (kbd "M-.") 'gtags-find-tag)
+     (define-key gtags-mode-map (kbd "C-M-.") 'gtags-find-with-grep)
+     (define-key gtags-mode-map (kbd "C-x 5 .") 'gtags-find-tag-other-window)
+     (define-key gtags-mode-map (kbd "C-c f") 'ff-find-other-file)
+     ))
+;;; }
 ;;; { git-emacs
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/git-emacs")
@@ -349,6 +358,13 @@
 (add-hook 'c-mode-hook 'personal-c-cpp-setup)
 (add-hook 'c++-mode-hook 'personal-c-cpp-setup)
 (add-hook 'objc-mode-hook 'personal-c-cpp-setup)
+
+(eval-after-load "gtags"
+  '(progn
+     (add-hook 'c-mode-hook (lambda () (gtags-mode t)))
+     (add-hook 'c++-mode-hook (lambda () (gtags-mode t)))
+     (add-hook 'objc-mode-hook (lambda () (gtags-mode t)))
+     ))
 
 ;;; }
 ;;; { personal make setup
