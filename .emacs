@@ -271,22 +271,31 @@
 
 ;;; }
 ;;; { yasnippet model
+
 (add-to-list 'load-path "~/.emacs.d/site-lisp/yasnippet")
 (require 'yasnippet)
-(add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+(setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+(yas-global-mode t)
+
 ;;; }
 ;;; { company-mode
+
 ;(add-to-list 'load-path "~/.emacs.d/site-lisp/company-mode")
 ;(require 'company)
 ;(add-hook 'after-init-hook 'global-company-mode)
 ;(define-key company-mode-map (kbd "C-c C-.") 'company-complete-common)
 ;(define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
 ;(define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
+
 ;;; }
 ;;; { mmm-mode
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/mmm-mode")
-(require 'mmm-mode)
+
+(require 'mmm-vars)
+(require 'mmm-auto)
+(require 'mmm-sample)
+
 (setq mmm-global-mode 'maybe)
 
 ;;; }
@@ -336,13 +345,11 @@
 (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@implementation" . objc-mode))
 (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@interface" . objc-mode))
 (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@protocol" . objc-mode))
-(add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n\\(class\\|namespace\\)" . c++-mode))
-
+; (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n\\(class\\|namespace\\)" . c++-mode))
 ; (add-to-list 'auto-mode-alist '("\\.h\\'" . objc-mode))
  
 (defun personal-c-cpp-setup()
   ;(c-toggle-auto-state)
-  (yas-minor-mode)
   (c-toggle-hungry-state t)
   (which-function-mode t)
   (c-set-style "stroustrup")
@@ -458,7 +465,6 @@
      (setq cperl-electric-parens nil)
    
      (defun my-perl-mode()
-       (yas-minor-mode)
        )
  
      (add-hook 'cperl-mode-hook 'my-perl-mode)
@@ -479,6 +485,8 @@
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
 ;(add-to-list 'auto-mode-alist '("\\.php$" . php-mode)) defined in personal web env
 
+(require 'php-mode)
+
 (eval-after-load "php-mode"
   '(progn
      (add-to-list 'load-path "~/.emacs.d/site-lisp/php-auto-yasnippets")
@@ -488,59 +496,55 @@
 
      (define-key php-mode-map (kbd "C-c C-y") 'yas/create-php-snippet)
 
-     (defun my-php-mode()
-       (yas-minor-mode)
-       )
- 
-     (add-hook 'php-mode-hook 'my-php-mode)
+     (add-hook 'php-mode-hook
+               (lambda ()
+                 ))
      )
   )
 
+(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil html-php))
+(add-to-list 'auto-mode-alist '("\\.php[s345t]?\\'" . html-mode))
+
 ;;; }
 ;;; { personal js mode
+
 (autoload 'js2-mode "js2-mode" "Major mode for editing JavaScript." t)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
+(mmm-add-group
+ 'personal-html-js
+ '((personal-js-script-cdata
+    :submode js2-mode
+    :face mmm-code-submode-face
+    :front "<script[^>]*>[ \t\n]*\\(//\\)?<!\\[CDATA\\[[ \t]*\n?"
+    :back "[ \t]*\\(//\\)?]]>[ \t\n]*</script>")
+   (personal-js-script
+    :submode js2-mode
+    :face mmm-code-submode-face
+    :front "<script[^>]*>[ \t]*\n?"
+    :back "[ \t]*</script>"
+    :insert ((?j js-tag nil @ "<script type=\"text/javascript\">\n"
+                 @ "" _ "" @ "\n</script>" @)))))
+
+(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil personal-html-js))
+
 (eval-after-load "js2-mode"
   '(progn
+     (add-hook 'js2-mode-hook
+               (lambda ()
+                 ))
      ))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(mmm-add-to-major-mode-preferences 'javascript 'js2-mode t)
+
 ;;; }
 ;;; { personal css mode
+
 (eval-after-load "css-mode"
   '(progn
      (setq cssm-indent-function 'cssm-c-style-indenter)
      (setq cssm-indent-level '2)
      ))
-;;; }
-;;; { personal web env
 
-(require 'php-mode)
-
-(mmm-add-group
- 'fancy-html
- '(
-   (html-php-tagged
-    :submode php-mode
-    :face mmm-code-submode-face
-    :front "<[?]php"
-    :back "[?]>")
-   (html-css-attribute
-    :submode css-mode
-    :face mmm-declaration-submode-face
-    :front "styleREMOVEME=\""
-    :back "\"")))
-
-;; What files to invoke the new html-mode for?
-(add-to-list 'auto-mode-alist '("\\.inc\\'" . html-mode))
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . html-mode))
-(add-to-list 'auto-mode-alist '("\\.php[s345t]?\\'" . html-mode))
-(add-to-list 'auto-mode-alist '("\\.[sj]?html?\\'" . html-mode))
-(add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
-
-;; What features should be turned on in this html-mode?
-(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil html-js))
 (add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil html-css))
-(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil fancy-html))
 
 ;;; }
 ;;; { personal remerber settings
@@ -645,8 +649,10 @@ occurence of CHAR."
 
 ;;; }
 ;;; { emacs local
+
 (if (file-exists-p "~/.emacs.local")
     (load-file "~/.emacs.local"))
+
 ;;; }
 ;;; { desktop
 
