@@ -297,7 +297,7 @@
 (require 'mmm-sample)
 
 (setq mmm-global-mode 'maybe)
-
+(set-face-background 'mmm-default-submode-face "black")
 ;;; }
 ;;; { personal yaml model
 
@@ -483,7 +483,6 @@
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/php-mode")
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
-;(add-to-list 'auto-mode-alist '("\\.php$" . php-mode)) defined in personal web env
 
 (require 'php-mode)
 
@@ -502,7 +501,7 @@
      )
   )
 
-(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil html-php))
+(add-to-list 'mmm-mode-ext-classes-alist '(html-mode "\\.php[s345t]?\\'" html-php))
 (add-to-list 'auto-mode-alist '("\\.php[s345t]?\\'" . html-mode))
 
 ;;; }
@@ -535,6 +534,10 @@
                  ))
      ))
 
+;;; }
+;;; { personal jsp mode
+(add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
+;(add-to-list 'mmm-mode-ext-classes-alist '(nil "\\.jsp\\'" jsp))
 ;;; }
 ;;; { personal css mode
 
