@@ -297,7 +297,7 @@
 (require 'mmm-sample)
 
 (setq mmm-global-mode 'maybe)
-(set-face-background 'mmm-default-submode-face "black")
+
 ;;; }
 ;;; { personal yaml model
 
@@ -537,7 +537,38 @@
 ;;; }
 ;;; { personal jsp mode
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
-;(add-to-list 'mmm-mode-ext-classes-alist '(nil "\\.jsp\\'" jsp))
+
+(mmm-add-group 'personal-jsp
+ `(
+   (personal-jsp-comment
+    :submode text-mode
+    :face mmm-comment-submode-face
+    :front "<%--"
+    :back "--%>"
+    :insert ((?- jsp-comment-tag nil @ "<%--" @ " " _ " " @ "--%>" @))
+    )
+   (personal-jsp-code
+    :submode js-mode
+    :match-face (("<%!" . mmm-declaration-submode-face)
+                 ("<%=" . mmm-output-submode-face)
+                 ("<%"  . mmm-code-submode-face))
+    :front "<%[!=]?"
+    :back "%>"
+    :match-name "jsp"
+    :insert ((?% jsp-code-tag nil @ "<%" @ " " _ " " @ "%>" @)
+             (?! jsp-decl-tag nil @ "<%!" @ " " _ " " @ "%>" @)
+             (?= jsp-expr-tag nil @ "<%=" @ " " _ " " @ "%>" @))
+    )
+   (personal-jsp-directive
+    :submode text-mode
+    :face mmm-declaration-submode-face ;mmm-special-submode-face
+    :front "<%@"
+    :back "%>"
+    :insert ((?@ jsp-directive-tag nil @ "<%@" @ " " _ " " @ "%>" @))
+    )
+   ))
+
+(add-to-list 'mmm-mode-ext-classes-alist '(nil "\\.jsp\\'" personal-jsp))
 ;;; }
 ;;; { personal css mode
 
