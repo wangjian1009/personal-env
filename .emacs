@@ -497,8 +497,15 @@
   )
 
 ;;; }
+;;; { personal js mode
+(autoload 'js2-mode "js2-mode" "Major mode for editing JavaScript." t)
+(eval-after-load "js2-mode"
+  '(progn
+     ))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(mmm-add-to-major-mode-preferences 'javascript 'js2-mode t)
+;;; }
 ;;; { personal css mode
-(require 'css-mode)
 (eval-after-load "css-mode"
   '(progn
      (setq cssm-indent-function 'cssm-c-style-indenter)
@@ -532,7 +539,7 @@
 
 ;; What features should be turned on in this html-mode?
 (add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil html-js))
-;(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil embedded-css))
+(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil html-css))
 (add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil fancy-html))
 
 ;;; }
