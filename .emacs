@@ -1,6 +1,7 @@
 ;;; { globl setting
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
+(add-to-list 'load-path "~/.emacs.d/setup")
 (add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-goodies-el")
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
 
@@ -66,6 +67,14 @@
           (add-to-list 'exec-path (concat home-dir "/bin"))
           )
       ))
+
+  (eval-after-load "ido" '(add-to-list 'ido-ignore-files "\\.DS_Store"))
+
+  (setq delete-by-moving-to-trash t
+        trash-directory "~/.Trash/emacs")
+
+  ;; Don't open files from the workspace in a new frame
+  (setq ns-pop-up-frames nil)
 )
 
 ;;; }
@@ -272,11 +281,14 @@
 ;;; }
 ;;; { yasnippet model
 
-(add-to-list 'load-path "~/.emacs.d/site-lisp/yasnippet")
-(require 'yasnippet)
-(setq yas-snippet-dirs '("~/.emacs.d/snippets"))
-(yas-global-mode t)
+(require 'dropdown-list)
+(require 'setup-yasnippet)
 
+;;; }
+;;; { expand-region
+(add-to-list 'load-path ".emacs.d/site-lisp/expand-region")
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 ;;; }
 ;;; { company-mode
 
@@ -479,6 +491,9 @@
             (cons '("perl5" . cperl-mode) interpreter-mode-alist)))
 
 ;;; }
+;;; { personal html mode settings
+(require 'setup-html-mode)
+;;; }
 ;;; { personal php mode
 
 (add-to-list 'load-path "~/.emacs.d/site-lisp/php-mode")
@@ -507,18 +522,30 @@
 ;;; }
 ;;; { personal js mode
 
+; for espresso-mode
+;; (autoload 'espresso-mode "espresso" "espresso for editing JavaScript." t)
+;; (eval-after-load "espresso-mode"
+;;   '(progn
+;;      (define-key espresso-mode-map (kbd "C-c C-c") 'comment-region)
+;;      ))
+
+; for js2-mode
 (autoload 'js2-mode "js2-mode" "Major mode for editing JavaScript." t)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(eval-after-load "js2-mode" '(require 'setup-js2-mode))
 
+(define-derived-mode dojo-js-mode js2-mode "dojo")
+
+; inline js editing
 (mmm-add-group
  'personal-html-js
  '((personal-js-script-cdata
-    :submode js2-mode
+    :submode js-mode
     :face mmm-code-submode-face
     :front "<script[^>]*>[ \t\n]*\\(//\\)?<!\\[CDATA\\[[ \t]*\n?"
     :back "[ \t]*\\(//\\)?]]>[ \t\n]*</script>")
    (personal-js-script
-    :submode js2-mode
+    :submode js-mode
     :face mmm-code-submode-face
     :front "<script[^>]*>[ \t]*\n?"
     :back "[ \t]*</script>"
@@ -526,13 +553,6 @@
                  @ "" _ "" @ "\n</script>" @)))))
 
 (add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil personal-html-js))
-
-(eval-after-load "js2-mode"
-  '(progn
-     (add-hook 'js2-mode-hook
-               (lambda ()
-                 ))
-     ))
 
 ;;; }
 ;;; { personal jsp mode
@@ -677,10 +697,8 @@ occurence of CHAR."
 
 ;;; }
 ;;; { run server
-
 (require 'server)
-(server-start)
-
+(unless (server-running-p) (server-start))
 ;;; }
 ;;; { emacs local
 
