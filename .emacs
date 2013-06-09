@@ -52,6 +52,15 @@
 (require `edit-env)
 
 ;;; }
+;;; { support functions or macros
+
+;; shorthand for interactive lambdas
+(defmacro λ (&rest body)
+  `(lambda ()
+     (interactive)
+     ,@body))
+
+;;; }
 ;;; { apple support
 
 (when (eq 'darwin system-type)

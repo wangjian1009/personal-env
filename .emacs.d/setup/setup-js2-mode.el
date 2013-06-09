@@ -20,6 +20,7 @@
 (setq-default js2-strict-trailing-comma-warning t) ;; jshint does not warn about this now for some reason
 
 (add-hook 'js2-mode-hook (lambda () (flycheck-mode 1)))
+(define-key js2-mode-map (kbd "C-c C-c") 'comment-region)
 
 (require 'js2-refactor)
 (js2r-add-keybindings-with-prefix "C-c C-m")
@@ -30,12 +31,12 @@
 ;; Set up wrapping of pairs, with the possiblity of semicolons thrown into the mix
 
 (defun js2r--setup-wrapping-pair (open close semicolonp)
-  (define-key js2-mode-map (kbd open) (lambda() (js2r--self-insert-wrapping open close semicolonp)))
+  (define-key js2-mode-map (kbd open) (λ (js2r--self-insert-wrapping open close semicolonp)))
   (unless (s-equals? open close)
-    (define-key js2-mode-map (kbd close) (lambda() (js2r--self-insert-closing open close)))))
+    (define-key js2-mode-map (kbd close) (λ (js2r--self-insert-closing open close)))))
 
 (define-key js2-mode-map (kbd ";")
-  (lambda() (if (looking-at ";")
+  (λ (if (looking-at ";")
          (forward-char)
        (funcall 'self-insert-command 1))))
 
