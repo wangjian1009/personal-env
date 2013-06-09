@@ -1,5 +1,4 @@
-(add-to-list 'load-path ".emacs.d/site-lisp/js2-refactor")
-(add-to-list 'load-path ".emacs.d/site-lisp/multiple-cursors")
+;;; setup-js2-mode.el --- tweak js2 settings -*- lexical-binding: t; -*-
 
 (setq-default js2-allow-rhino-new-expr-initializer nil)
 (setq-default js2-auto-indent-p nil)
@@ -30,76 +29,76 @@
 
 ;; Set up wrapping of pairs, with the possiblity of semicolons thrown into the mix
 
-;; (defun js2r--setup-wrapping-pair (open close semicolonp)
-;;   (define-key js2-mode-map (kbd open) (λ (js2r--self-insert-wrapping open close semicolonp)))
-;;   (unless (s-equals? open close)
-;;     (define-key js2-mode-map (kbd close) (λ (js2r--self-insert-closing open close)))))
+(defun js2r--setup-wrapping-pair (open close semicolonp)
+  (define-key js2-mode-map (kbd open) (lambda() (js2r--self-insert-wrapping open close semicolonp)))
+  (unless (s-equals? open close)
+    (define-key js2-mode-map (kbd close) (lambda() (js2r--self-insert-closing open close)))))
 
-;; (define-key js2-mode-map (kbd ";")
-;;   (λ (if (looking-at ";")
-;;          (forward-char)
-;;        (funcall 'self-insert-command 1))))
+(define-key js2-mode-map (kbd ";")
+  (lambda() (if (looking-at ";")
+         (forward-char)
+       (funcall 'self-insert-command 1))))
 
-;; (defun js2r--self-insert-wrapping (open close semicolonp)
-;;   (cond
-;;    ((use-region-p)
-;;     (save-excursion
-;;       (let ((beg (region-beginning))
-;;             (end (region-end)))
-;;         (goto-char end)
-;;         (insert close)
-;;         (goto-char beg)
-;;         (insert open))))
+(defun js2r--self-insert-wrapping (open close semicolonp)
+  (cond
+   ((use-region-p)
+    (save-excursion
+      (let ((beg (region-beginning))
+            (end (region-end)))
+        (goto-char end)
+        (insert close)
+        (goto-char beg)
+        (insert open))))
 
-;;    ((and (s-equals? open close)
-;;          (looking-back (regexp-quote open))
-;;          (looking-at (regexp-quote close)))
-;;     (forward-char (length close)))
+   ((and (s-equals? open close)
+         (looking-back (regexp-quote open))
+         (looking-at (regexp-quote close)))
+    (forward-char (length close)))
 
-;;    ((js2-mode-inside-comment-or-string)
-;;     (funcall 'self-insert-command 1))
+   ((js2-mode-inside-comment-or-string)
+    (funcall 'self-insert-command 1))
 
-;;    (:else
-;;     (let ((end (js2r--something-to-close-statement)))
-;;       (insert open close end)
-;;       (backward-char (+ (length close) (length end)))
-;;       (js2r--remove-all-this-cruft-on-backward-delete)))))
+   (:else
+    (let ((end (js2r--something-to-close-statement)))
+      (insert open close end)
+      (backward-char (+ (length close) (length end)))
+      (js2r--remove-all-this-cruft-on-backward-delete)))))
 
-;; (defun js2r--remove-all-this-cruft-on-backward-delete ()
-;;   (set-temporary-overlay-map
-;;    (let ((map (make-sparse-keymap)))
-;;      (define-key map (kbd "DEL") 'undo-tree-undo)
-;;      (define-key map (kbd "C-h") 'undo-tree-undo)
-;;      map) nil))
+(defun js2r--remove-all-this-cruft-on-backward-delete ()
+  (set-temporary-overlay-map
+   (let ((map (make-sparse-keymap)))
+     (define-key map (kbd "DEL") 'undo-tree-undo)
+     (define-key map (kbd "C-h") 'undo-tree-undo)
+     map) nil))
 
-;; (defun js2r--self-insert-closing (open close)
-;;   (if (and (looking-back (regexp-quote open))
-;;            (looking-at (regexp-quote close)))
-;;       (forward-char (length close))
-;;     (funcall 'self-insert-command 1)))
+(defun js2r--self-insert-closing (open close)
+  (if (and (looking-back (regexp-quote open))
+           (looking-at (regexp-quote close)))
+      (forward-char (length close))
+    (funcall 'self-insert-command 1)))
 
-;; (defun js2r--does-not-need-semi ()
-;;   (save-excursion
-;;     (back-to-indentation)
-;;     (or (looking-at "if ")
-;;         (looking-at "function ")
-;;         (looking-at "for ")
-;;         (looking-at "while ")
-;;         (looking-at "try ")
-;;         (looking-at "} else "))))
+(defun js2r--does-not-need-semi ()
+  (save-excursion
+    (back-to-indentation)
+    (or (looking-at "if ")
+        (looking-at "function ")
+        (looking-at "for ")
+        (looking-at "while ")
+        (looking-at "try ")
+        (looking-at "} else "))))
 
-;; (defun js2r--something-to-close-statement ()
-;;   (cond
-;;    ((not (eolp)) "")
-;;    ((js2-object-prop-node-p (js2-node-at-point)) ",")
-;;    ((js2r--does-not-need-semi) "")
-;;    (:else ";")))
+(defun js2r--something-to-close-statement ()
+  (cond
+   ((not (eolp)) "")
+   ((js2-object-prop-node-p (js2-node-at-point)) ",")
+   ((js2r--does-not-need-semi) "")
+   (:else ";")))
 
-;; (js2r--setup-wrapping-pair "(" ")" 'js2r--needs-semi)
-;; (js2r--setup-wrapping-pair "{" "}" 'js2r--needs-semi)
-;; (js2r--setup-wrapping-pair "[" "]" 'eolp)
-;; (js2r--setup-wrapping-pair "\"" "\"" 'eolp)
-;; (js2r--setup-wrapping-pair "'" "'" 'eolp)
+(js2r--setup-wrapping-pair "(" ")" 'js2r--needs-semi)
+(js2r--setup-wrapping-pair "{" "}" 'js2r--needs-semi)
+(js2r--setup-wrapping-pair "[" "]" 'eolp)
+(js2r--setup-wrapping-pair "\"" "\"" 'eolp)
+(js2r--setup-wrapping-pair "'" "'" 'eolp)
 
 ;; no semicolon inside object literals
 
@@ -178,7 +177,7 @@
 (require 'json)
 
 ;; Tern.JS
-(add-to-list 'load-path (add-to-list 'load-path ".emacs.d/site-lisp/tern/emacs"))
+(add-to-list 'load-path (expand-file-name "tern/emacs" site-lisp-dir))
 (autoload 'tern-mode "tern.el" nil t)
 ;;(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
 (eval-after-load 'auto-complete
@@ -186,6 +185,7 @@
      '(progn
         (require 'tern-auto-complete)
         (tern-ac-setup))))
+
 
 (defun my-aget (key map)
   (cdr (assoc key map)))

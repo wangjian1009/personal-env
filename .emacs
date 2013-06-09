@@ -1,9 +1,15 @@
 ;;; { globl setting
 
-(add-to-list 'load-path "~/.emacs.d/site-lisp")
-(add-to-list 'load-path "~/.emacs.d/setup")
-(add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-goodies-el")
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
+(setq site-lisp-dir (expand-file-name "site-lisp" user-emacs-directory))
+(add-to-list 'load-path site-lisp-dir)
+(add-to-list 'load-path (expand-file-name "setup" user-emacs-directory))
+
+(dolist (project (directory-files site-lisp-dir t "\\w+"))
+  (when (file-directory-p project)
+    (add-to-list 'load-path project)))
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -247,7 +253,6 @@
 ;;; }
 ;;; { git-emacs
 
-(add-to-list 'load-path "~/.emacs.d/site-lisp/git-emacs")
 (require 'git-emacs)
 
 ;;; }
@@ -269,7 +274,6 @@
 ;;; }
 ;;; { smex model
 
-(add-to-list 'load-path "~/.emacs.d/site-lisp/smex")
 (require 'smex); Not needed if you use package.el
 (smex-initialize) ; Can be omitted. This might cause a (minimal) delay
                   ; when Smex is auto-initialized on its first run.
@@ -286,13 +290,16 @@
 
 ;;; }
 ;;; { expand-region
-(add-to-list 'load-path ".emacs.d/site-lisp/expand-region")
+
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
+
+;;; }
+;;; { flycheck-mode
+(autoload 'flycheck-mode "setup-flycheck" nil t)
 ;;; }
 ;;; { company-mode
 
-;(add-to-list 'load-path "~/.emacs.d/site-lisp/company-mode")
 ;(require 'company)
 ;(add-hook 'after-init-hook 'global-company-mode)
 ;(define-key company-mode-map (kbd "C-c C-.") 'company-complete-common)
@@ -301,8 +308,6 @@
 
 ;;; }
 ;;; { mmm-mode
-
-(add-to-list 'load-path "~/.emacs.d/site-lisp/mmm-mode")
 
 (require 'mmm-vars)
 (require 'mmm-auto)
@@ -496,15 +501,12 @@
 ;;; }
 ;;; { personal php mode
 
-(add-to-list 'load-path "~/.emacs.d/site-lisp/php-mode")
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
 
 (require 'php-mode)
 
 (eval-after-load "php-mode"
   '(progn
-     (add-to-list 'load-path "~/.emacs.d/site-lisp/php-auto-yasnippets")
-
      (require 'php-auto-yasnippets)
      ;(setq php-auto-yasnippet-php-program "~/path/to/Create-PHP-YASnippet.php")
 
@@ -531,8 +533,8 @@
 
 ; for js2-mode
 (autoload 'js2-mode "js2-mode" "Major mode for editing JavaScript." t)
+(require 'setup-js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(eval-after-load "js2-mode" '(require 'setup-js2-mode))
 
 (define-derived-mode dojo-js-mode js2-mode "dojo")
 
@@ -556,6 +558,7 @@
 
 ;;; }
 ;;; { personal jsp mode
+
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
 
 (mmm-add-group 'personal-jsp
@@ -589,6 +592,7 @@
    ))
 
 (add-to-list 'mmm-mode-ext-classes-alist '(nil "\\.jsp\\'" personal-jsp))
+
 ;;; }
 ;;; { personal css mode
 
@@ -612,7 +616,6 @@
 ;;; }
 ;;; { personal android develop settings....
 
-(add-to-list 'load-path "~/.emacs.d/site-lisp/android-mode")
 ;; (require 'android-mode)
 ;; (setq android-mode-sdk-dir "~/work/android/android")
 ;; (add-hook 'gud-mode-hook

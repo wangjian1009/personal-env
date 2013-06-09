@@ -1,4 +1,3 @@
-(add-to-list 'load-path "~/.emacs.d/site-lisp/yasnippet")
 (require 'yasnippet)
 
 ;; Use only own snippets, do not use bundled ones

@@ -1,9 +1,3 @@
-(add-to-list 'load-path ".emacs.d/site-lisp/zencoding")
-(add-to-list 'load-path ".emacs.d/site-lisp/simplezen")
-(add-to-list 'load-path ".emacs.d/site-lisp/s")
-(add-to-list 'load-path ".emacs.d/site-lisp/dash")
-(add-to-list 'load-path ".emacs.d/site-lisp/tagedit")
-
 (defun skip-to-next-blank-line ()
   (interactive)
   (let ((inhibit-changing-match-data t))
