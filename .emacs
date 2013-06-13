@@ -296,6 +296,9 @@
 
 (require 'dropdown-list)
 (require 'setup-yasnippet)
+(add-to-list 'auto-mode-alist '("yasnippet/snippets" . snippet-mode))
+(add-to-list 'auto-mode-alist '(".emacs.d/snippets" . snippet-mode))
+(add-to-list 'auto-mode-alist '("\\.yasnippet$" . snippet-mode))
 
 ;;; }
 ;;; { expand-region
@@ -542,10 +545,8 @@
 
 ; for js2-mode
 (autoload 'js2-mode "js2-mode" "Major mode for editing JavaScript." t)
-(require 'setup-js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-
-(define-derived-mode dojo-js-mode js2-mode "dojo")
+(eval-after-load "js2-mode" '(require 'setup-js2-mode))
 
 ; inline js editing
 (mmm-add-group

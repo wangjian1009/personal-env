@@ -95,11 +95,11 @@
    ((js2r--does-not-need-semi) "")
    (:else ";")))
 
-(js2r--setup-wrapping-pair "(" ")" 'js2r--needs-semi)
-(js2r--setup-wrapping-pair "{" "}" 'js2r--needs-semi)
-(js2r--setup-wrapping-pair "[" "]" 'eolp)
-(js2r--setup-wrapping-pair "\"" "\"" 'eolp)
-(js2r--setup-wrapping-pair "'" "'" 'eolp)
+;(js2r--setup-wrapping-pair "(" ")" 'js2r--needs-semi)
+;(js2r--setup-wrapping-pair "{" "}" 'js2r--needs-semi)
+;(js2r--setup-wrapping-pair "[" "]" 'eolp)
+;(js2r--setup-wrapping-pair "\"" "\"" 'eolp)
+;(js2r--setup-wrapping-pair "'" "'" 'eolp)
 
 ;; no semicolon inside object literals
 
