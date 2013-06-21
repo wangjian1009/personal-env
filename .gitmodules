@@ -10,17 +10,17 @@
 [submodule ".emacs.d/site-lisp/php-mode"]
 	path = .emacs.d/site-lisp/php-mode
 	url = https://github.com/ejmr/php-mode.git
-[submodule "/Users/wangjian/.emacs.d/site-lisp/yasnippet"]
-	path = /Users/wangjian/.emacs.d/site-lisp/yasnippet
+[submodule ".emacs.d/site-lisp/yasnippet"]
+	path = .emacs.d/site-lisp/yasnippet
 	url = https://github.com/capitaomorte/yasnippet.git
-[submodule "/Users/wangjian/.emacs.d/site-lisp/php-auto-yasnippets"]
-	path = /Users/wangjian/.emacs.d/site-lisp/php-auto-yasnippets
+[submodule ".emacs.d/site-lisp/php-auto-yasnippets"]
+	path = .emacs.d/site-lisp/php-auto-yasnippets
 	url = https://github.com/ejmr/php-auto-yasnippets.git
-[submodule "/Users/wangjian/.emacs.d/site-lisp/company-mode"]
-	path = /Users/wangjian/.emacs.d/site-lisp/company-mode
+[submodule ".emacs.d/site-lisp/company-mode"]
+	path = .emacs.d/site-lisp/company-mode
 	url = https://github.com/company-mode/company-mode.git
-[submodule "/Users/wangjian/.emacs.d/site-lisp/mmm-mode"]
-	path = /Users/wangjian/.emacs.d/site-lisp/mmm-mode
+[submodule ".emacs.d/site-lisp/mmm-mode"]
+	path = .emacs.d/site-lisp/mmm-mode
 	url = https://github.com/purcell/mmm-mode
 [submodule ".emacs.d/site-lisp/zencoding"]
 	path = .emacs.d/site-lisp/zencoding
@@ -43,8 +43,8 @@
 [submodule ".emacs.d/site-lisp/js2-refactor"]
 	path = .emacs.d/site-lisp/js2-refactor
 	url = https://github.com/magnars/js2-refactor.el.git
-[submodule "/Users/wangjian/.emacs.d/site-lisp/multiple-cursors"]
-	path = /Users/wangjian/.emacs.d/site-lisp/multiple-cursors
+[submodule ".emacs.d/site-lisp/multiple-cursors"]
+	path = .emacs.d/site-lisp/multiple-cursors
 	url = https://github.com/magnars/multiple-cursors.el.git
 [submodule ".emacs.d/site-lisp/expand-region"]
 	path = .emacs.d/site-lisp/expand-region

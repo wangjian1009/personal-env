@@ -22,7 +22,7 @@
 (add-hook 'js2-mode-hook (lambda () (flycheck-mode 1)))
 (define-key js2-mode-map (kbd "C-c C-c") 'comment-region)
 
-(add-hook 'js2-mode-hook (hs-minor-mode t))
+;(add-hook 'js2-mode-hook (hs-minor-mode t))
 
 (require 'js2-refactor)
 (js2r-add-keybindings-with-prefix "C-c C-m")
