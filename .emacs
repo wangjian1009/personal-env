@@ -624,6 +624,10 @@
 ;(define-key global-map [f9] 'remember-region)
 
 ;;; }
+;;; { personal dot settings
+(autoload 'graphviz-dot-mode "graphviz-dot-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.dot\\'" . graphviz-dot-mode))
+;;; }
 ;;; { personal android develop settings....
 
 ;; (require 'android-mode)
