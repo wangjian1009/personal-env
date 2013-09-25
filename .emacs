@@ -377,6 +377,25 @@
 ; (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n\\(class\\|namespace\\)" . c++-mode))
 ; (add-to-list 'auto-mode-alist '("\\.h\\'" . objc-mode))
  
+;; ===== Opening header files =====
+;; Allows to choose between objc-mode, c++-mode and c-mode
+(defun loki-choose-header-mode ()
+  (interactive)
+  (if (string-equal (substring (buffer-file-name) -2) ".h")
+      (progn
+        (let ((dot-m-file (concat (substring (buffer-file-name) 0 -1) "m"))
+              (dot-cpp-file (concat (substring (buffer-file-name) 0 -1) "cpp")))
+          (if (file-exists-p dot-m-file) (progn (objc-mode))
+            (if (file-exists-p dot-cpp-file) (c++-mode)
+              )
+            )
+          )
+        )
+    )
+  )
+
+(add-hook 'find-file-hook 'loki-choose-header-mode)
+
 (defun personal-c-cpp-setup()
   ;(c-toggle-auto-state)
   (c-toggle-hungry-state t)
