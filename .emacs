@@ -88,6 +88,11 @@
   (setq delete-by-moving-to-trash t
         trash-directory "~/.Trash/emacs")
 
+  (set-fontset-font
+   (frame-parameter nil 'font)
+   'han
+   (font-spec :family "Microsoft Yahei" :size 12))
+
   ;; Don't open files from the workspace in a new frame
   (setq ns-pop-up-frames nil)
 )
