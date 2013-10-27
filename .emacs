@@ -649,8 +649,10 @@
 
 ;;; }
 ;;; { personal dot settings
+
 (autoload 'graphviz-dot-mode "graphviz-dot-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.dot\\'" . graphviz-dot-mode))
+
 ;;; }
 ;;; { personal android develop settings....
 
@@ -661,6 +663,11 @@
 ;;             (add-to-list 'gud-jdb-classpath "/home/gregj/work/android-sdk-linux_86/platforms/android-7/android.jar")
 ;;             ))
 
+;;; }
+;;; { personal org mode
+;(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
 ;;; }
 ;;; { hippie-expand settings
 
@@ -696,6 +703,7 @@ occurence of CHAR."
 
 ;;; }
 ;;; { utility match-parten
+
 (global-set-key "%" 'match-paren)
         
 (defun match-paren (arg)
@@ -704,6 +712,7 @@ occurence of CHAR."
   (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
         ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
         (t (self-insert-command (or arg 1)))))
+
 ;;; }
 ;;; { utility ascii table
 
