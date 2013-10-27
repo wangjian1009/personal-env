@@ -9,7 +9,8 @@
     (add-to-list 'load-path project)))
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)
+(if (file-exists-p custom-file)
+    (load custom-file))
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
