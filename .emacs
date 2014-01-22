@@ -266,6 +266,9 @@
 (require 'git-emacs)
 
 ;;; }
+;;; { psvn
+(require 'psvn)
+;;; }
 ;;; { markdown mode
 
 (autoload 'markdown-mode "markdown-mode.el"
@@ -330,6 +333,7 @@
 
 ;;; }
 ;;; { font setting...
+
 (defun qiang-font-existsp (font)
   (if (null (x-list-fonts font))
       nil t))
@@ -482,6 +486,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { personal csharp mode setup
+
 (autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
 (setq auto-mode-alist (cons '("\\.cs$" . csharp-mode) auto-mode-alist))
 
