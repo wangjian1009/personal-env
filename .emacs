@@ -385,6 +385,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+(define-key yaml-mode-map (kbd "C-c C-c") 'comment-region)
 
 ;;; }
 ;;; { personal nxml model
