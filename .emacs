@@ -469,6 +469,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (eval-after-load "gtags"
   '(progn
+     (setenv "GTAGSFORCECPP" "1")
      (add-hook 'c-mode-hook (lambda () (gtags-mode t)))
      (add-hook 'c++-mode-hook (lambda () (gtags-mode t)))
      (add-hook 'objc-mode-hook (lambda () (gtags-mode t)))
