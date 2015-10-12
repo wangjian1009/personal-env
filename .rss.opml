@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+	<head>
+		<title>Subscriptions - RSS</title>
+	</head>
+	<body>
+		<outline text="创业" title="创业">
+			<outline htmlUrl="http://www.gamelook.com.cn" title="游戏大观 |GameLook.com.cn » 投资/创业" xmlUrl="http://www.gamelook.com.cn/category/%e6%8a%95%e8%b5%84%e5%88%9b%e4%b8%9a/feed" type="rss" text="游戏大观 |GameLook.com.cn » 投资/创业"/>
+		</outline>
+		<outline text="开发" title="开发">
+			<outline htmlUrl="http://mobile.csdn.net" title="CSDN 移动频道(资讯)" xmlUrl="http://news.csdn.net/rss_mobile.html" type="rss" text="CSDN 移动频道(资讯)"/>
+			<outline htmlUrl="http://sd.csdn.net" title="CSDN 软件研发频道(资讯)" xmlUrl="http://sd.csdn.net/rss_sd.html" type="rss" text="CSDN 软件研发频道(资讯)"/>
+			<outline htmlUrl="http://www.infoq.com/cn/" title="InfoQ" xmlUrl="http://www.infoq.com/cn/feed?token=DRMLaVoWM0E0T2QrH5mWP9LbUsYw1BeG" type="rss" text="InfoQ"/>
+			<outline htmlUrl="http://www.infoq.com/cn/" title="InfoQ - 架构 &amp; 设计" xmlUrl="http://www.infoq.com/cn/feed/architecture-design" type="rss" text="InfoQ - 架构 &amp; 设计"/>
+			<outline htmlUrl="http://blog.51cto.com" title="推荐博文_51CTO技术博客" xmlUrl="http://blog.51cto.com/rss_recommend.php" type="rss" text="推荐博文_51CTO技术博客"/>
+			<outline htmlUrl="http://www.gamelook.com.cn" title="游戏大观 |GameLook.com.cn » 开发" xmlUrl="http://www.gamelook.com.cn/category/%e6%b8%b8%e6%88%8f%e5%bc%80%e5%8f%91/feed" type="rss" text="游戏大观 |GameLook.com.cn » 开发"/>
+			<outline htmlUrl="http://mobile.51cto.com" title="移动开发" xmlUrl="http://www.51cto.com/php/rss.php?typeid=583" type="rss" text="移动开发"/>
+		</outline>
+		<outline text="游戏" title="游戏">
+			<outline htmlUrl="http://www.gamelook.com.cn" title="游戏大观 |GameLook.com.cn » 手机游戏" xmlUrl="http://www.gamelook.com.cn/category/%e2%98%85%e6%89%8b%e6%9c%ba%e6%b8%b8%e6%88%8f/feed" type="rss" text="游戏大观 |GameLook.com.cn » 手机游戏"/>
+		</outline>
+		<outline text="运营" title="运营">
+			<outline htmlUrl="http://www.gamelook.com.cn" title="游戏大观 |GameLook.com.cn » 运营" xmlUrl="http://www.gamelook.com.cn/category/%e6%b8%b8%e6%88%8f%e8%bf%90%e8%90%a5/feed" type="rss" text="游戏大观 |GameLook.com.cn » 运营"/>
+		</outline>
+	</body>
+</opml>
