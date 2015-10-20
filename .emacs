@@ -380,12 +380,23 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
  '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体"))
 
 ;;; }
+;;; { yafolding
+(require 'yafolding)
+;; (define-key yafolding-mode-map (kbd "<C-S-return>") nil)
+;; (define-key yafolding-mode-map (kbd "<C-M-return>") nil)
+;; (define-key yafolding-mode-map (kbd "<C-return>") nil)
+;; (define-key yafolding-mode-map (kbd "C-c <C-M-return>") 'yafolding-toggle-all)
+;; (define-key yafolding-mode-map (kbd "C-c <C-S-return>") 'yafolding-hide-parent-element)
+;; (define-key yafolding-mode-map (kbd "C-c <C-return>") 'yafolding-toggle-element)
+;;; }
 ;;; { personal yaml model
 
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 (define-key yaml-mode-map (kbd "C-c C-c") 'comment-region)
+(add-hook 'yaml-mode-hook
+          (lambda () (yafolding-mode)))
 
 ;;; }
 ;;; { personal nxml model
