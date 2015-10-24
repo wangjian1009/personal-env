@@ -64,3 +64,6 @@
 [submodule ".emacs.d/site-lisp/discover"]
 	path = .emacs.d/site-lisp/discover
 	url = git@github.com:mickeynp/discover.el.git
+[submodule ".emacs.d/site-lisp/fastnav"]
+	path = .emacs.d/site-lisp/fastnav
+	url = git@github.com:gleber/fastnav.el.git

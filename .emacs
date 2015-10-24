@@ -241,9 +241,11 @@
 
 ;;; }
 ;;; { color-theme
+
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-classic)
+
 ;;; }
 ;;; { folding
 
@@ -260,6 +262,25 @@
 ;; (define-key yafolding-mode-map (kbd "C-c <C-M-return>") 'yafolding-toggle-all)
 ;; (define-key yafolding-mode-map (kbd "C-c <C-S-return>") 'yafolding-hide-parent-element)
 ;; (define-key yafolding-mode-map (kbd "C-c <C-return>") 'yafolding-toggle-element)
+;;; }
+;;; { fastnav
+(require 'fastnav)
+(global-set-key "\M-z" 'fastnav-zap-up-to-char-forward)
+(global-set-key "\M-Z" 'fastnav-zap-up-to-char-backward)
+(global-set-key "\M-s" 'fastnav-jump-to-char-forward)
+(global-set-key "\M-S" 'fastnav-jump-to-char-backward)
+(global-set-key "\M-r" 'fastnav-replace-char-forward)
+(global-set-key "\M-R" 'fastnav-replace-char-backward)
+(global-set-key "\M-i" 'fastnav-insert-at-char-forward)
+(global-set-key "\M-I" 'fastnav-insert-at-char-backward)
+(global-set-key "\M-j" 'fastnav-execute-at-char-forward)
+(global-set-key "\M-J" 'fastnav-execute-at-char-backward)
+(global-set-key "\M-k" 'fastnav-delete-char-forward)
+(global-set-key "\M-K" 'fastnav-delete-char-backward)
+(global-set-key "\M-m" 'fastnav-mark-to-char-forward)
+(global-set-key "\M-M" 'fastnav-mark-to-char-backward)
+(global-set-key "\M-p" 'fastnav-sprint-forward)
+(global-set-key "\M-P" 'fastnav-sprint-backward)
 ;;; }
 ;;; { gtags
 (eval-after-load "gtags"
@@ -748,22 +769,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
         try-expand-line
         try-complete-lisp-symbol-partially
         try-complete-lisp-symbol))
-
-;;; }
-;;; { utility go-to-cha
-
-(defun wy-go-to-char (n char)
-  "Move forward to Nth occurence of CHAR.
-Typing `wy-go-to-char-key' again will move forwad to the next Nth
-occurence of CHAR."
-  (interactive "p\ncGo to char: ")
-  (search-forward (string char) nil nil n)
-  (while (char-equal (read-char)
-                     char)
-    (search-forward (string char) nil nil n))
-  (setq unread-command-events (list last-input-event)))
- 
-(define-key global-map (kbd "C-c C-g") 'wy-go-to-char)
 
 ;;; }
 ;;; { utility match-parten
