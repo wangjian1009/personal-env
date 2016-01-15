@@ -740,8 +740,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { personal android develop settings....
-
-;; (require 'android-mode)
+(require 'logcat)
+(require 'android-mode)
 ;; (add-hook 'gud-mode-hook
 ;;           (lambda ()
 ;;             (add-to-list 'gud-jdb-classpath "/home/gregj/work/android-sdk-linux_86/platforms/android-7/android.jar")
