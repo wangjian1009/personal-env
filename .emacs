@@ -643,6 +643,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-to-list 'auto-mode-alist '("\\.php[s345t]?\\'" . html-mode))
 
 ;;; }
+;;; { personal json mode
+(require 'json-mode)
+;;; }
 ;;; { personal js mode
 
 ; for espresso-mode
