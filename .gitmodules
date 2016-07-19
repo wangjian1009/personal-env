@@ -82,3 +82,6 @@
 [submodule ".emacs.d/site-lisp/dash-at-point"]
 	path = .emacs.d/site-lisp/dash-at-point
 	url = https://github.com/stanaka/dash-at-point.git
+[submodule ".emacs.d/site-lisp/actionscript-mode"]
+	path = .emacs.d/site-lisp/actionscript-mode
+	url = git@github.com:austinhaas/actionscript-mode.git
