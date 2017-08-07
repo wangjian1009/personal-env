@@ -53,6 +53,7 @@
 (require `edit-env)
 
 ;;; }
+
 ;;; { support functions or macros
 
 ;; shorthand for interactive lambdas
@@ -659,6 +660,19 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (autoload 'js2-mode "js2-mode" "Major mode for editing JavaScript." t)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (eval-after-load "js2-mode" '(require 'setup-js2-mode))
+
+(eval-after-load "js2-mode"
+  '(progn
+     (require 'setup-js2-mode)
+     (define-key js2-mode-map (kbd "C-c C-c") 'comment-region)
+     )
+  )
+
+(eval-after-load "js-mode"
+  '(progn
+     (define-key js-mode-map (kbd "C-c C-c") 'comment-region)
+     )
+  )
 
 ; inline js editing
 (mmm-add-group
