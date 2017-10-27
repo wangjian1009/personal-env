@@ -295,6 +295,8 @@
 ;;; { git-emacs
 
 (require 'git-emacs)
+(require 'git-timemachine)
+(require 'git-gutter)
 
 ;;; }
 ;;; { psvn
@@ -502,6 +504,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-hook 'c-mode-hook 'personal-c-cpp-setup)
 (add-hook 'c++-mode-hook 'personal-c-cpp-setup)
 (add-hook 'objc-mode-hook 'personal-c-cpp-setup)
+
+(add-hook 'c-mode-hook 'git-gutter-mode)
+(add-hook 'c++-mode-hook 'git-gutter-mode)
+(add-hook 'objc-mode-hook 'git-gutter-mode)
 
 (eval-after-load "gtags"
   '(progn
