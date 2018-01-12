@@ -422,6 +422,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-hook 'yaml-mode-hook (lambda () (yafolding-mode)))
 
 ;;; }
+;;; { personal dockerfile model
+
+(require 'dockerfile-mode)
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+
+;;; }
 ;;; { personal nxml model
 
 (eval-after-load "nxml-mode"
