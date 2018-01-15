@@ -37,6 +37,13 @@ if [ "$OSTYPE" == "cygwin" ] ; then
 fi
 
 # ------------------------
+# docker
+# ------------------------
+export DOCKER_OPTS='"--registry-mirror=https://registry.docker-cn.com"'
+
+# ------------------------
+
+# ------------------------
 # for use in Emacs
 # ------------------------
 if [ ! "$INSIDE_EMACS" == "" ] ; then
