@@ -100,3 +100,6 @@
 [submodule ".emacs.d/site-lisp/docker-tramp.el"]
 	path = .emacs.d/site-lisp/docker-tramp.el
 	url = https://github.com/emacs-pe/docker-tramp.el
+[submodule ".emacs.d/site-lisp/go-mode.el"]
+	path = .emacs.d/site-lisp/go-mode.el
+	url = https://github.com/dominikh/go-mode.el

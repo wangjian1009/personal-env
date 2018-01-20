@@ -782,6 +782,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 ;;; }
+;;; { personal gradel mode
+;; (add-to-list 'compilation-error-regexp-alist '("^\[ERROR\] \(.*\):\[\([0-9]+\),\([0-9]+\)\]" 1 2 3))
+;;; }
 ;;; { hippie-expand settings
 
 (global-set-key [(meta ?/)] 'hippie-expand)
