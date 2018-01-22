@@ -103,3 +103,6 @@
 [submodule ".emacs.d/site-lisp/go-mode.el"]
 	path = .emacs.d/site-lisp/go-mode.el
 	url = https://github.com/dominikh/go-mode.el
+[submodule ".emacs.d/site-lisp/groovy-emacs-modes"]
+	path = .emacs.d/site-lisp/groovy-emacs-modes
+	url = https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes
