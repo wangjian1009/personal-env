@@ -524,6 +524,17 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
      ))
 
 ;;; }
+;;; { personal go model
+(autoload 'go-mode "go-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+
+(autoload 'go-guru-hl-identifier-mode "go-guru" nil t)
+(defun personal-go-setup()
+  (go-guru-hl-identifier-mode)
+  )
+(add-hook 'go-mode-hook 'personal-go-setup)
+
+;;; }
 ;;; { personal make setup
 
 (add-to-list 'auto-mode-alist '("\\.mk\\'" . makefile-gmake-mode))
