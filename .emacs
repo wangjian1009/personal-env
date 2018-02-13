@@ -640,6 +640,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
       (cons '("perl" . cperl-mode)
             (cons '("perl5" . cperl-mode) interpreter-mode-alist)))
 
+(folding-add-to-marks-list 'cperl-mode "# {{{ " "# }}}" nil)
+
 ;;; }
 ;;; { personal html mode settings
 (require 'setup-html-mode)
