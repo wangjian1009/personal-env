@@ -800,6 +800,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode))
 ;; (add-to-list 'compilation-error-regexp-alist '("^\[ERROR\] \(.*\):\[\([0-9]+\),\([0-9]+\)\]" 1 2 3))
 ;;; }
+;;; { personal vb mode
+(autoload 'vbnet-mode "vbnet-mode" "Mode for editing VB.NET code." t)
+(setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vb\\)$" . vbnet-mode)) auto-mode-alist))
+;;; }
 ;;; { hippie-expand settings
 
 (global-set-key [(meta ?/)] 'hippie-expand)
