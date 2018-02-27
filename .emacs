@@ -525,14 +525,25 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { personal go model
+
 (autoload 'go-mode "go-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
 (autoload 'go-guru-hl-identifier-mode "go-guru" nil t)
 (defun personal-go-setup()
   (go-guru-hl-identifier-mode)
+  (add-hook 'before-save-hook #'gofmt-before-save)
   )
 (add-hook 'go-mode-hook 'personal-go-setup)
+
+(eval-after-load "go-mode"
+  '(progn
+     (define-key go-mode-map (kbd "C-c C-g") 'go-goto-map)
+     (define-key go-mode-map (kbd "C-c C-r") 'go-remove-unused-imports)
+     (define-key go-mode-map (kbd "C-c C-f") 'gofmt)
+     (define-key go-mode-map (kbd "C-c C-k") 'godoc)
+     )
+  )
 
 ;;; }
 ;;; { personal make setup
