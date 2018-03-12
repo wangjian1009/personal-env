@@ -889,7 +889,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { desktop
 
 (setq desktop-load-locked-desktop t)
-(desktop-read)
 (desktop-save-mode)
+(desktop-read)
 
 ;;; }
