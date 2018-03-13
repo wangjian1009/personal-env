@@ -103,3 +103,6 @@
 [submodule ".emacs.d/site-lisp/groovy-emacs-modes"]
 	path = .emacs.d/site-lisp/groovy-emacs-modes
 	url = https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes
+[submodule ".emacs.d/site-lisp/cmake-font-lock"]
+	path = .emacs.d/site-lisp/cmake-font-lock
+	url = git@github.com:Lindydancer/cmake-font-lock.git
