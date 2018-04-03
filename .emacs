@@ -833,6 +833,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (autoload 'solidity-mode "solidity-mode" "The solidity major mode." t)
 (add-to-list 'auto-mode-alist '("\\.sol\\'" . solidity-mode))
 ;;; }
+;;; { personal swift mode
+(autoload 'swift-mode "swift-mode" "Major-mode for Apple's Swift programming language." t)
+(add-to-list 'auto-mode-alist '("\\.swift\\'" . swift-mode))
+;;; }
 ;;; { hippie-expand settings
 
 (global-set-key [(meta ?/)] 'hippie-expand)
