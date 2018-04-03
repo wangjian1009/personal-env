@@ -802,9 +802,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { personal org mode
+
 ;(global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
+
 ;;; }
 ;;; { personal gradel mode
 (autoload 'groovy-mode "groovy-mode" nil t)
@@ -812,8 +814,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;; (add-to-list 'compilation-error-regexp-alist '("^\[ERROR\] \(.*\):\[\([0-9]+\),\([0-9]+\)\]" 1 2 3))
 ;;; }
 ;;; { personal vb mode
+
 (autoload 'vbnet-mode "vbnet-mode" "Mode for editing VB.NET code." t)
 (setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vb\\)$" . vbnet-mode)) auto-mode-alist))
+
 ;;; }
 ;;; { personal cmake mode
 
@@ -824,6 +828,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
 (add-hook 'cmake-mode-hook 'cmake-font-lock-activate)
 
+;;; }
+;;; { personal solidity mode
+(autoload 'solidity-mode "solidity-mode" "The solidity major mode." t)
+(add-to-list 'auto-mode-alist '("\\.sol\\'" . solidity-mode))
 ;;; }
 ;;; { hippie-expand settings
 
