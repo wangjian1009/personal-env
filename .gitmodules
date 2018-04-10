@@ -118,3 +118,6 @@
 [submodule ".emacs.d/site-lisp/emacs-request"]
 	path = .emacs.d/site-lisp/emacs-request
 	url = git@github.com:tkf/emacs-request.git
+[submodule ".emacs.d/site-lisp/imenu-anywhere"]
+	path = .emacs.d/site-lisp/imenu-anywhere
+	url = git@github.com:vspinu/imenu-anywhere.git
