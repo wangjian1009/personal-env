@@ -299,9 +299,6 @@
 (require 'git-gutter)
 
 ;;; }
-;;; { psvn
-(require 'psvn)
-;;; }
 ;;; { markdown mode
 
 (autoload 'markdown-mode "markdown-mode.el"
@@ -349,11 +346,14 @@
 ;;; }
 ;;; { company-mode
 
-;(require 'company)
-;(add-hook 'after-init-hook 'global-company-mode)
-;(define-key company-mode-map (kbd "C-c C-.") 'company-complete-common)
-;(define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
-;(define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
+(autoload 'company-mode "company" nil t)
+(eval-after-load "company"
+  '(progn
+     (define-key company-mode-map (kbd "C-c C-.") 'company-complete-common)
+     (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
+     (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
+     )
+  )
 
 ;;; }
 ;;; { mmm-mode
@@ -834,8 +834,20 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-to-list 'auto-mode-alist '("\\.sol\\'" . solidity-mode))
 ;;; }
 ;;; { personal swift mode
+
 (autoload 'swift-mode "swift-mode" "Major-mode for Apple's Swift programming language." t)
 (add-to-list 'auto-mode-alist '("\\.swift\\'" . swift-mode))
+
+(eval-after-load "swift-mode"
+  '(progn
+     (when (eq 'darwin system-type)
+       (require 'company)
+       (require 'company-sourcekit)
+       (add-to-list 'company-backends 'company-sourcekit)
+       (add-hook 'swift-mode-hook 'company-mode-on)
+     )
+  ))
+
 ;;; }
 ;;; { hippie-expand settings
 

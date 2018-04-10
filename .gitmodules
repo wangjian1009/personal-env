@@ -112,3 +112,9 @@
 [submodule ".emacs.d/site-lisp/swift-mode"]
 	path = .emacs.d/site-lisp/swift-mode
 	url = git@github.com:swift-emacs/swift-mode.git
+[submodule ".emacs.d/site-lisp/company-sourcekit"]
+	path = .emacs.d/site-lisp/company-sourcekit
+	url = git@github.com:nathankot/company-sourcekit.git
+[submodule ".emacs.d/site-lisp/emacs-request"]
+	path = .emacs.d/site-lisp/emacs-request
+	url = git@github.com:tkf/emacs-request.git
