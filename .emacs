@@ -844,14 +844,39 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (autoload 'swift-mode "swift-mode" "Major-mode for Apple's Swift programming language." t)
 (add-to-list 'auto-mode-alist '("\\.swift\\'" . swift-mode))
 
+(defun swift-mode:mk-regex-for-def (keyword)
+  "Make a regex matching the identifier introduced by KEYWORD."
+  (concat "\\<" (regexp-quote keyword) "\\>"
+          "\\s *"
+          "\\("
+          "\\(?:" "\\sw" "\\|" "\\s_" "\\)" "+"
+          "\\)"))
+
+(defconst swift-mode:imenu-generic-expression
+  (list
+   (list "Functions" (swift-mode:mk-regex-for-def "func") 1)
+   (list "Classes"   (swift-mode:mk-regex-for-def "class") 1)
+   (list "Enums"     (swift-mode:mk-regex-for-def "enum") 1)
+   (list "Protocols" (swift-mode:mk-regex-for-def "protocol") 1)
+   (list "Structs"   (swift-mode:mk-regex-for-def "struct") 1)
+   (list "Extensions"   (swift-mode:mk-regex-for-def "extension") 1)
+   (list "Constants" (swift-mode:mk-regex-for-def "let") 1)
+   (list "Variables" (swift-mode:mk-regex-for-def "var") 1))
+  "Value for `imenu-generic-expression' in `swift-mode'.")
+
 (eval-after-load "swift-mode"
   '(progn
      (when (eq 'darwin system-type)
        (require 'company)
        (require 'company-sourcekit)
        (add-to-list 'company-backends 'company-sourcekit)
-       (add-hook 'swift-mode-hook 'company-mode-on)
-     )
+       (add-hook 'swift-mode-hook
+                 (lambda ()
+                    (company-mode-on)
+                    (setq-local imenu-generic-expression swift-mode:imenu-generic-expression)
+                    )
+                 )
+       )
   ))
 
 ;;; }
