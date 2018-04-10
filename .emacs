@@ -234,6 +234,12 @@
     ))
 
 ;;; }
+;;; { imenu-anywhere
+
+(require 'imenu-anywhere)
+(global-set-key (kbd "C-c i") 'ido-imenu-anywhere)
+
+;;; }
 ;;; { ibuffer settings
 
 (require 'ibuffer)
