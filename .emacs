@@ -867,6 +867,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (eval-after-load "swift-mode"
   '(progn
      (setq swift-basic-offset 4)
+     (define-key swift-mode-map (kbd "C-c C-c") 'comment-region)
+     
      (when (eq 'darwin system-type)
        (require 'company)
        (require 'company-sourcekit)
