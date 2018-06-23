@@ -539,6 +539,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (defun personal-go-setup()
   (go-guru-hl-identifier-mode)
   (add-hook 'before-save-hook #'gofmt-before-save)
+  (setq tab-width 4)
   )
 (add-hook 'go-mode-hook 'personal-go-setup)
 
@@ -548,6 +549,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
      (define-key go-mode-map (kbd "C-c C-r") 'go-remove-unused-imports)
      (define-key go-mode-map (kbd "C-c C-f") 'gofmt)
      (define-key go-mode-map (kbd "C-c C-k") 'godoc)
+     (define-key go-mode-map (kbd "C-c C-c") 'comment-region)
+     (define-key go-mode-map (kbd "M-.") 'godef-jump)
      )
   )
 
