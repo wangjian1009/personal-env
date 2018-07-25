@@ -505,6 +505,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (which-function-mode t)
   (c-set-style "stroustrup")
   (setq c-basic-offset 4)
+  (setq tab-width 4)
   (c-set-offset 'inline-open 0)
   (c-set-offset 'friend '-)
   (c-set-offset 'innamespace -80)
