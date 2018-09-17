@@ -118,3 +118,6 @@
 [submodule ".emacs.d/site-lisp/imenu-anywhere"]
 	path = .emacs.d/site-lisp/imenu-anywhere
 	url = git@github.com:vspinu/imenu-anywhere.git
+[submodule ".emacs.d/site-lisp/meghanada-emacs"]
+	path = .emacs.d/site-lisp/meghanada-emacs
+	url = git@github.com:mopemope/meghanada-emacs.git
