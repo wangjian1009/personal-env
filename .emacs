@@ -24,7 +24,8 @@
 (transient-mark-mode t)
 (setq search-highlight t)  
 (setq query-replace-highlight t)
- 
+
+(setq-default tab-width 4)
 (setq-default kill-whole-line t)
 (setq inhibit-startup-message t)
  
@@ -271,6 +272,7 @@
 ;; (define-key yafolding-mode-map (kbd "C-c <C-return>") 'yafolding-toggle-element)
 ;;; }
 ;;; { fastnav
+
 (require 'fastnav)
 (global-set-key "\M-z" 'fastnav-zap-up-to-char-forward)
 (global-set-key "\M-Z" 'fastnav-zap-up-to-char-backward)
@@ -288,6 +290,7 @@
 (global-set-key "\M-M" 'fastnav-mark-to-char-backward)
 (global-set-key "\M-p" 'fastnav-sprint-forward)
 (global-set-key "\M-P" 'fastnav-sprint-backward)
+
 ;;; }
 ;;; { gtags
 (eval-after-load "gtags"
@@ -540,7 +543,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
             (flycheck-mode +1)
             (setq c-basic-offset 4)
             ;; use code format
-            (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+            ;; (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)
+            ))
 (cond
    ((eq system-type 'windows-nt)
     (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
