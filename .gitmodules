@@ -121,3 +121,6 @@
 [submodule ".emacs.d/site-lisp/meghanada-emacs"]
 	path = .emacs.d/site-lisp/meghanada-emacs
 	url = git@github.com:mopemope/meghanada-emacs.git
+[submodule ".emacs.d/site-lisp/kotlin-mode"]
+	path = .emacs.d/site-lisp/kotlin-mode
+	url = git@github.com:Emacs-Kotlin-Mode-Maintainers/kotlin-mode.git

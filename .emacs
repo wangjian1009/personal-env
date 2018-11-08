@@ -535,6 +535,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { personal java mode settings
+
 (require 'meghanada)
 (add-hook 'java-mode-hook
           (lambda ()
@@ -552,6 +553,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
    (t
     (setq meghanada-java-path "java")
     (setq meghanada-maven-path "mvn")))
+
+;;; }
+;;; { personal kotlin mode settings
+
+(autoload 'kotlin-mode "kotlin-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.kt\\'" . kotlin-mode))
+
 ;;; }
 ;;; { personal go model
 
