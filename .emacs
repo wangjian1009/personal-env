@@ -263,6 +263,7 @@
 
 ;;; }
 ;;; { yafolding
+
 (require 'yafolding)
 ;; (define-key yafolding-mode-map (kbd "<C-S-return>") nil)
 ;; (define-key yafolding-mode-map (kbd "<C-M-return>") nil)
@@ -270,6 +271,7 @@
 ;; (define-key yafolding-mode-map (kbd "C-c <C-M-return>") 'yafolding-toggle-all)
 ;; (define-key yafolding-mode-map (kbd "C-c <C-S-return>") 'yafolding-hide-parent-element)
 ;; (define-key yafolding-mode-map (kbd "C-c <C-return>") 'yafolding-toggle-element)
+
 ;;; }
 ;;; { fastnav
 
@@ -866,12 +868,21 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-to-list 'auto-mode-alist '("\\.cmake\\'" . cmake-mode))
 
 (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
-(add-hook 'cmake-mode-hook 'cmake-font-lock-activate)
+
+(eval-after-load "cmake-mode"
+  '(progn
+     (setq cmake-tab-width 4)
+     (add-hook 'cmake-mode-hook 'cmake-font-lock-activate)
+     (add-hook 'cmake-mode-hook (lambda () (folding-mode t)))
+     (folding-add-to-marks-list 'cmake-mode "# {{{ " "# }}}" nil)
+     ))
 
 ;;; }
 ;;; { personal solidity mode
+
 (autoload 'solidity-mode "solidity-mode" "The solidity major mode." t)
 (add-to-list 'auto-mode-alist '("\\.sol\\'" . solidity-mode))
+
 ;;; }
 ;;; { personal swift mode
 
