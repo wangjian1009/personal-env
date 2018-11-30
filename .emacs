@@ -538,7 +538,18 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal java mode settings
 
-(require 'meghanada)
+(autoload 'meghanada-mode "meghanada.el" nil t)
+(eval-after-load "meghanada"
+  '(progn
+     (cond
+      ((eq system-type 'windows-nt)
+       (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
+       (setq meghanada-maven-path (expand-file-name "bin/mvn.cmd" (getenv "MVN_HOME"))))
+      (t
+       (setq meghanada-java-path "java")
+       (setq meghanada-maven-path "mvn")))
+     ))
+
 (add-hook 'java-mode-hook
           (lambda ()
             ;; meghanada-mode on
@@ -548,13 +559,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
             ;; use code format
             ;; (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)
             ))
-(cond
-   ((eq system-type 'windows-nt)
-    (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
-    (setq meghanada-maven-path "mvn.cmd"))
-   (t
-    (setq meghanada-java-path "java")
-    (setq meghanada-maven-path "mvn")))
 
 ;;; }
 ;;; { personal kotlin mode settings
