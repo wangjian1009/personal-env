@@ -295,13 +295,19 @@
 
 ;;; }
 ;;; { gtags
-(eval-after-load "gtags"
-  '(progn
-     (define-key gtags-mode-map (kbd "M-.") 'gtags-find-tag)
-     (define-key gtags-mode-map (kbd "C-M-.") 'gtags-find-with-grep)
-     (define-key gtags-mode-map (kbd "C-x 5 .") 'gtags-find-tag-other-window)
-     (define-key gtags-mode-map (kbd "C-c f") 'ff-find-other-file)
-     ))
+
+(if (file-accessible-directory-p "/usr/local/share/gtags")
+    (progn ()
+           (add-to-list 'load-path "/usr/local/share/gtags")
+           (let ((gtags-suggested-key-mapping t)) (require 'gtags))
+           (cond
+            ((eq system-type 'windows-nt)
+             (setq gtags-global-command "/usr/local/bin/global.exe"))
+            (t
+             (setq gtags-global-command "/usr/local/bin/global")
+             ))
+           ))
+
 ;;; }
 ;;; { git-emacs
 
