@@ -12,6 +12,8 @@
 (if (file-exists-p custom-file)
     (load custom-file))
 
+(require 'alist)
+
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (tooltip-mode 0)
@@ -54,7 +56,6 @@
 (require `edit-env)
 
 ;;; }
-
 ;;; { support functions or macros
 
 ;; shorthand for interactive lambdas
@@ -75,6 +76,7 @@
   (setenv "LD_LIBRARY_PATH" (concat "/usr/local/lib:" (getenv "LD_LIBRARY_PATH")))
   (setenv "INFOPATH" (concat "/usr/local/info:/usr/local/share/info:/usr/info:/usr/share/info:" (getenv "INFOPATH")))
   (setenv "MANPATH" (concat "/usr/local/man:/usr/local/share/man:/usr/man:/usr/share/man:" (getenv "MANPATH")))
+  (add-to-list 'exec-path "/usr/local/bin")
 
   (let ((home-dir (getenv "HOME")))
     (if home-dir
@@ -844,13 +846,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-to-list 'auto-mode-alist '("\\.dot\\'" . graphviz-dot-mode))
 
 ;;; }
-;;; { personal android develop settings....
+;;; { personal android develop settings
 
 (require 'android-mode)
-;; (add-hook 'gud-mode-hook
-;;           (lambda ()
-;;             (add-to-list 'gud-jdb-classpath "/home/gregj/work/android-sdk-linux_86/platforms/android-7/android.jar")
-;;             ))
+
+(when (eq 'darwin system-type)
+  (set-alist 'android-mode-build-command-alist 'gradle "gradle")
+  )
 
 ;;; }
 ;;; { personal org mode
