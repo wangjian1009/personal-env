@@ -546,15 +546,22 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal java mode settings
 
+(defvar java-bin nil "java executabale")
+(cond
+ ((eq system-type 'windows-nt)
+  (setq java-bin (expand-file-name "bin/java.exe" (getenv "JAVA_HOME"))))
+ (t
+  (setq java-bin "java")
+  ))
+
 (autoload 'meghanada-mode "meghanada.el" nil t)
 (eval-after-load "meghanada"
   '(progn
+     (setq meghanada-java-path java-bin)
      (cond
       ((eq system-type 'windows-nt)
-       (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
        (setq meghanada-maven-path (expand-file-name "bin/mvn.cmd" (getenv "MVN_HOME"))))
       (t
-       (setq meghanada-java-path "java")
        (setq meghanada-maven-path "mvn")))
      ))
 
@@ -736,6 +743,66 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal json mode
 (require 'json-mode)
+;;; }
+;;; { personal sql mode
+
+(defun sql-beautify-region (beg end)
+  "Beautify SQL in region between beg and END."
+  (interactive "r")
+  (save-excursion
+    (shell-command-on-region beg end (concat java-bin " -jar " (getenv "HOME") "/.emacs.d/script/sqlbeautify/SqlBeautify-1.0.jar") nil t)))
+    ;; change sqlbeautify to anbt-sql-formatter if you
+    ;;ended up using the ruby gem
+
+(defun sql-beautify-buffer ()
+ "Beautify SQL in buffer."
+ (interactive)
+ (sql-beautify-region (point-min) (point-max)))
+
+(defun sql-beautify-region-or-buffer ()
+  "Beautify SQL for the entire buffer or the marked region between beg and end"
+  (interactive)
+  (if (use-region-p)
+      (sql-beautify-region (region-beginning) (region-end))
+    (sql-beautify-buffer)))
+
+(eval-after-load "sql-mode"
+  '(progn
+     (load-library "sql-indent")
+
+     (defvar sql-last-prompt-pos 1
+       "position of last prompt when added recording started")
+     (make-(vector )ariable-buffer-local 'sql-last-prompt-pos)
+     (put 'sql-last-prompt-pos 'permanent-local t)
+     
+     (defun sql-add-newline-first (output)
+       "Add newline to beginning of OUTPUT for `comint-preoutput-filter-functions'
+    This fixes up the display of queries sent to the inferior buffer
+    programatically."
+       (let ((begin-of-prompt
+              (or (and comint-last-prompt-overlay
+                       ;; sometimes this overlay is not on prompt
+                       (save-excursion
+                         (goto-char (overlay-start comint-last-prompt-overlay))
+                         (looking-at-p comint-prompt-regexp)
+                         (point)))
+                  1)))
+         (if (> begin-of-prompt sql-last-prompt-pos)
+             (progn
+               (setq sql-last-prompt-pos begin-of-prompt)
+               (concat "\n" output))
+           output)))
+     
+     (defun sqli-add-hooks ()
+       "Add hooks to `sql-interactive-mode-hook'."
+       (add-hook 'comint-preoutput-filter-functions 'sql-add-newline-first))
+     
+     (add-hook 'sql-interactive-mode-hook 'sqli-add-hooks)
+
+     (define-key sql-mode-map "\C-\M-\\" 'sql-beautify-region-or-buffer)
+     (define-key sql-interactive-mode-map "\C-\M-\\" 'sql-beautify-region-or-buffer)
+     )
+  )
 ;;; }
 ;;; { personal js mode
 

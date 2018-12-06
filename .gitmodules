@@ -124,3 +124,6 @@
 [submodule ".emacs.d/site-lisp/kotlin-mode"]
 	path = .emacs.d/site-lisp/kotlin-mode
 	url = git@github.com:Emacs-Kotlin-Mode-Maintainers/kotlin-mode.git
+[submodule ".emacs.d/site-lisp/sql-indent"]
+	path = .emacs.d/site-lisp/sql-indent
+	url = git@github.com:bsvingen/sql-indent.git
