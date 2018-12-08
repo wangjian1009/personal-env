@@ -302,6 +302,7 @@
     (progn ()
            (add-to-list 'load-path "/usr/local/share/gtags")
            (let ((gtags-suggested-key-mapping t)) (require 'gtags))
+           (define-key gtags-mode-map (kbd "C-c f") 'ff-find-other-file)
            (cond
             ((eq system-type 'windows-nt)
              (setq gtags-global-command "/usr/local/bin/global.exe"))
