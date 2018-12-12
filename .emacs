@@ -717,7 +717,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { personal html mode settings
+
 (require 'setup-html-mode)
+
 ;;; }
 ;;; { personal php mode
 
@@ -767,14 +769,14 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
       (sql-beautify-region (region-beginning) (region-end))
     (sql-beautify-buffer)))
 
-(eval-after-load "sql-mode"
+(eval-after-load "sql"
   '(progn
      (load-library "sql-indent")
      (require 'hive)
 
      (defvar sql-last-prompt-pos 1
        "position of last prompt when added recording started")
-     (make-(vector )ariable-buffer-local 'sql-last-prompt-pos)
+     (make-variable-buffer-local 'sql-last-prompt-pos)
      (put 'sql-last-prompt-pos 'permanent-local t)
      
      (defun sql-add-newline-first (output)
