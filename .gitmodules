@@ -127,3 +127,6 @@
 [submodule ".emacs.d/site-lisp/sql-indent"]
 	path = .emacs.d/site-lisp/sql-indent
 	url = git@github.com:bsvingen/sql-indent.git
+[submodule ".emacs.d/site-lisp/hive-el"]
+	path = .emacs.d/site-lisp/hive-el
+	url = git@github.com:r0man/hive-el.git

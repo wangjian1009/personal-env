@@ -770,6 +770,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (eval-after-load "sql-mode"
   '(progn
      (load-library "sql-indent")
+     (require 'hive)
 
      (defvar sql-last-prompt-pos 1
        "position of last prompt when added recording started")
@@ -804,6 +805,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
      (define-key sql-interactive-mode-map "\C-\M-\\" 'sql-beautify-region-or-buffer)
      )
   )
+
 ;;; }
 ;;; { personal js mode
 
@@ -931,9 +933,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { personal gradel mode
+
 (autoload 'groovy-mode "groovy-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode))
 ;; (add-to-list 'compilation-error-regexp-alist '("^\[ERROR\] \(.*\):\[\([0-9]+\),\([0-9]+\)\]" 1 2 3))
+
 ;;; }
 ;;; { personal vb mode
 
