@@ -130,3 +130,9 @@
 [submodule ".emacs.d/site-lisp/hive-el"]
 	path = .emacs.d/site-lisp/hive-el
 	url = git@github.com:r0man/hive-el.git
+[submodule ".emacs.d/site-lisp/web-mode"]
+	path = .emacs.d/site-lisp/web-mode
+	url = git@github.com:fxbois/web-mode.git
+[submodule ".emacs.d/site-lisp/emmet-mode"]
+	path = .emacs.d/site-lisp/emmet-mode
+	url = git@github.com:smihica/emmet-mode.git

@@ -718,7 +718,24 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal html mode settings
 
-(require 'setup-html-mode)
+;(require 'setup-html-mode)
+
+(autoload 'web-mode "web-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(autoload 'emmet-mode "emmet-mode" nil t)
+
+(eval-after-load "web-mode"
+  '(progn
+     (add-hook 'web-mode-hook 'emmet-mode)
+     )
+  )
+
+;; (defun my-web-mode-hook ()
+;;   "Hooks for Web mode."
+;;   (setq web-mode-markup-indent-offset 2)
+;; )
+;; (add-hook 'web-mode-hook  'my-web-mode-hook)
 
 ;;; }
 ;;; { personal php mode
@@ -745,7 +762,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { personal json mode
+
 (require 'json-mode)
+
 ;;; }
 ;;; { personal sql mode
 
@@ -771,37 +790,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (eval-after-load "sql"
   '(progn
-     (load-library "sql-indent")
+     (require 'sql-indent)
      (require 'hive)
-
-     (defvar sql-last-prompt-pos 1
-       "position of last prompt when added recording started")
-     (make-variable-buffer-local 'sql-last-prompt-pos)
-     (put 'sql-last-prompt-pos 'permanent-local t)
-     
-     (defun sql-add-newline-first (output)
-       "Add newline to beginning of OUTPUT for `comint-preoutput-filter-functions'
-    This fixes up the display of queries sent to the inferior buffer
-    programatically."
-       (let ((begin-of-prompt
-              (or (and comint-last-prompt-overlay
-                       ;; sometimes this overlay is not on prompt
-                       (save-excursion
-                         (goto-char (overlay-start comint-last-prompt-overlay))
-                         (looking-at-p comint-prompt-regexp)
-                         (point)))
-                  1)))
-         (if (> begin-of-prompt sql-last-prompt-pos)
-             (progn
-               (setq sql-last-prompt-pos begin-of-prompt)
-               (concat "\n" output))
-           output)))
-     
-     (defun sqli-add-hooks ()
-       "Add hooks to `sql-interactive-mode-hook'."
-       (add-hook 'comint-preoutput-filter-functions 'sql-add-newline-first))
-     
-     (add-hook 'sql-interactive-mode-hook 'sqli-add-hooks)
 
      (define-key sql-mode-map "\C-\M-\\" 'sql-beautify-region-or-buffer)
      (define-key sql-interactive-mode-map "\C-\M-\\" 'sql-beautify-region-or-buffer)
@@ -857,39 +847,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal jsp mode
 
-(add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
-
-(mmm-add-group 'personal-jsp
- `(
-   (personal-jsp-comment
-    :submode text-mode
-    :face mmm-comment-submode-face
-    :front "<%--"
-    :back "--%>"
-    :insert ((?- jsp-comment-tag nil @ "<%--" @ " " _ " " @ "--%>" @))
-    )
-   (personal-jsp-code
-    :submode js-mode
-    :match-face (("<%!" . mmm-declaration-submode-face)
-                 ("<%=" . mmm-output-submode-face)
-                 ("<%"  . mmm-code-submode-face))
-    :front "<%[!=]?"
-    :back "%>"
-    :match-name "jsp"
-    :insert ((?% jsp-code-tag nil @ "<%" @ " " _ " " @ "%>" @)
-             (?! jsp-decl-tag nil @ "<%!" @ " " _ " " @ "%>" @)
-             (?= jsp-expr-tag nil @ "<%=" @ " " _ " " @ "%>" @))
-    )
-   (personal-jsp-directive
-    :submode text-mode
-    :face mmm-declaration-submode-face ;mmm-special-submode-face
-    :front "<%@"
-    :back "%>"
-    :insert ((?@ jsp-directive-tag nil @ "<%@" @ " " _ " " @ "%>" @))
-    )
-   ))
-
-(add-to-list 'mmm-mode-ext-classes-alist '(nil "\\.jsp\\'" personal-jsp))
+(add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
 
 ;;; }
 ;;; { personal css mode
