@@ -362,7 +362,7 @@
 
 ;;; }
 ;;; { flycheck-mode
-;(autoload 'flycheck-mode "setup-flycheck" nil t)
+(autoload 'flycheck-mode "flycheck" nil t)
 ;;; }
 ;;; { company-mode
 
