@@ -822,24 +822,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal js mode
 
-; for espresso-mode
-;; (autoload 'espresso-mode "espresso" "espresso for editing JavaScript." t)
-;; (eval-after-load "espresso-mode"
-;;   '(progn
-;;      (define-key espresso-mode-map (kbd "C-c C-c") 'comment-region)
-;;      ))
-
 ; for js2-mode
 (autoload 'js2-mode "js2-mode" "Major mode for editing JavaScript." t)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (eval-after-load "js2-mode" '(require 'setup-js2-mode))
-
-(eval-after-load "js2-mode"
-  '(progn
-     (require 'setup-js2-mode)
-     (define-key js2-mode-map (kbd "C-c C-c") 'comment-region)
-     )
-  )
 
 (eval-after-load "js-mode"
   '(progn
