@@ -160,7 +160,6 @@
 ;;; }
 ;;; { multi-term
 (require `multi-term)
-(setq multi-term-program "/bin/zsh")
 (setq multi-term-dedicated-close-back-to-open-buffer-p t)
 
 (defun last-term-buffer (l)
