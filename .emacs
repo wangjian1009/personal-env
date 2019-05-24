@@ -602,6 +602,20 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (autoload 'kotlin-mode "kotlin-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.kt\\'" . kotlin-mode))
 
+(eval-after-load "compile"
+  '(progn
+     (add-to-list 'compilation-error-regexp-alist 'kotlin)
+     (add-to-list
+      'compilation-error-regexp-alist-alist
+      '(kotlin
+        "^[e]: \\(.+?\\.kt\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3))))
+
+;; (eval-after-load "compile"
+;;   (add-to-list
+;;    'compilation-error-regexp-alist-alist
+;;    '(kotlin
+;;      ".*: \\(.+?\\.kt\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3)))
+
 ;;; }
 ;;; { personal go model
 
