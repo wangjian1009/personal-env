@@ -56,6 +56,7 @@
 (require `edit-env)
 
 ;;; }
+
 ;;; { support functions or macros
 
 ;; shorthand for interactive lambdas
@@ -453,6 +454,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
  '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体"))
 
 ;;; }
+;;; { personal sh mode
+
+(folding-add-to-marks-list 'sh-mode "# {{{ " "# }}}" nil)
+(add-hook 'sh-mode-hook (lambda () (folding-mode t)))
+
+;;; }
 ;;; { personal yaml model
 
 (require 'yaml-mode)
@@ -608,7 +615,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
      (add-to-list
       'compilation-error-regexp-alist-alist
       '(kotlin
-        "^[e]: \\(.+?\\.kt\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3))))
+        "^[we]: \\(.+?\\.kt\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3))))
 
 ;; (eval-after-load "compile"
 ;;   (add-to-list
