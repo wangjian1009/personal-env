@@ -139,3 +139,6 @@
 [submodule ".emacs.d/site-lisp/js2-mode"]
 	path = .emacs.d/site-lisp/js2-mode
 	url = git@github.com:mooz/js2-mode.git
+[submodule ".emacs.d/site-lisp/swift-mode"]
+	path = .emacs.d/site-lisp/swift-mode
+	url = git@github.com:swift-emacs/swift-mode.git
