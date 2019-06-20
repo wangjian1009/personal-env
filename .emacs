@@ -56,6 +56,7 @@
 (require `edit-env)
 
 ;;; }
+
 ;;; { theme
 (setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
 (load-theme 'classic)
@@ -939,17 +940,19 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal cmake mode
 
-(autoload 'cmake-mode "cmake-mode" "major-mode for editing CMake sources." t)
-(add-to-list 'auto-mode-alist '("CMakeLists\\.txt\\'" . cmake-mode))
-(add-to-list 'auto-mode-alist '("\\.cmake\\'" . cmake-mode))
+(use-package cmake-mode
+  :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
+  :config
+  (setq cmake-tab-width 4)
+  :ensure t
+  )
 
-(autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
-
-(eval-after-load "cmake-mode"
-  '(progn
-     (setq cmake-tab-width 4)
-     (add-hook 'cmake-mode-hook 'cmake-font-lock-activate)
-     ))
+(use-package cmake-font-lock
+  :requires cmake-mode
+  :commands (cmake-font-lock-activate)
+  :hook (cmake-mode-hook . cmake-font-lock-activate)
+  :ensure t
+  )
 
 ;;; }
 ;;; { personal solidity mode
