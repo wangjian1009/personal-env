@@ -53,13 +53,12 @@
 (global-set-key (kbd "C-c c") 'compile)
 (global-set-key (kbd "C-c f") 'ff-find-other-file)
 
-(require `edit-env)
-
 ;;; }
-
 ;;; { theme
+
 (setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
 (load-theme 'classic)
+
 ;;; }
 ;;; { support functions or macros
 
@@ -276,12 +275,6 @@
     ))
 
 ;;; }
-;;; { imenu-anywhere
-
-(require 'imenu-anywhere)
-(global-set-key (kbd "C-c i") 'ido-imenu-anywhere)
-
-;;; }
 ;;; { ibuffer settings
 
 (require 'ibuffer)
@@ -358,6 +351,9 @@
            ))
 
 ;;; }
+;;; { all
+(use-package all :ensure t)
+;;; }
 ;;; { git-emacs
 
 (use-package magit :ensure t)
@@ -406,8 +402,22 @@
 (global-set-key (kbd "C-=") 'er/expand-region)
 
 ;;; }
+;;; { flymake-mode
+(use-package flymake
+  :commands (flymake-mode)
+  :ensure t)
+
+(use-package flymake-proc
+  :commands (flymake-proc-legacy-flymake) 
+  :ensure t)
+
+;;; }
 ;;; { flycheck-mode
-(autoload 'flycheck-mode "flycheck" nil t)
+
+(use-package flycheck
+  :commands flycheck-mode
+  :ensure t)
+
 ;;; }
 ;;; { company-mode
 
@@ -612,26 +622,29 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq java-bin "java")
   ))
 
-(autoload 'meghanada-mode "meghanada.el" nil t)
-(eval-after-load "meghanada"
-  '(progn
-     (setq meghanada-java-path java-bin)
-     (cond
-      ((eq system-type 'windows-nt)
-       (setq meghanada-maven-path (expand-file-name "bin/mvn.cmd" (getenv "MVN_HOME"))))
-      (t
-       (setq meghanada-maven-path "mvn")))
-     ))
+(defvar mvn-bin nil "mvn executabale")
+(cond
+ ((eq system-type 'windows-nt)
+  (setq mvn-bin (expand-file-name "bin/mvn.cmd" (getenv "MVN_HOME"))))
+ (t
+  (setq mvn-bin "mvn")))
 
-(add-hook 'java-mode-hook
-          (lambda ()
-            ;; meghanada-mode on
-            (meghanada-mode t)
-            (flycheck-mode +1)
-            (setq c-basic-offset 4)
-            ;; use code format
-            ;; (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)
-            ))
+(use-package meghanada
+  :commands meghanada-mode
+  :config
+  (setq meghanada-java-path java-bin)
+  (setq meghanada-maven-path mvn-bin)
+  :hook (java-mode-hook . (progn
+                            ;; meghanada-mode on
+                            (meghanada-mode t)
+                            (flycheck-mode +1)
+                            (setq c-basic-offset 4)
+                            ;; use code format
+                            ;; (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)
+                            )
+                        )
+  :ensure t
+  )
 
 ;;; }
 ;;; { personal kotlin mode settings
@@ -894,48 +907,27 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil html-css))
 
 ;;; }
-;;; { personal remerber settings
-
-(autoload 'remember "remember" nil t)
-(autoload 'remember-region "remember" nil t)
-
-;(define-key global-map [f8] 'remember)
-;(define-key global-map [f9] 'remember-region)
-
-;;; }
-;;; { personal dot settings
-
-(autoload 'graphviz-dot-mode "graphviz-dot-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.dot\\'" . graphviz-dot-mode))
-
-;;; }
 ;;; { personal android develop settings
 
-(require 'android-mode)
-
-(when (eq 'darwin system-type)
-  (set-alist 'android-mode-build-command-alist 'gradle "gradle")
-  )
-
-;;; }
-;;; { personal org mode
-
-;(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
+(use-package android-mode
+  :commands (android-mode android-logcat android-gradle)
+  :config
+  (when (eq 'darwin system-type)
+    (set-alist 'android-mode-build-command-alist 'gradle "gradle")
+    )
+  :ensure t)
 
 ;;; }
 ;;; { personal gradel mode
 
-(autoload 'groovy-mode "groovy-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.gradle\\'" . groovy-mode))
-;; (add-to-list 'compilation-error-regexp-alist '("^\[ERROR\] \(.*\):\[\([0-9]+\),\([0-9]+\)\]" 1 2 3))
+(use-package groovy-mode
+  :mode "\\.gradle\\'"
+  :config
+  ;; (add-to-list 'compilation-error-regexp-alist '("^\[ERROR\] \(.*\):\[\([0-9]+\),\([0-9]+\)\]" 1 2 3))
+  :ensure t)
 
-;;; }
-;;; { personal vb mode
-
-(autoload 'vbnet-mode "vbnet-mode" "Mode for editing VB.NET code." t)
-(setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vb\\)$" . vbnet-mode)) auto-mode-alist))
+(use-package gradle-mode
+  :ensure t)
 
 ;;; }
 ;;; { personal cmake mode
@@ -957,8 +949,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal solidity mode
 
-(autoload 'solidity-mode "solidity-mode" "The solidity major mode." t)
-(add-to-list 'auto-mode-alist '("\\.sol\\'" . solidity-mode))
+(use-package solidity-mode
+  :mode "\\.sol\\'"
+  :ensure t)
 
 ;;; }
 ;;; { personal swift mode
@@ -988,24 +981,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq lsp-sourcekit-executable (expand-file-name "/Users/wangjian/workspace/study/sourcekit-lsp/.build/x86_64-apple-macosx/debug/sourcekit-lsp"))
   :ensure t)
 
-;;; }
-;;; { hippie-expand settings
-
-(global-set-key [(meta ?/)] 'hippie-expand)
-(setq hippie-expand-try-functions-list
-      '(try-expand-dabbrev
-        try-expand-dabbrev-visible
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill
-        try-complete-file-name-partially
-        try-complete-file-name
-        try-expand-all-abbrevs
-        try-expand-list
-        try-expand-line
-        try-complete-lisp-symbol-partially
-        try-complete-lisp-symbol))
-
-;;; }
+;;; }-
 ;;; { utility match-parten
 
 (global-set-key "%" 'match-paren)
@@ -1051,8 +1027,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { run server
+
 (require 'server)
 (unless (server-running-p) (server-start))
+
 ;;; }*从©
 ;;; { emacs local
 
