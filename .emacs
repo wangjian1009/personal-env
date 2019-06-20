@@ -297,7 +297,11 @@
 ;;; }
 ;;; { yafolding
 
-(require 'yafolding)
+(use-package yafolding
+  :commands yafolding-mode
+  :hook ((yaml-mode c-mode c++-mode objc-mode) . yafolding-mode)
+  :ensure t)
+
 ;; (define-key yafolding-mode-map (kbd "<C-S-return>") nil)
 ;; (define-key yafolding-mode-map (kbd "<C-M-return>") nil)
 ;; (define-key yafolding-mode-map (kbd "<C-return>") nil)
@@ -482,11 +486,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal yaml model
 
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
-(define-key yaml-mode-map (kbd "C-c C-c") 'comment-region)
-(add-hook 'yaml-mode-hook (lambda () (yafolding-mode)))
+(use-package yaml-mode
+  :mode ("\\.yml$" "\\.yaml$")
+  :bind-keymap
+  (("C-c C-c" . comment-region))
+  :ensure t
+  )
 
 ;;; }
 ;;; { personal dockerfile model
@@ -536,10 +541,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@protocol" . objc-mode))
 ; (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n\\(class\\|namespace\\)" . c++-mode))
 ; (add-to-list 'auto-mode-alist '("\\.h\\'" . objc-mode))
-
-(add-hook 'c-mode-hook (lambda () (yafolding-mode t)))
-(add-hook 'c++-mode-hook (lambda () (yafolding-mode t)))
-(add-hook 'objc-mode-hook (lambda () (yafolding-mode t)))
 
 ;; ===== Opening header files =====
 ;; Allows to choose between objc-mode, c++-mode and c-mode
