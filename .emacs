@@ -409,6 +409,13 @@
   :hook (swift-mode . company-mode)
   :ensure t
   )
+
+(use-package company-lsp
+  :commands company-lsp
+  :config
+  (push 'company-lsp company-backends)
+  :ensure t)
+
 ;;; }
 ;;; { mmm-mode
 
@@ -764,28 +771,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (folding-add-to-marks-list 'cperl-mode "# {{{ " "# }}}" nil)
 
 ;;; }
-;;; { personal html mode settings
-
-;(require 'setup-html-mode)
-
-(autoload 'web-mode "web-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-
-(autoload 'emmet-mode "emmet-mode" nil t)
-
-(eval-after-load "web-mode"
-  '(progn
-     (add-hook 'web-mode-hook 'emmet-mode)
-     )
-  )
-
-;; (defun my-web-mode-hook ()
-;;   "Hooks for Web mode."
-;;   (setq web-mode-markup-indent-offset 2)
-;; )
-;; (add-hook 'web-mode-hook  'my-web-mode-hook)
-
-;;; }
 ;;; { personal php mode
 
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
@@ -879,9 +864,20 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil personal-html-js))
 
 ;;; }
-;;; { personal jsp mode
+;;; { personal web mode (html, jsp)
 
-(add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+(use-package web-mode
+  :mode ("\\.jsp\\'" "\\.html?\\'")
+  :config
+  (progn
+    (setq web-mode-markup-indent-offset 2)
+    )
+  :ensure t
+  )
+
+(use-package emmet-mode
+  :hook (web-mode)
+  :ensure t)
 
 ;;; }
 ;;; { personal css mode
@@ -972,11 +968,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
       '(swift
         "^[ ❌]+\\(.+\\.swift\\):\\([0-9]+\\):\\([0-9]+\\): .*" 1 2 3))))
 
-;(add-to-list 'auto-mode-alist '("\\.swift\\'" . swift-mode))
-
 (use-package swift-mode
-  :commands
-  (swift-mode)
   :mode "\\.swift\\'"
   :bind-keymap
   (("C-c C-c" . comment-region))
