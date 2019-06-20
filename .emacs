@@ -359,7 +359,6 @@
 ;;; }
 ;;; { git-emacs
 
-                                        ;(use-package git-emacs :ensure t)
 (use-package magit :ensure t)
 (use-package git-timemachine :ensure t)
 
@@ -410,6 +409,7 @@
 (autoload 'flycheck-mode "flycheck" nil t)
 ;;; }
 ;;; { company-mode
+
 (use-package company
   :commands
   (company-mode company-complete-common)
@@ -420,15 +420,8 @@
         ("C-n" . company-select-next-or-abort)
         ("C-p" . company-select-previous-or-abort)
         )
-  :hook (swift-mode . company-mode)
   :ensure t
   )
-
-(use-package company-lsp
-  :commands company-lsp
-  :config
-  (push 'company-lsp company-backends)
-  :ensure t)
 
 ;;; }
 ;;; { mmm-mode
@@ -486,6 +479,20 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (qiang-set-font
  '("Consolas" "Monaco" "DejaVu Sans Mono" "Monospace" "Courier New") ":pixelsize=14"
  '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体"))
+
+;;; }
+;;; { personal lsp mode
+
+(use-package lsp-mode
+  :commands lsp
+  :ensure t)
+
+(use-package company-lsp
+  :requires (lsp-mode company)
+  :commands company-lsp
+  :config
+  (push 'company-lsp company-backends)
+  :ensure t)
 
 ;;; }
 ;;; { personal yaml model
@@ -673,22 +680,22 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal csharp mode setup
 
-(autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
-(setq auto-mode-alist (cons '("\\.cs$" . csharp-mode) auto-mode-alist))
+;; (autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
+;; (setq auto-mode-alist (cons '("\\.cs$" . csharp-mode) auto-mode-alist))
 
-;; Patterns for finding Microsoft C# compiler error messages:
-(require 'compile)
-(push '("^\\(.*\\)(\\([0-9]+\\),\\([0-9]+\\)): error" 1 2 3 2) compilation-error-regexp-alist)
-(push '("^\\(.*\\)(\\([0-9]+\\),\\([0-9]+\\)): warning" 1 2 3 1) compilation-error-regexp-alist)
+;; ;; Patterns for finding Microsoft C# compiler error messages:
+;; (require 'compile)
+;; (push '("^\\(.*\\)(\\([0-9]+\\),\\([0-9]+\\)): error" 1 2 3 2) compilation-error-regexp-alist)
+;; (push '("^\\(.*\\)(\\([0-9]+\\),\\([0-9]+\\)): warning" 1 2 3 1) compilation-error-regexp-alist)
 
-;; Patterns for defining blocks to hide/show:
-(push '(csharp-mode
-	"\\(^\\s *#\\s *region\\b\\)\\|{"
-	"\\(^\\s *#\\s *endregion\\b\\)\\|}"
-	"/[*/]"
-	nil
-	hs-c-like-adjust-block-beginning)
-      hs-special-modes-alist)
+;; ;; Patterns for defining blocks to hide/show:
+;; (push '(csharp-mode
+;; 	"\\(^\\s *#\\s *region\\b\\)\\|{"
+;; 	"\\(^\\s *#\\s *endregion\\b\\)\\|}"
+;; 	"/[*/]"
+;; 	nil
+;; 	hs-c-like-adjust-block-beginning)
+;;       hs-special-modes-alist)
 
 ;;; }
 ;;; { personal perl mode settings
@@ -953,29 +960,30 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal swift mode
 
-(eval-after-load "compile"
-  '(progn
-     (add-to-list 'compilation-error-regexp-alist 'swift)
-     (add-to-list
-      'compilation-error-regexp-alist-alist
-      '(swift
-        "^[ ❌]+\\(.+\\.swift\\):\\([0-9]+\\):\\([0-9]+\\): .*" 1 2 3))))
-
 (use-package swift-mode
   :mode "\\.swift\\'"
   :bind-keymap
   (("C-c C-c" . comment-region))
+  :hook ((swift-mode . company-mode)
+         (swift-mode . lsp) )
   :config
-  (progn
-    (setq swift-basic-offset 4)
-     ;; (when (eq 'darwin system-type)
-     ;;   (require 'company)
-     ;;   (require 'company-sourcekit)
-     ;;   (add-to-list 'company-backends 'company-sourcekit)
-     ;;   )
-    )
+  (setq swift-basic-offset 4)
+  (eval-after-load "compile"
+    '(progn
+       (add-to-list 'compilation-error-regexp-alist 'swift)
+       (add-to-list
+        'compilation-error-regexp-alist-alist
+        '(swift
+          "^[ ❌]+\\(.+\\.swift\\):\\([0-9]+\\):\\([0-9]+\\): .*" 1 2 3))))
   :ensure t
   )
+
+(use-package lsp-sourcekit
+  :after lsp-mode
+  :config
+  (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain")
+  (setq lsp-sourcekit-executable (expand-file-name "/Users/wangjian/workspace/study/sourcekit-lsp/.build/x86_64-apple-macosx/debug/sourcekit-lsp"))
+  :ensure t)
 
 ;;; }
 ;;; { hippie-expand settings
@@ -1042,7 +1050,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { run server
 (require 'server)
 (unless (server-running-p) (server-start))
-;;; }
+;;; }*从©
 ;;; { emacs local
 
 (if (file-exists-p "~/.emacs.local")
