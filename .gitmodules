@@ -16,9 +16,6 @@
 [submodule ".emacs.d/site-lisp/php-auto-yasnippets"]
 	path = .emacs.d/site-lisp/php-auto-yasnippets
 	url = https://github.com/ejmr/php-auto-yasnippets.git
-[submodule ".emacs.d/site-lisp/company-mode"]
-	path = .emacs.d/site-lisp/company-mode
-	url = https://github.com/company-mode/company-mode.git
 [submodule ".emacs.d/site-lisp/mmm-mode"]
 	path = .emacs.d/site-lisp/mmm-mode
 	url = https://github.com/purcell/mmm-mode
@@ -139,6 +136,3 @@
 [submodule ".emacs.d/site-lisp/js2-mode"]
 	path = .emacs.d/site-lisp/js2-mode
 	url = git@github.com:mooz/js2-mode.git
-[submodule ".emacs.d/site-lisp/swift-mode"]
-	path = .emacs.d/site-lisp/swift-mode
-	url = git@github.com:swift-emacs/swift-mode.git

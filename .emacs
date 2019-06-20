@@ -186,6 +186,7 @@
             (multi-term)
           (switch-to-buffer b))))
     )
+  :ensure t
   )
 ;;; }
 ;;; { ido mode setup
@@ -395,16 +396,19 @@
 (autoload 'flycheck-mode "flycheck" nil t)
 ;;; }
 ;;; { company-mode
-
-(autoload 'company-mode "company" nil t)
-(eval-after-load "company"
-  '(progn
-     (define-key company-mode-map (kbd "C-c C-.") 'company-complete-common)
-     (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
-     (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
-     )
+(use-package company
+  :commands
+  (company-mode company-complete-common)
+  :bind
+  (:map company-mode-map
+        ("C-c C-." . company-complete-common)
+        :map company-active-map
+        ("C-n" . company-select-next-or-abort)
+        ("C-p" . company-select-previous-or-abort)
+        )
+  :hook (swift-mode . company-mode)
+  :ensure t
   )
-
 ;;; }
 ;;; { mmm-mode
 
@@ -960,9 +964,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal swift mode
 
-(autoload 'swift-mode "swift-mode" "Major-mode for Apple's Swift programming language." t)
-(add-to-list 'auto-mode-alist '("\\.swift\\'" . swift-mode))
-
 (eval-after-load "compile"
   '(progn
      (add-to-list 'compilation-error-regexp-alist 'swift)
@@ -971,22 +972,25 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
       '(swift
         "^[ ❌]+\\(.+\\.swift\\):\\([0-9]+\\):\\([0-9]+\\): .*" 1 2 3))))
 
-(eval-after-load "swift-mode"
-  '(progn
-     (setq swift-basic-offset 4)
-     (define-key swift-mode-map (kbd "C-c C-c") 'comment-region)
-     
-     (when (eq 'darwin system-type)
-       (require 'company)
-       (require 'company-sourcekit)
-       (add-to-list 'company-backends 'company-sourcekit)
-       (add-hook 'swift-mode-hook
-                 (lambda ()
-                    (company-mode-on)
-                    )
-                 )
-       )
-  ))
+;(add-to-list 'auto-mode-alist '("\\.swift\\'" . swift-mode))
+
+(use-package swift-mode
+  :commands
+  (swift-mode)
+  :mode "\\.swift\\'"
+  :bind-keymap
+  (("C-c C-c" . comment-region))
+  :config
+  (progn
+    (setq swift-basic-offset 4)
+     ;; (when (eq 'darwin system-type)
+     ;;   (require 'company)
+     ;;   (require 'company-sourcekit)
+     ;;   (add-to-list 'company-backends 'company-sourcekit)
+     ;;   )
+    )
+  :ensure t
+  )
 
 ;;; }
 ;;; { hippie-expand settings
