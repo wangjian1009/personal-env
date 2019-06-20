@@ -283,16 +283,24 @@
 ;;; }
 ;;; { color-theme
 
-(require 'color-theme)
 (color-theme-initialize)
 (color-theme-classic)
 
 ;;; }
 ;;; { folding
 
-(require 'folding)
-(setq folding-fold-on-startup t)
-(folding-mode-add-find-file-hook)
+(use-package folding
+  :hook (sh-mode emacs-lisp-mode cmake-mode cperl-mode makefile-gmake-mode)
+  :config
+  (setq folding-fold-on-startup t)
+  (folding-mode-add-find-file-hook)
+
+  (folding-add-to-marks-list 'sh-mode "# {{{ " "# }}}" nil)
+  (folding-add-to-marks-list 'emacs-lisp-mode ";;; {" ";;; }" "")
+  (folding-add-to-marks-list 'cperl-mode "# {{{ " "# }}}" nil)
+  (folding-add-to-marks-list 'makefile-gmake-mode "# {{{ " "# }}}" nil)
+  (folding-add-to-marks-list 'cmake-mode "# {{{ " "# }}}" nil)
+  :ensure t)
 
 ;;; }
 ;;; { yafolding
@@ -478,12 +486,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
  '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体"))
 
 ;;; }
-;;; { personal sh mode
-
-(folding-add-to-marks-list 'sh-mode "# {{{ " "# }}}" nil)
-(add-hook 'sh-mode-hook (lambda () (folding-mode t)))
-
-;;; }
 ;;; { personal yaml model
 
 (use-package yaml-mode
@@ -511,10 +513,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal lisp mode settings
 
-(add-hook 'emacs-lisp-mode-hook (lambda () (folding-mode t)))
 (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'comment-region)
-
-(folding-add-to-marks-list 'emacs-lisp-mode ";;; {" ";;; }" "")
 
 ;;; }
 ;;; { personal c cpp and objc mode settings
@@ -669,11 +668,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-to-list 'auto-mode-alist '("\\.mk\\'" . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
 
-(folding-add-to-marks-list 'makefile-gmake-mode "# {{{ " "# }}}" nil)
-(add-hook 'makefile-gmake-mode-hook
-          (lambda ()
-            (folding-mode t)))
-
 ;;; }
 ;;; { personal csharp mode setup
 
@@ -768,8 +762,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (setq interpreter-mode-alist
       (cons '("perl" . cperl-mode)
             (cons '("perl5" . cperl-mode) interpreter-mode-alist)))
-
-(folding-add-to-marks-list 'cperl-mode "# {{{ " "# }}}" nil)
 
 ;;; }
 ;;; { personal php mode
@@ -948,8 +940,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   '(progn
      (setq cmake-tab-width 4)
      (add-hook 'cmake-mode-hook 'cmake-font-lock-activate)
-     (add-hook 'cmake-mode-hook (lambda () (folding-mode t)))
-     (folding-add-to-marks-list 'cmake-mode "# {{{ " "# }}}" nil)
      ))
 
 ;;; }

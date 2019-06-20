@@ -31,9 +31,6 @@
 [submodule ".emacs.d/site-lisp/s"]
 	path = .emacs.d/site-lisp/s
 	url = https://github.com/magnars/s.el.git
-[submodule ".emacs.d/site-lisp/dash"]
-	path = .emacs.d/site-lisp/dash
-	url = https://github.com/magnars/dash.el.git
 [submodule ".emacs.d/site-lisp/tern"]
 	path = .emacs.d/site-lisp/tern
 	url = https://github.com/marijnh/tern.git
@@ -70,9 +67,6 @@
 [submodule ".emacs.d/site-lisp/json-snatcher"]
 	path = .emacs.d/site-lisp/json-snatcher
 	url = https://github.com/Sterlingg/json-snatcher
-[submodule ".emacs.d/site-lisp/dash-at-point"]
-	path = .emacs.d/site-lisp/dash-at-point
-	url = https://github.com/stanaka/dash-at-point.git
 [submodule ".emacs.d/site-lisp/actionscript-mode"]
 	path = .emacs.d/site-lisp/actionscript-mode
 	url = git@github.com:austinhaas/actionscript-mode.git
