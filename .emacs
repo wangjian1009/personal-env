@@ -56,7 +56,10 @@
 (require `edit-env)
 
 ;;; }
-
+;;; { theme
+(setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
+(load-theme 'classic)
+;;; }
 ;;; { support functions or macros
 
 ;; shorthand for interactive lambdas
@@ -160,12 +163,15 @@
 
 ;;; }
 ;;; { package
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 (require 'use-package)
+
 ;;; }
 ;;; { multi-term
+
 (use-package multi-term
   :init
   (progn
@@ -188,6 +194,7 @@
     )
   :ensure t
   )
+
 ;;; }
 ;;; { ido mode setup
 
@@ -281,16 +288,11 @@
 (define-key-after ibuffer-mode-map (kbd "C-x C-f") 'ido-find-file)
 
 ;;; }
-;;; { color-theme
-
-(color-theme-initialize)
-(color-theme-classic)
-
-;;; }
 ;;; { folding
 
 (use-package folding
-  :hook (sh-mode emacs-lisp-mode cmake-mode cperl-mode makefile-gmake-mode)
+  :commands (folding-mode)
+  :hook ((sh-mode emacs-lisp-mode cmake-mode cperl-mode makefile-gmake-mode) . folding-mode)
   :config
   (setq folding-fold-on-startup t)
   (folding-mode-add-find-file-hook)
@@ -357,9 +359,9 @@
 ;;; }
 ;;; { git-emacs
 
-(require 'git-emacs)
-(require 'git-timemachine)
-(require 'git-gutter)
+                                        ;(use-package git-emacs :ensure t)
+(use-package magit :ensure t)
+(use-package git-timemachine :ensure t)
 
 ;;; }
 ;;; { markdown mode
