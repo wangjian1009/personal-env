@@ -51,6 +51,13 @@
 (global-set-key (kbd "C-c f") 'ff-find-other-file)
 
 ;;; }
+
+;;; { theme
+
+(setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
+(load-theme 'classic)
+
+;;; }
 ;;; { font setting...
 
 (defun qiang-font-existsp (font)
@@ -97,12 +104,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (qiang-set-font
  '("Consolas" "Monaco" "DejaVu Sans Mono" "Monospace" "Courier New") ":pixelsize=14"
  '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体"))
-
-;;; }
-;;; { theme
-
-(setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
-(load-theme 'classic)
 
 ;;; }
 ;;; { support functions or macros
@@ -322,9 +323,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { ibuffer settings
 
-(require 'ibuffer)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(define-key-after ibuffer-mode-map (kbd "C-x C-f") 'ido-find-file)
+(use-package ibuffer
+  :bind ("C-x C-b" . ibuffer)
+  :bind-keymap  ("C-x C-f" . ido-find-file)
+  )
 
 ;;; }
 ;;; { folding
