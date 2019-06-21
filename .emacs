@@ -54,6 +54,54 @@
 (global-set-key (kbd "C-c f") 'ff-find-other-file)
 
 ;;; }
+;;; { font setting...
+
+(defun qiang-font-existsp (font)
+  (if (null (x-list-fonts font))
+      nil t))
+
+(defun qiang-make-font-string (font-name font-size)
+  (if (and (stringp font-size) 
+           (equal ":" (string (elt font-size 0))))
+      (format "%s%s" font-name font-size)
+    (format "%s %s" font-name font-size)))
+
+(defun qiang-set-font (english-fonts
+                       english-font-size
+                       chinese-fonts
+                       &optional chinese-font-size)
+  "english-font-size could be set to \":pixelsize=18\" or a integer.
+If set/leave chinese-font-size to nil, it will follow english-font-size"
+  (require 'cl)                         ; for find if
+  (let ((en-font (qiang-make-font-string
+                  (find-if #'qiang-font-existsp english-fonts)
+                  english-font-size))
+        (zh-font (font-spec :family (find-if #'qiang-font-existsp chinese-fonts)
+                            :size chinese-font-size)))
+ 
+    ;; Set the default English font
+    ;; 
+    ;; The following 2 method cannot make the font settig work in new frames.
+    ;; (set-default-font "Consolas:pixelsize=18")
+    ;; (add-to-list 'default-frame-alist '(font . "Consolas:pixelsize=18"))
+    ;; We have to use set-face-attribute
+    (message "Set English Font to %s" en-font)
+    (set-face-attribute
+     'default nil :font en-font)
+ 
+    ;; Set Chinese font 
+    ;; Do not use 'unicode charset, it will cause the english font setting invalid
+    (message "Set Chinese Font to %s" zh-font)
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+      (set-fontset-font (frame-parameter nil 'font)
+                        charset
+                        zh-font))))
+
+(qiang-set-font
+ '("Consolas" "Monaco" "DejaVu Sans Mono" "Monospace" "Courier New") ":pixelsize=14"
+ '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体"))
+
+;;; }
 ;;; { theme
 
 (setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
@@ -314,27 +362,6 @@
 ;; (define-key yafolding-mode-map (kbd "C-c <C-return>") 'yafolding-toggle-element)
 
 ;;; }
-;;; { fastnav
-
-(require 'fastnav)
-(global-set-key "\M-z" 'fastnav-zap-up-to-char-forward)
-(global-set-key "\M-Z" 'fastnav-zap-up-to-char-backward)
-(global-set-key "\M-s" 'fastnav-jump-to-char-forward)
-(global-set-key "\M-S" 'fastnav-jump-to-char-backward)
-(global-set-key "\M-r" 'fastnav-replace-char-forward)
-(global-set-key "\M-R" 'fastnav-replace-char-backward)
-(global-set-key "\M-i" 'fastnav-insert-at-char-forward)
-(global-set-key "\M-I" 'fastnav-insert-at-char-backward)
-(global-set-key "\M-j" 'fastnav-execute-at-char-forward)
-(global-set-key "\M-J" 'fastnav-execute-at-char-backward)
-(global-set-key "\M-k" 'fastnav-delete-char-forward)
-(global-set-key "\M-K" 'fastnav-delete-char-backward)
-(global-set-key "\M-m" 'fastnav-mark-to-char-forward)
-(global-set-key "\M-M" 'fastnav-mark-to-char-backward)
-(global-set-key "\M-p" 'fastnav-sprint-forward)
-(global-set-key "\M-P" 'fastnav-sprint-backward)
-
-;;; }
 ;;; { gtags
 
 (if (file-accessible-directory-p "/usr/local/share/gtags")
@@ -402,20 +429,15 @@
 (global-set-key (kbd "C-=") 'er/expand-region)
 
 ;;; }
-;;; { flymake-mode
-(use-package flymake
-  :commands (flymake-mode)
-  :ensure t)
+;;; { flymake
 
-(use-package flymake-proc
-  :commands (flymake-proc-legacy-flymake) 
-  :ensure t)
+(require 'flymake-proc)
+(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 
 ;;; }
 ;;; { flycheck-mode
 
 (use-package flycheck
-  :commands flycheck-mode
   :ensure t)
 
 ;;; }
@@ -437,59 +459,11 @@
 ;;; }
 ;;; { mmm-mode
 
-(require 'mmm-vars)
-(require 'mmm-auto)
-(require 'mmm-sample)
-
-(setq mmm-global-mode 'maybe)
-
-;;; }
-;;; { font setting...
-
-(defun qiang-font-existsp (font)
-  (if (null (x-list-fonts font))
-      nil t))
-
-(defun qiang-make-font-string (font-name font-size)
-  (if (and (stringp font-size) 
-           (equal ":" (string (elt font-size 0))))
-      (format "%s%s" font-name font-size)
-    (format "%s %s" font-name font-size)))
-
-(defun qiang-set-font (english-fonts
-                       english-font-size
-                       chinese-fonts
-                       &optional chinese-font-size)
-  "english-font-size could be set to \":pixelsize=18\" or a integer.
-If set/leave chinese-font-size to nil, it will follow english-font-size"
-  (require 'cl)                         ; for find if
-  (let ((en-font (qiang-make-font-string
-                  (find-if #'qiang-font-existsp english-fonts)
-                  english-font-size))
-        (zh-font (font-spec :family (find-if #'qiang-font-existsp chinese-fonts)
-                            :size chinese-font-size)))
- 
-    ;; Set the default English font
-    ;; 
-    ;; The following 2 method cannot make the font settig work in new frames.
-    ;; (set-default-font "Consolas:pixelsize=18")
-    ;; (add-to-list 'default-frame-alist '(font . "Consolas:pixelsize=18"))
-    ;; We have to use set-face-attribute
-    (message "Set English Font to %s" en-font)
-    (set-face-attribute
-     'default nil :font en-font)
- 
-    ;; Set Chinese font 
-    ;; Do not use 'unicode charset, it will cause the english font setting invalid
-    (message "Set Chinese Font to %s" zh-font)
-    (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font)
-                        charset
-                        zh-font))))
-
-(qiang-set-font
- '("Consolas" "Monaco" "DejaVu Sans Mono" "Monospace" "Courier New") ":pixelsize=14"
- '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体"))
+(use-package mmm-mode
+  :config
+  (require 'mmm-auto)
+  (setq mmm-global-mode 'maybe)
+  :ensure t)
 
 ;;; }
 ;;; { personal lsp mode
@@ -518,8 +492,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal dockerfile model
 
-(require 'dockerfile-mode)
-(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+(use-package dockerfile-mode
+  :mode "Dockerfile\\'"
+  :ensure t)
+
+(use-package docker-tramp
+  :ensure t)
 
 ;;; }
 ;;; { personal nxml model
@@ -631,58 +609,60 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package meghanada
   :commands meghanada-mode
+  :mode "\\.java$"
+  :init
+  (add-hook 'java-mode-hook
+            (lambda ()
+              (meghanada-mode t)
+              (setq c-basic-offset 4)
+              ))
   :config
   (setq meghanada-java-path java-bin)
   (setq meghanada-maven-path mvn-bin)
-  :hook (java-mode-hook . (progn
-                            ;; meghanada-mode on
-                            (meghanada-mode t)
-                            (flycheck-mode +1)
-                            (setq c-basic-offset 4)
-                            ;; use code format
-                            ;; (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)
-                            )
-                        )
   :ensure t
   )
 
 ;;; }
 ;;; { personal kotlin mode settings
 
-(autoload 'kotlin-mode "kotlin-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.kt\\'" . kotlin-mode))
-
-(eval-after-load "compile"
-  '(progn
-     (add-to-list 'compilation-error-regexp-alist 'kotlin)
-     (add-to-list
-      'compilation-error-regexp-alist-alist
-      '(kotlin
-        "^[we]: \\(.+?\\.kt\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3))))
+(use-package kotlin-mode
+  :mode "\\.kt\\'"
+  :config
+  (eval-after-load "compile"
+    '(progn
+       (add-to-list 'compilation-error-regexp-alist 'kotlin)
+       (add-to-list
+        'compilation-error-regexp-alist-alist
+        '(kotlin
+          "^[we]: \\(.+?\\.kt\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3))))
+  :ensure t)
 
 ;;; }
 ;;; { personal go model
 
-(autoload 'go-mode "go-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+(use-package go-guru
+  :commands go-guru-hl-identifier-mode
+  :ensure t)
 
-(autoload 'go-guru-hl-identifier-mode "go-guru" nil t)
-(defun personal-go-setup()
-  (go-guru-hl-identifier-mode)
-  (add-hook 'before-save-hook #'gofmt-before-save)
-  (setq tab-width 4)
-  )
-(add-hook 'go-mode-hook 'personal-go-setup)
-
-(eval-after-load "go-mode"
-  '(progn
-     (define-key go-mode-map (kbd "C-c C-g") 'go-goto-map)
-     (define-key go-mode-map (kbd "C-c C-r") 'go-remove-unused-imports)
-     (define-key go-mode-map (kbd "C-c C-f") 'gofmt)
-     (define-key go-mode-map (kbd "C-c C-k") 'godoc)
-     (define-key go-mode-map (kbd "C-c C-c") 'comment-region)
-     (define-key go-mode-map (kbd "M-.") 'godef-jump)
-     )
+(use-package go-mode
+  :mode "\\.go\\'"
+  :bind-keymap
+  (
+   ("C-c C-g" . go-goto-map)
+   ("C-c C-r" . go-remove-unused-imports)
+   ("C-c C-f" . gofmt)
+   ("C-c C-k" . godoc)
+   ("C-c C-c" . comment-region)
+   ("M-." . godef-jump)
+   )                
+  :config
+  (defun personal-go-setup()
+    (go-guru-hl-identifier-mode)
+    (add-hook 'before-save-hook #'gofmt-before-save)
+    (setq tab-width 4)
+    )
+  (add-hook 'go-mode-hook 'personal-go-setup)
+  :ensure t
   )
 
 ;;; }
@@ -789,25 +769,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal php mode
 
-(autoload 'php-mode "php-mode" "Major mode for editing php code." t)
-
-(require 'php-mode)
-
-(eval-after-load "php-mode"
-  '(progn
-     (require 'php-auto-yasnippets)
-     ;(setq php-auto-yasnippet-php-program "~/path/to/Create-PHP-YASnippet.php")
-
-     (define-key php-mode-map (kbd "C-c C-y") 'yas/create-php-snippet)
-
-     (add-hook 'php-mode-hook
-               (lambda ()
-                 ))
-     )
-  )
-
-(add-to-list 'mmm-mode-ext-classes-alist '(html-mode "\\.php[s345t]?\\'" html-php))
-(add-to-list 'auto-mode-alist '("\\.php[s345t]?\\'" . html-mode))
+(use-package php-mode
+  :mode "\\.php\\'"
+  :config
+  (add-to-list 'mmm-mode-ext-classes-alist '(html-mode "\\.php[s345t]?\\'" html-php))
+  (add-to-list 'auto-mode-alist '("\\.php[s345t]?\\'" . html-mode))
+  :ensure t)
 
 ;;; }
 ;;; { personal json mode
@@ -850,34 +817,42 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal js mode
 
-; for js2-mode
-(autoload 'js2-mode "js2-mode" "Major mode for editing JavaScript." t)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(eval-after-load "js2-mode" '(require 'setup-js2-mode))
+(use-package js2-mode
+  :mode "\\.js\\'"
+  :config
+  (require 'setup-js2-mode)
+  :ensure t)
 
+(use-package js2-refactor
+  :ensure t)
+
+; inline js editing
 (eval-after-load "js-mode"
   '(progn
      (define-key js-mode-map (kbd "C-c C-c") 'comment-region)
      )
   )
 
-; inline js editing
-(mmm-add-group
- 'personal-html-js
- '((personal-js-script-cdata
-    :submode js-mode
-    :face mmm-code-submode-face
-    :front "<script[^>]*>[ \t\n]*\\(//\\)?<!\\[CDATA\\[[ \t]*\n?"
-    :back "[ \t]*\\(//\\)?]]>[ \t\n]*</script>")
-   (personal-js-script
-    :submode js-mode
-    :face mmm-code-submode-face
-    :front "<script[^>]*>[ \t]*\n?"
-    :back "[ \t]*</script>"
-    :insert ((?j js-tag nil @ "<script type=\"text/javascript\">\n"
-                 @ "" _ "" @ "\n</script>" @)))))
+(eval-after-load "mmm-mode"
+  '(progn
+    (mmm-add-group
+     'personal-html-js
+     '((personal-js-script-cdata
+        :submode js-mode
+        :face mmm-code-submode-face
+        :front "<script[^>]*>[ \t\n]*\\(//\\)?<!\\[CDATA\\[[ \t]*\n?"
+        :back "[ \t]*\\(//\\)?]]>[ \t\n]*</script>")
+       (personal-js-script
+        :submode js-mode
+        :face mmm-code-submode-face
+        :front "<script[^>]*>[ \t]*\n?"
+        :back "[ \t]*</script>"
+        :insert ((?j js-tag nil @ "<script type=\"text/javascript\">\n"
+                     @ "" _ "" @ "\n</script>" @)))))
 
-(add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil personal-html-js))
+    (add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil personal-html-js))
+    )
+)
 
 ;;; }
 ;;; { personal web mode (html, jsp)
@@ -924,9 +899,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :mode "\\.gradle\\'"
   :config
   ;; (add-to-list 'compilation-error-regexp-alist '("^\[ERROR\] \(.*\):\[\([0-9]+\),\([0-9]+\)\]" 1 2 3))
-  :ensure t)
-
-(use-package gradle-mode
   :ensure t)
 
 ;;; }

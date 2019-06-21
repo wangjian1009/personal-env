@@ -7,12 +7,6 @@
 [submodule ".emacs.d/site-lisp/yasnippet"]
 	path = .emacs.d/site-lisp/yasnippet
 	url = https://github.com/capitaomorte/yasnippet.git
-[submodule ".emacs.d/site-lisp/php-auto-yasnippets"]
-	path = .emacs.d/site-lisp/php-auto-yasnippets
-	url = https://github.com/ejmr/php-auto-yasnippets.git
-[submodule ".emacs.d/site-lisp/mmm-mode"]
-	path = .emacs.d/site-lisp/mmm-mode
-	url = https://github.com/purcell/mmm-mode
 [submodule ".emacs.d/site-lisp/zencoding"]
 	path = .emacs.d/site-lisp/zencoding
 	url = https://github.com/rooney/zencoding.git
@@ -25,9 +19,6 @@
 [submodule ".emacs.d/site-lisp/tern"]
 	path = .emacs.d/site-lisp/tern
 	url = https://github.com/marijnh/tern.git
-[submodule ".emacs.d/site-lisp/js2-refactor"]
-	path = .emacs.d/site-lisp/js2-refactor
-	url = https://github.com/magnars/js2-refactor.el.git
 [submodule ".emacs.d/site-lisp/multiple-cursors"]
 	path = .emacs.d/site-lisp/multiple-cursors
 	url = https://github.com/magnars/multiple-cursors.el.git
@@ -55,30 +46,12 @@
 [submodule ".emacs.d/site-lisp/haskell-mode"]
 	path = .emacs.d/site-lisp/haskell-mode
 	url = git@github.com:haskell/haskell-mode.git
-[submodule ".emacs.d/site-lisp/dockerfile-mode"]
-	path = .emacs.d/site-lisp/dockerfile-mode
-	url = https://github.com/spotify/dockerfile-mode
-[submodule ".emacs.d/site-lisp/docker-tramp.el"]
-	path = .emacs.d/site-lisp/docker-tramp.el
-	url = https://github.com/emacs-pe/docker-tramp.el
-[submodule ".emacs.d/site-lisp/go-mode.el"]
-	path = .emacs.d/site-lisp/go-mode.el
-	url = https://github.com/dominikh/go-mode.el
 [submodule ".emacs.d/site-lisp/emacs-request"]
 	path = .emacs.d/site-lisp/emacs-request
 	url = git@github.com:tkf/emacs-request.git
-[submodule ".emacs.d/site-lisp/meghanada-emacs"]
-	path = .emacs.d/site-lisp/meghanada-emacs
-	url = git@github.com:mopemope/meghanada-emacs.git
-[submodule ".emacs.d/site-lisp/kotlin-mode"]
-	path = .emacs.d/site-lisp/kotlin-mode
-	url = git@github.com:Emacs-Kotlin-Mode-Maintainers/kotlin-mode.git
 [submodule ".emacs.d/site-lisp/sql-indent"]
 	path = .emacs.d/site-lisp/sql-indent
 	url = git@github.com:bsvingen/sql-indent.git
 [submodule ".emacs.d/site-lisp/hive-el"]
 	path = .emacs.d/site-lisp/hive-el
 	url = git@github.com:r0man/hive-el.git
-[submodule ".emacs.d/site-lisp/js2-mode"]
-	path = .emacs.d/site-lisp/js2-mode
-	url = git@github.com:mooz/js2-mode.git
