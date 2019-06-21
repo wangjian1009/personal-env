@@ -51,6 +51,7 @@
 (global-set-key (kbd "C-c f") 'ff-find-other-file)
 
 ;;; }
+
 ;;; { theme
 
 (setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
@@ -270,7 +271,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (define-key ido-mode-map "\C-p" 'ido-toggle-prefix)
   (define-key ido-mode-map "\C-c" 'ido-toggle-case)
   (define-key ido-mode-map "\C-a" 'ido-toggle-ignore)
- 
+
   ;; keys used in file and dir environment
   (when (memq ido-cur-item '(file dir))
     (define-key ido-mode-map "\C-b" 'ido-enter-switch-buffer)
@@ -324,7 +325,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer)
-  :bind-keymap  ("C-x C-f" . ido-find-file)
+  :config
+  (eval-after-load "ido"
+    (define-key ido-mode-map "C-x C-f" 'ido-find-file))
   )
 
 ;;; }
@@ -442,6 +445,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package lsp-mode
   :commands lsp
+  :config
+  (setq lsp-print-io t)
+  (setq lsp-auto-guess-root t)
+  (setq lsp-enable-xref t)
+  (setq lsp-enable-snippet nil)
   :ensure t)
 
 (use-package company-lsp
@@ -449,6 +457,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :commands company-lsp
   :config
   (push 'company-lsp company-backends)
+  (setq company-lsp-cache-candidates 'auto)
+  (setq company-lsp-async t)
+  (setq company-lsp-enable-recompletion t)
   :ensure t)
 
 ;;; }
@@ -906,8 +917,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :mode "\\.swift\\'"
   :bind-keymap
   (("C-c C-c" . comment-region))
-  :hook ((swift-mode . company-mode)
-         (swift-mode . lsp) )
+  :hook ((swift-mode . lsp))
   :config
   (setq swift-basic-offset 4)
   (eval-after-load "compile"
@@ -924,10 +934,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :after lsp-mode
   :config
   (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain")
-  (setq lsp-sourcekit-executable (expand-file-name "/Users/wangjian/workspace/study/sourcekit-lsp/.build/x86_64-apple-macosx/debug/sourcekit-lsp"))
+  (setq lsp-sourcekit-executable "sourcekit-lsp")
   :ensure t)
 
-;;; }-
+;;; }
 ;;; { utility match-parten
 
 (global-set-key "%" 'match-paren)
