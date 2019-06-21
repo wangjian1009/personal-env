@@ -1,57 +1,18 @@
-[submodule ".emacs.d/site-lisp/smex"]
-	path = .emacs.d/site-lisp/smex
-	url = https://github.com/nonsequitur/smex.git
-[submodule ".emacs.d/site-lisp/php-mode"]
-	path = .emacs.d/site-lisp/php-mode
-	url = https://github.com/ejmr/php-mode.git
-[submodule ".emacs.d/site-lisp/yasnippet"]
-	path = .emacs.d/site-lisp/yasnippet
-	url = https://github.com/capitaomorte/yasnippet.git
 [submodule ".emacs.d/site-lisp/zencoding"]
 	path = .emacs.d/site-lisp/zencoding
 	url = https://github.com/rooney/zencoding.git
 [submodule ".emacs.d/site-lisp/simplezen"]
 	path = .emacs.d/site-lisp/simplezen
 	url = https://github.com/magnars/simplezen.el.git
-[submodule ".emacs.d/site-lisp/tagedit"]
-	path = .emacs.d/site-lisp/tagedit
-	url = https://github.com/magnars/tagedit.git
-[submodule ".emacs.d/site-lisp/tern"]
-	path = .emacs.d/site-lisp/tern
-	url = https://github.com/marijnh/tern.git
 [submodule ".emacs.d/site-lisp/multiple-cursors"]
 	path = .emacs.d/site-lisp/multiple-cursors
 	url = https://github.com/magnars/multiple-cursors.el.git
-[submodule ".emacs.d/site-lisp/expand-region"]
-	path = .emacs.d/site-lisp/expand-region
-	url = https://github.com/magnars/expand-region.el.git
-[submodule ".emacs.d/site-lisp/lua-mode"]
-	path = .emacs.d/site-lisp/lua-mode
-	url = git@github.com:immerrr/lua-mode.git
 [submodule ".emacs.d/site-lisp/discover"]
 	path = .emacs.d/site-lisp/discover
 	url = git@github.com:mickeynp/discover.el.git
-[submodule ".emacs.d/site-lisp/fastnav"]
-	path = .emacs.d/site-lisp/fastnav
-	url = git@github.com:gleber/fastnav.el.git
-[submodule ".emacs.d/site-lisp/json-mode"]
-	path = .emacs.d/site-lisp/json-mode
-	url = https://github.com/joshwnj/json-mode.git
-[submodule ".emacs.d/site-lisp/json-reformat"]
-	path = .emacs.d/site-lisp/json-reformat
-	url = https://github.com/gongo/json-reformat
-[submodule ".emacs.d/site-lisp/json-snatcher"]
-	path = .emacs.d/site-lisp/json-snatcher
-	url = https://github.com/Sterlingg/json-snatcher
-[submodule ".emacs.d/site-lisp/haskell-mode"]
-	path = .emacs.d/site-lisp/haskell-mode
-	url = git@github.com:haskell/haskell-mode.git
 [submodule ".emacs.d/site-lisp/emacs-request"]
 	path = .emacs.d/site-lisp/emacs-request
 	url = git@github.com:tkf/emacs-request.git
 [submodule ".emacs.d/site-lisp/sql-indent"]
 	path = .emacs.d/site-lisp/sql-indent
 	url = git@github.com:bsvingen/sql-indent.git
-[submodule ".emacs.d/site-lisp/hive-el"]
-	path = .emacs.d/site-lisp/hive-el
-	url = git@github.com:r0man/hive-el.git

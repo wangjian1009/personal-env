@@ -2,7 +2,6 @@
 
 (setq site-lisp-dir (expand-file-name "site-lisp" user-emacs-directory))
 (add-to-list 'load-path site-lisp-dir)
-(add-to-list 'load-path (expand-file-name "setup" user-emacs-directory))
 
 (dolist (project (directory-files site-lisp-dir t "\\w+"))
   (when (file-directory-p project)
@@ -11,8 +10,6 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (if (file-exists-p custom-file)
     (load custom-file))
-
-(require 'alist)
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
@@ -403,32 +400,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (setq delete-auto-save-files t)
 
 ;;; }
-;;; { smex model
-
-(require 'smex); Not needed if you use package.el
-(smex-initialize) ; Can be omitted. This might cause a (minimal) delay
-                  ; when Smex is auto-initialized on its first run.
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; This is your old M-x.
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-
-;;; }
-;;; { yasnippet model
-
-(require 'dropdown-list)
-(require 'setup-yasnippet)
-(add-to-list 'auto-mode-alist '("yasnippet/snippets" . snippet-mode))
-(add-to-list 'auto-mode-alist '(".emacs.d/snippets" . snippet-mode))
-(add-to-list 'auto-mode-alist '("\\.yasnippet$" . snippet-mode))
-
-;;; }
-;;; { expand-region
-
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
-
-;;; }
 ;;; { flymake
 
 (require 'flymake-proc)
@@ -779,7 +750,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal json mode
 
-(require 'json-mode)
+(use-package json-mode
+  :ensure t)
 
 ;;; }
 ;;; { personal sql mode
@@ -819,11 +791,45 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package js2-mode
   :mode "\\.js\\'"
+  :bind-keymap ("C-c C-c" . comment-region)
   :config
-  (require 'setup-js2-mode)
+  (setq-default js2-allow-rhino-new-expr-initializer nil)
+  (setq-default js2-auto-indent-p nil)
+  (setq-default js2-enter-indents-newline nil)
+  (setq-default js2-global-externs
+                '("module" "require" "buster" "sinon" "assert" "refute"
+                  "setTimeout" "clearTimeout" "setInterval" "clearInterval"
+                  "location" "__dirname" "console" "JSON" "process"))
+  (setq-default js2-idle-timer-delay 0.1)
+  (setq-default js2-indent-on-enter-key nil)
+  (setq-default js2-mirror-mode nil)
+  (setq-default js2-strict-inconsistent-return-warning nil)
+  (setq-default js2-auto-indent-p t)
+  (setq-default js2-include-rhino-externs nil)
+  (setq-default js2-include-gears-externs nil)
+  (setq-default js2-concat-multiline-strings 'eol)
+  (setq-default js2-rebind-eol-bol-keys nil)
+  (setq-default js2-basic-offset 2)
+
+  ;; Let flycheck handle parse errors
+  (setq-default js2-show-parse-errors nil)
+  (setq-default js2-strict-missing-semi-warning nil)
+  (setq-default js2-strict-trailing-comma-warning t) ;; jshint does not warn about this now for some reason
+
+  (add-hook 'js2-mode-hook (lambda () (flycheck-mode 1)))
+
   :ensure t)
 
 (use-package js2-refactor
+  :commands (js2-refactor-mode js2r-rename-current-buffer-file js2r-delete-current-buffer-file)
+  :hook (js2-mode-hook . js2-refactor-mode)
+  :bind
+  (:map js2-mode-map
+        ("C-x C-r" . js2r-rename-current-buffer-file)
+        ("C-x C-k" . js2r-delete-current-buffer-file)
+        )
+  :config
+  (js2r-add-keybindings-with-prefix "C-c C-m")
   :ensure t)
 
 ; inline js editing
