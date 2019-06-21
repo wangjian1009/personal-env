@@ -51,7 +51,6 @@
 (global-set-key (kbd "C-c f") 'ff-find-other-file)
 
 ;;; }
-
 ;;; { theme
 
 (setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
