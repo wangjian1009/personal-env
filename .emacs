@@ -754,39 +754,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t)
 
 ;;; }
-;;; { personal sql mode
-
-(defun sql-beautify-region (beg end)
-  "Beautify SQL in region between beg and END."
-  (interactive "r")
-  (save-excursion
-    (shell-command-on-region beg end (concat java-bin " -jar " (getenv "HOME") "/.emacs.d/script/sqlbeautify/SqlBeautify-1.0.jar") nil t)))
-    ;; change sqlbeautify to anbt-sql-formatter if you
-    ;;ended up using the ruby gem
-
-(defun sql-beautify-buffer ()
- "Beautify SQL in buffer."
- (interactive)
- (sql-beautify-region (point-min) (point-max)))
-
-(defun sql-beautify-region-or-buffer ()
-  "Beautify SQL for the entire buffer or the marked region between beg and end"
-  (interactive)
-  (if (use-region-p)
-      (sql-beautify-region (region-beginning) (region-end))
-    (sql-beautify-buffer)))
-
-(eval-after-load "sql"
-  '(progn
-     (require 'sql-indent)
-     (require 'hive)
-
-     (define-key sql-mode-map "\C-\M-\\" 'sql-beautify-region-or-buffer)
-     (define-key sql-interactive-mode-map "\C-\M-\\" 'sql-beautify-region-or-buffer)
-     )
-  )
-
-;;; }
 ;;; { personal js mode
 
 (use-package js2-mode
