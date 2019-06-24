@@ -372,20 +372,26 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;; (define-key yafolding-mode-map (kbd "C-c <C-return>") 'yafolding-toggle-element)
 
 ;;; }
-;;; { gtags
+;;; { personal ggtags mode
 
-(if (file-accessible-directory-p "/usr/local/share/gtags")
-    (progn ()
-           (add-to-list 'load-path "/usr/local/share/gtags")
-           (let ((gtags-suggested-key-mapping t)) (require 'gtags))
-           (define-key gtags-mode-map (kbd "C-c f") 'ff-find-other-file)
-           (cond
-            ((eq system-type 'windows-nt)
-             (setq gtags-global-command "/usr/local/bin/global.exe"))
-            (t
-             (setq gtags-global-command "/usr/local/bin/global")
-             ))
-           ))
+(use-package ggtags
+  :commands (ggtags-mode)
+  :hook ((c-mode c++-mode objc-mode) . ggtags-mode)
+  :config
+;;            (cond
+;;             ((eq system-type 'windows-nt)
+;;              (setq gtags-global-command "/usr/local/bin/global.exe"))
+;;             (t
+;;              (setq gtags-global-command "/usr/local/bin/global")
+;;              ))
+  :ensure t)
+
+;; (if (file-accessible-directory-p "/usr/local/share/gtags")
+;;     (progn ()
+;;            (add-to-list 'load-path "/usr/local/share/gtags")
+;;            (let ((gtags-suggested-key-mapping t)) (require 'gtags))
+;;            (define-key gtags-mode-map (kbd "C-c f") 'ff-find-other-file)
+;;            ))
 
 ;;; }
 ;;; { all
@@ -447,10 +453,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal markdown mode
 
-(autoload 'markdown-mode "markdown-mode.el"
-  "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-      (cons '("\\.\\(md\\|markdown\\)\\'" . markdown-mode) auto-mode-alist))
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
 ;;; }
 ;;; { personal lsp mode
@@ -576,13 +585,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-hook 'c++-mode-hook 'git-gutter-mode)
 (add-hook 'objc-mode-hook 'git-gutter-mode)
 
-(eval-after-load "gtags"
-  '(progn
-     (setenv "GTAGSFORCECPP" "1")
-     (add-hook 'c-mode-hook (lambda () (gtags-mode t)))
-     (add-hook 'c++-mode-hook (lambda () (gtags-mode t)))
-     (add-hook 'objc-mode-hook (lambda () (gtags-mode t)))
-     ))
+;; (eval-after-load "gtags"
+;;   '(progn
+;;      (setenv "GTAGSFORCECPP" "1")
+;;      (add-hook 'c-mode-hook (lambda () (gtags-mode t)))
+;;      (add-hook 'c++-mode-hook (lambda () (gtags-mode t)))
+;;      (add-hook 'objc-mode-hook (lambda () (gtags-mode t)))
+;;      ))
 
 ;;; }
 ;;; { personal java mode settings
@@ -941,7 +950,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
        (add-to-list
         'compilation-error-regexp-alist-alist
         '(swift
-          "^[ ❌]+\\(.+\\.swift\\):\\([0-9]+\\):\\([0-9]+\\): .*" 1 2 3))))
+          "⚠?[ ❌]+\\([^ ❌].+\\..+\\):\\([0-9]+\\):\\([0-9]+\\): .*" 1 2 3))))
   :ensure t
   )
 
