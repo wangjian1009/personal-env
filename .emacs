@@ -488,8 +488,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package yaml-mode
   :mode ("\\.yml$" "\\.yaml$")
-  :bind-keymap
-  (("C-c C-c" . comment-region))
+  :config
+  (define-key yaml-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t
   )
 
@@ -651,15 +651,15 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package go-mode
   :mode "\\.go\\'"
-  :bind-keymap
-  (
+  :hook ((go-mode . lsp))
+  :bind
+  (:map go-mode-map
    ("C-c C-g" . go-goto-map)
    ("C-c C-r" . go-remove-unused-imports)
    ("C-c C-f" . gofmt)
    ("C-c C-k" . godoc)
-   ("C-c C-c" . comment-region)
    ("M-." . godef-jump)
-   )                
+   )
   :config
   (defun personal-go-setup()
     (go-guru-hl-identifier-mode)
@@ -667,6 +667,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
     (setq tab-width 4)
     )
   (add-hook 'go-mode-hook 'personal-go-setup)
+  (define-key go-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t
   )
 
@@ -792,7 +793,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package js2-mode
   :mode "\\.js\\'"
-  :bind-keymap ("C-c C-c" . comment-region)
   :config
   (setq-default js2-allow-rhino-new-expr-initializer nil)
   (setq-default js2-auto-indent-p nil)
@@ -817,6 +817,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq-default js2-strict-missing-semi-warning nil)
   (setq-default js2-strict-trailing-comma-warning t) ;; jshint does not warn about this now for some reason
 
+  (define-key js2-mode-map (kbd "C-c C-c") 'comment-region)
   (add-hook 'js2-mode-hook (lambda () (flycheck-mode 1)))
 
   :ensure t)
@@ -937,8 +938,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package swift-mode
   :mode "\\.swift\\'"
-  :bind-keymap
-  (("C-c C-c" . comment-region))
   :hook ((swift-mode . lsp))
   :custom
   (swift-mode:multiline-statement-offset 4)
@@ -951,6 +950,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
         'compilation-error-regexp-alist-alist
         '(swift
           "⚠?[ ❌]+\\([^ ❌].+\\..+\\):\\([0-9]+\\):\\([0-9]+\\): .*" 1 2 3))))
+  (define-key swift-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t
   )
 
