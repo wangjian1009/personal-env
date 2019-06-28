@@ -51,6 +51,7 @@
 (global-set-key (kbd "C-c f") 'ff-find-other-file)
 
 ;;; }
+
 ;;; { theme
 
 (setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
@@ -376,22 +377,18 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package ggtags
   :commands (ggtags-mode)
-  :hook ((c-mode c++-mode objc-mode) . ggtags-mode)
+  :hook (((c-mode c++-mode objc-mode) . ggtags-mode)
+         )
+  :custom
+  (ggtags-enable-navigation-keys nil)
   :config
 ;;            (cond
 ;;             ((eq system-type 'windows-nt)
 ;;              (setq gtags-global-command "/usr/local/bin/global.exe"))
 ;;             (t
 ;;              (setq gtags-global-command "/usr/local/bin/global")
-;;              ))
+  ;;              ))
   :ensure t)
-
-;; (if (file-accessible-directory-p "/usr/local/share/gtags")
-;;     (progn ()
-;;            (add-to-list 'load-path "/usr/local/share/gtags")
-;;            (let ((gtags-suggested-key-mapping t)) (require 'gtags))
-;;            (define-key gtags-mode-map (kbd "C-c f") 'ff-find-other-file)
-;;            ))
 
 ;;; }
 ;;; { all
@@ -402,6 +399,16 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package magit :ensure t)
 (use-package git-timemachine :ensure t)
 
+(use-package magit-todos
+  :after magit
+  :commands (magit-todos-mode)
+  :hook (magit-mode . magit-todos-mode)
+  :config
+  (setq magit-todos-recursive t
+        magit-todos-depth 100)
+  :custom (magit-todos-keywords (list "TODO" "FIXME"))
+  :ensure t)
+
 ;;; }
 ;;; { projectile
 
@@ -411,6 +418,19 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1)
   :ensure t
+  )
+
+;;; }
+;;; { dash
+
+(when (eq 'darwin system-type)
+  (use-package dash-at-point
+    :commands (dash-at-point dash-at-point-with-docset)
+    :bind (("\C-cd" . dash-at-point)
+           ("\C-ce" . dash-at-point-with-docset)
+           )
+    :ensure t
+    )
   )
 
 ;;; }
@@ -438,8 +458,19 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
         ("C-n" . company-select-next-or-abort)
         ("C-p" . company-select-previous-or-abort)
         )
+  :config
+  (setq company-idle-delay 1
+        company-minimum-prefix-length 1
+        company-show-numbers t
+        company-tooltip-limit 20)
   :ensure t
   )
+
+(use-package company-quickhelp
+  :ensure t
+  :after company
+  :config
+  (company-quickhelp-mode 1))
 
 ;;; }
 ;;; { mmm-mode
@@ -471,16 +502,18 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq lsp-auto-guess-root t)
   (setq lsp-enable-xref t)
   (setq lsp-enable-snippet nil)
+  (setq lsp-eldoc-render-all nil)
   :ensure t)
+
+(use-package lsp-ui :ensure t)
 
 (use-package company-lsp
   :requires (lsp-mode company)
-  :commands company-lsp
   :config
-  (push 'company-lsp company-backends)
-  (setq company-lsp-cache-candidates 'auto)
-  (setq company-lsp-async t)
-  (setq company-lsp-enable-recompletion t)
+  (setq company-lsp-cache-candidates 'auto
+        company-lsp-async t
+        company-lsp-enable-recompletion t
+        company-lsp-enable-snippet t)
   :ensure t)
 
 ;;; }
@@ -536,62 +569,48 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
           ("\\.cpp$" (".hpp" ".hh" ".h"))
           ("\\.hpp$" (".cpp" ".c"))))
 
-(add-to-list 'auto-mode-alist '("\\.inl\\'" . c++-mode))
-(add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@implementation" . objc-mode))
-(add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@interface" . objc-mode))
-(add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n@protocol" . objc-mode))
-; (add-to-list 'magic-mode-alist '("\\(.\\|\n\\)*\n\\(class\\|namespace\\)" . c++-mode))
-; (add-to-list 'auto-mode-alist '("\\.h\\'" . objc-mode))
-
-;; ===== Opening header files =====
-;; Allows to choose between objc-mode, c++-mode and c-mode
-(defun loki-choose-header-mode ()
-  (interactive)
-  (if (string-equal (substring (buffer-file-name) -2) ".h")
-      (progn
-        (let ((dot-m-file (concat (substring (buffer-file-name) 0 -1) "m"))
-              (dot-cpp-file (concat (substring (buffer-file-name) 0 -1) "cpp")))
-          (if (file-exists-p dot-m-file) (progn (objc-mode))
-            (if (file-exists-p dot-cpp-file) (c++-mode)
-              )
-            )
+(use-package cc-mode
+  :commands (c-mode c++-mode objc-mode)
+  :mode ("\\.inl\\'" . c++-mode)
+  :magic (("\\(.\\|\n\\)*\n@implementation" . objc-mode)
+          ("\\(.\\|\n\\)*\n@interface" . objc-mode)
+          ("\\(.\\|\n\\)*\n@protocol" . objc-mode)
           )
-        )
-    )
+  :hook ((c-mode c++-mode objc-mode) .
+         (lambda()
+           (c-toggle-hungry-state t)
+           (which-function-mode t)
+           (c-set-style "stroustrup")
+           (setq c-basic-offset 4)
+           (setq tab-width 4)
+           (c-set-offset 'inline-open 0)
+           (c-set-offset 'friend '-)
+           (c-set-offset 'innamespace -80)
+           (c-set-offset 'namespace-close -80)
+           (c-set-offset 'block-open -4)
+           (c-set-offset 'template-args-cont '+)
+           )
+         )
   )
 
-(add-hook 'find-file-hook 'loki-choose-header-mode)
+;; (use-package lsp-clangd
+;;   :init
+;;   (when (equal system-type 'darwin)
+;;     (setq lsp-clangd-executable "/usr/local/opt/llvm/bin/clangd"))
 
-(defun personal-c-cpp-setup()
-  ;(c-toggle-auto-state)
-  (c-toggle-hungry-state t)
-  (which-function-mode t)
-  (c-set-style "stroustrup")
-  (setq c-basic-offset 4)
-  (setq tab-width 4)
-  (c-set-offset 'inline-open 0)
-  (c-set-offset 'friend '-)
-  (c-set-offset 'innamespace -80)
-  (c-set-offset 'namespace-close -80)
-  (c-set-offset 'block-open -4)
-  (c-set-offset 'template-args-cont '+)
-  )
- 
-(add-hook 'c-mode-hook 'personal-c-cpp-setup)
-(add-hook 'c++-mode-hook 'personal-c-cpp-setup)
-(add-hook 'objc-mode-hook 'personal-c-cpp-setup)
+;;   (add-hook 'c-mode-hook #'lsp-clangd-c-enable)
+;;   (add-hook 'c++-mode-hook #'lsp-clangd-c++-enable)
+;;   (add-hook 'objc-mode-hook #'lsp-clangd-objc-enable)
+;;   :ensure t)
 
-(add-hook 'c-mode-hook 'git-gutter-mode)
-(add-hook 'c++-mode-hook 'git-gutter-mode)
-(add-hook 'objc-mode-hook 'git-gutter-mode)
-
-;; (eval-after-load "gtags"
-;;   '(progn
-;;      (setenv "GTAGSFORCECPP" "1")
-;;      (add-hook 'c-mode-hook (lambda () (gtags-mode t)))
-;;      (add-hook 'c++-mode-hook (lambda () (gtags-mode t)))
-;;      (add-hook 'objc-mode-hook (lambda () (gtags-mode t)))
-;;      ))
+;; (use-package ccls
+;;   :hook ((c-mode c++-mode objc-mode) .
+;;          (lambda() (require `ccls) (lsp)))
+;;   :config
+;;   (setq ccls-executable "/usr/local/bin/ccls")
+;;   (eval-after-load "projectile"
+;;     '(add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
+;;   :ensure t)
 
 ;;; }
 ;;; { personal java mode settings
@@ -611,43 +630,51 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
  (t
   (setq mvn-bin "mvn")))
 
-(use-package meghanada
-  :commands meghanada-mode
-  :mode "\\.java$"
+;(use-package treemacs :ensure t)
+(use-package lsp-java
+  ;:requires (lsp-ui-flycheck lsp-ui-sideline)
   :init
-  (add-hook 'java-mode-hook
-            (lambda ()
-              (meghanada-mode t)
-              (setq c-basic-offset 4)
-              ))
+  (add-hook 'java-mode-hook 'lsp)
+  ;(java-mode . (lambda () (lsp-ui-flycheck-enable t)))
+  ;(java-mode . lsp-ui-sideline-mode)
   :config
-  (setq meghanada-java-path java-bin)
-  (setq meghanada-maven-path mvn-bin)
+  (setq lsp-java-save-action-organize-imports nil)
   :ensure t
   )
 
+;; (use-package meghanada
+;;   :commands meghanada-mode
+;;   :init
+;;   (add-hook 'java-mode-hook
+;;             (lambda ()
+;;               (meghanada-mode t)
+;;               (setq c-basic-offset 4)
+;;               ))
+;;   :config
+;;   (setq meghanada-java-path java-bin)
+;;   (setq meghanada-maven-path mvn-bin)
+;;   :ensure t
+;;   )
+
 ;;; }
 ;;; { personal kotlin mode settings
+
+(eval-after-load "compile"
+  '(progn
+     (add-to-list 'compilation-error-regexp-alist 'kotlin)
+     (add-to-list
+      'compilation-error-regexp-alist-alist
+      '(kotlin
+        "^[we]: \\(.+?\\.kt\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3))))
 
 (use-package kotlin-mode
   :mode "\\.kt\\'"
   :hook ((kotlin-mode . lsp))
   :config
-  (eval-after-load "compile"
-    '(progn
-       (add-to-list 'compilation-error-regexp-alist 'kotlin)
-       (add-to-list
-        'compilation-error-regexp-alist-alist
-        '(kotlin
-          "^[we]: \\(.+?\\.kt\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3))))
   :ensure t)
 
 ;;; }
 ;;; { personal go model
-
-(use-package go-guru
-  :commands go-guru-hl-identifier-mode
-  :ensure t)
 
 (use-package go-mode
   :mode "\\.go\\'"
@@ -662,7 +689,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
    )
   :config
   (defun personal-go-setup()
-    (go-guru-hl-identifier-mode)
     (add-hook 'before-save-hook #'gofmt-before-save)
     (setq tab-width 4)
     )
@@ -937,8 +963,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { personal swift mode
 
 (use-package swift-mode
+  :after (lsp company-lsp)
   :mode "\\.swift\\'"
-  :hook ((swift-mode . lsp))
+  :hook ((swift-mode . (lambda () (add-to-list (make-local-variable 'company-backends) 'company-lsp)))
+         (swift-mode . lsp)
+         )
   :custom
   (swift-mode:multiline-statement-offset 4)
   (swift-mode:parenthesized-expression-offset 4)
