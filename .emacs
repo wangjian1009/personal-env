@@ -375,20 +375,20 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal ggtags mode
 
-(use-package ggtags
-  :commands (ggtags-mode)
-  :hook (((c-mode c++-mode objc-mode) . ggtags-mode)
-         )
-  :custom
-  (ggtags-enable-navigation-keys nil)
-  :config
-;;            (cond
-;;             ((eq system-type 'windows-nt)
-;;              (setq gtags-global-command "/usr/local/bin/global.exe"))
-;;             (t
-;;              (setq gtags-global-command "/usr/local/bin/global")
-  ;;              ))
-  :ensure t)
+;; (use-package ggtags
+;;   :commands (ggtags-mode)
+;;   :hook (((c-mode c++-mode objc-mode) . ggtags-mode)
+;;          )
+;;   :custom
+;;   (ggtags-enable-navigation-keys nil)
+;;   :config
+;; ;;            (cond
+;; ;;             ((eq system-type 'windows-nt)
+;; ;;              (setq gtags-global-command "/usr/local/bin/global.exe"))
+;; ;;             (t
+;; ;;              (setq gtags-global-command "/usr/local/bin/global")
+;;   ;;              ))
+;;   :ensure t)
 
 ;;; }
 ;;; { all
@@ -490,7 +490,16 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :config (setq markdown-command "markdown"))
+
+(use-package markdown-mode+
+  :ensure t
+  :after markdown-mode
+  :defer t)
+
+(use-package poly-markdown
+  :ensure t
+  :after markdown-mode)
 
 ;;; }
 ;;; { personal lsp mode
@@ -505,7 +514,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq lsp-eldoc-render-all nil)
   :ensure t)
 
-(use-package lsp-ui :ensure t)
+; (use-package lsp-ui :ensure t)
 
 (use-package company-lsp
   :requires (lsp-mode company)
@@ -559,8 +568,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
         '(("\\.mm?$" (".h"))
           ("\\.cc$"  (".hh" ".h"))
           ("\\.hh$"  (".cc" ".C"))
-          ("\\.c$"   (".h"))
+          ("\\.c$"   (".h" "_i.h"))
           ("\\.h$"   (".c" ".cc" ".C" ".CC" ".cxx" ".cpp" ".m" ".mm"))
+          ("_i\\.h$"   (".c" ".cc" ".C" ".CC" ".cxx" ".cpp" ".m" ".mm"))
           ("\\.C$"   (".H"  ".hh" ".h"))
           ("\\.H$"   (".C"  ".CC"))
           ("\\.CC$"  (".HH" ".H"  ".hh" ".h"))
@@ -593,24 +603,14 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
          )
   )
 
-;; (use-package lsp-clangd
-;;   :init
-;;   (when (equal system-type 'darwin)
-;;     (setq lsp-clangd-executable "/usr/local/opt/llvm/bin/clangd"))
-
-;;   (add-hook 'c-mode-hook #'lsp-clangd-c-enable)
-;;   (add-hook 'c++-mode-hook #'lsp-clangd-c++-enable)
-;;   (add-hook 'objc-mode-hook #'lsp-clangd-objc-enable)
-;;   :ensure t)
-
-;; (use-package ccls
-;;   :hook ((c-mode c++-mode objc-mode) .
-;;          (lambda() (require `ccls) (lsp)))
-;;   :config
-;;   (setq ccls-executable "/usr/local/bin/ccls")
-;;   (eval-after-load "projectile"
-;;     '(add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
-;;   :ensure t)
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode) .
+         (lambda() (require `ccls) (lsp)))
+  :config
+  (setq ccls-executable "/usr/local/bin/ccls")
+  (eval-after-load "projectile"
+    '(add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
+  :ensure t)
 
 ;;; }
 ;;; { personal java mode settings
