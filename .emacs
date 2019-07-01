@@ -459,7 +459,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
         ("C-p" . company-select-previous-or-abort)
         )
   :config
-  (setq company-idle-delay 1
+  (setq company-idle-delay 0.5
         company-minimum-prefix-length 1
         company-show-numbers t
         company-tooltip-limit 20)
@@ -500,6 +500,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package poly-markdown
   :ensure t
   :after markdown-mode)
+
+(use-package markdown-preview-eww
+  :ensure t
+  )
 
 ;;; }
 ;;; { personal lsp mode
@@ -819,6 +823,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package js2-mode
   :mode "\\.js\\'"
+  :hook ((js2-mode . (lambda () (flycheck-mode 1)))
+         (js2-mode . lsp)
+         )
+  :bind (:map js2-mode-map
+              ("C-c C-c" . comment-region)
+              )
   :config
   (setq-default js2-allow-rhino-new-expr-initializer nil)
   (setq-default js2-auto-indent-p nil)
@@ -843,9 +853,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq-default js2-strict-missing-semi-warning nil)
   (setq-default js2-strict-trailing-comma-warning t) ;; jshint does not warn about this now for some reason
 
-  (define-key js2-mode-map (kbd "C-c C-c") 'comment-region)
-  (add-hook 'js2-mode-hook (lambda () (flycheck-mode 1)))
-
   :ensure t)
 
 (use-package js2-refactor
@@ -860,7 +867,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (js2r-add-keybindings-with-prefix "C-c C-m")
   :ensure t)
 
-; inline js editing
 (eval-after-load "js-mode"
   '(progn
      (define-key js-mode-map (kbd "C-c C-c") 'comment-region)
@@ -927,13 +933,25 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t)
 
 ;;; }
-;;; { personal gradel mode
+;;; { personal groovy(gradel) mode
 
 (use-package groovy-mode
-  :mode "\\.gradle\\'"
+  :ensure t
+  :mode ("\\.groovy$" "\\.gradle$")
+  :interpreter ("gradle" "groovy")
   :config
-  ;; (add-to-list 'compilation-error-regexp-alist '("^\[ERROR\] \(.*\):\[\([0-9]+\),\([0-9]+\)\]" 1 2 3))
-  :ensure t)
+  (autoload 'run-groovy "inf-groovy" "Run an inferior Groovy process")
+  (autoload 'inf-groovy-keys "inf-groovy" "Set local key defs for inf-groovy in groovy-mode")
+
+  ;; Some keys for
+  (add-hook 'groovy-mode-hook '(lambda () (inf-groovy-keys))))
+
+;; Subpackages
+(use-package groovy-imports :ensure t)
+
+(use-package flycheck-gradle
+  :ensure t
+  :defer t)
 
 ;;; }
 ;;; { personal cmake mode
