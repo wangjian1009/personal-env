@@ -453,8 +453,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (company-mode company-complete-common)
   :bind
   (:map company-mode-map
-        ("C-c C-." . company-complete-common)
+        ("M-/" . company-complete-common)
         :map company-active-map
+        ("<tab>" . company-complete-selection)
+        ("M-/" . company-complete-selection)
         ("C-n" . company-select-next-or-abort)
         ("C-p" . company-select-previous-or-abort)
         )
@@ -609,9 +611,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode) .
-         (lambda() (require `ccls) (lsp)))
+         (lambda()
+           (require `ccls)
+           (lsp)
+           (set (make-local-variable 'lsp-enable-on-type-formatting) nil)
+           ))
   :config
-  (setq ccls-executable "/usr/local/bin/ccls")
   (eval-after-load "projectile"
     '(add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
   :ensure t)
@@ -980,11 +985,16 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal swift mode
 
+(use-package company-sourcekit
+  :after company
+  :ensure t)
+
 (use-package swift-mode
   :after (lsp company-lsp)
   :mode "\\.swift\\'"
-  :hook ((swift-mode . (lambda () (add-to-list (make-local-variable 'company-backends) 'company-lsp)))
-         (swift-mode . lsp)
+  :hook ((swift-mode . (lambda () (add-to-list (make-local-variable 'company-backends) 'company-sourcekit)))
+         ;; (swift-mode . lsp)
+         (swift-mode . company-mode)
          )
   :custom
   (swift-mode:multiline-statement-offset 4)
@@ -1001,12 +1011,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t
   )
 
-(use-package lsp-sourcekit
-  :after lsp-mode
-  :config
-  (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain")
-  (setq lsp-sourcekit-executable "sourcekit-lsp")
-  :ensure t)
+;; (use-package lsp-sourcekit
+;;   :after lsp-mode
+;;   :config
+;;   (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain")
+;;   (setq lsp-sourcekit-executable "sourcekit-lsp")
+;;   :ensure t)
 
 ;;; }
 ;;; { utility match-parten
