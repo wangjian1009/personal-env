@@ -252,6 +252,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   )
 
 ;;; }
+;;; { eww
+;; (setq browse-url-browser-function 'eww-browse-url)
+;;; }
 ;;; { ido mode setup
 
 (require 'ido)
@@ -456,7 +459,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
         ("M-/" . company-complete-common)
         :map company-active-map
         ("<tab>" . company-complete-selection)
-        ("M-/" . company-complete-selection)
+        ("M-/" . company-select-next-or-abort)
         ("C-n" . company-select-next-or-abort)
         ("C-p" . company-select-previous-or-abort)
         )
@@ -465,6 +468,17 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
         company-minimum-prefix-length 1
         company-show-numbers t
         company-tooltip-limit 20)
+
+  (require 'color)
+  
+  (let ((bg (face-attribute 'default :background)))
+    (custom-set-faces
+     `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+     `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
+
   :ensure t
   )
 
@@ -678,8 +692,25 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package kotlin-mode
   :mode "\\.kt\\'"
-  :hook ((kotlin-mode . lsp))
+  :hook ((kotlin-mode . lsp)
+         )
   :config
+  (define-key kotlin-mode-map (kbd "C-c C-c") 'comment-region)
+  :ensure t)
+
+;;; }
+;;; { personal dart mode settings
+
+(use-package dart-mode
+  :mode "\\.dart\\'"
+  :hook ((dart-mode . lsp)
+         )
+  :init
+  (with-eval-after-load "projectile"
+    (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
+    (add-to-list 'projectile-project-root-files-bottom-up "BUILD"))
+  :config
+  ;; (define-key kotlin-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t)
 
 ;;; }
@@ -950,6 +981,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
   ;; Some keys for
   (add-hook 'groovy-mode-hook '(lambda () (inf-groovy-keys))))
+  ;(define-key groovy-mode-map (kbd "C-c C-c") 'comment-region)
 
 ;; Subpackages
 (use-package groovy-imports :ensure t)

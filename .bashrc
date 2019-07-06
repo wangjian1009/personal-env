@@ -57,6 +57,7 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sb
 export LD_LIBRARY_PATH=$HOME/lib:/usr/local/lib:/usr/lib:/lib:/usr/X11R6/lib
 export MANPATH=$HOME/man:$HOME/share/man:/usr/local/man:/usr/local/share/man:/usr/man:/usr/share/man:/usr/X11R6/man
 export INFOPATH=$HOME/info:$HOME/share/info:/usr/local/info:/usr/local/share/info:/usr/info:/usr/share/info
+export NO_PROXY=127.0.0.1:localhost
 
 # ------------------------
 # alias
