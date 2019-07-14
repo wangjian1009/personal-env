@@ -527,11 +527,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package lsp-mode
   :commands lsp
   :config
-  (setq lsp-print-io t)
-  (setq lsp-auto-guess-root t)
-  (setq lsp-enable-xref t)
-  (setq lsp-enable-snippet nil)
-  (setq lsp-eldoc-render-all nil)
+  ;(setq lsp-print-io t)
+  (setq lsp-auto-guess-root t
+        lsp-enable-xref t
+        lsp-enable-snippet nil
+        lsp-eldoc-render-all nil
+        )
   :ensure t)
 
 ; (use-package lsp-ui :ensure t)
@@ -839,6 +840,22 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
             (cons '("perl5" . cperl-mode) interpreter-mode-alist)))
 
 ;;; }
+;;; { personal python mode settings
+
+(use-package python-mode
+  :mode "\\.py\\'"
+  :hook ((python-mode . lsp))
+  :config
+  :ensure t)
+
+;; (use-package lsp-python
+;;   :hook (python-mode . (lambda ()
+;;                                         ;(require 'lsp-python-ms)
+;;                          (lsp))
+;;                      )  ; or lsp-deferred
+;;   :ensure t)
+
+;;; }
 ;;; { personal php mode
 
 (use-package php-mode
@@ -1024,8 +1041,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package swift-mode
   :after (lsp company-lsp)
   :mode "\\.swift\\'"
-  :hook ((swift-mode . (lambda () (add-to-list (make-local-variable 'company-backends) 'company-sourcekit)))
-         ;; (swift-mode . lsp)
+  :hook (;(swift-mode . lsp)
+         (swift-mode . (lambda () (add-to-list (make-local-variable 'company-backends) 'company-sourcekit)))
          (swift-mode . company-mode)
          )
   :custom
@@ -1049,6 +1066,16 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;   (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain")
 ;;   (setq lsp-sourcekit-executable "sourcekit-lsp")
 ;;   :ensure t)
+
+;;; }
+;;; { auto-upate
+
+(use-package auto-package-update
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe)
+  :ensure t)
 
 ;;; }
 ;;; { utility match-parten
@@ -1111,6 +1138,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (setq desktop-load-locked-desktop t)
 (desktop-save-mode)
-(desktop-read)
+;(desktop-read)
 
 ;;; }
