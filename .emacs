@@ -707,9 +707,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :hook ((dart-mode . lsp)
          )
   :init
-  (with-eval-after-load "projectile"
-    (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
-    (add-to-list 'projectile-project-root-files-bottom-up "BUILD"))
+  ;; (with-eval-after-load "projectile"
+  ;;   (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
+  ;;   (add-to-list 'projectile-project-root-files-bottom-up "BUILD"))
   :config
   ;; (define-key kotlin-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t)
