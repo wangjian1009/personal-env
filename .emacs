@@ -467,7 +467,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq company-idle-delay 0.5
         company-minimum-prefix-length 1
         company-show-numbers t
-        company-tooltip-limit 20)
+        company-tooltip-limit 20
+        )
+  ;; (company-tng-configure-default)
+  ;; (setq company-frontends
+  ;;       '(company-tng-frontend
+  ;;         company-pseudo-tooltip-frontend
+  ;;         company-echo-metadata-frontend))
 
   (require 'color)
   
@@ -488,6 +494,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :config
   (company-quickhelp-mode 1))
 
+(use-package company-tabnine
+  :ensure t)
 ;;; }
 ;;; { mmm-mode
 
@@ -620,6 +628,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
            (c-set-offset 'namespace-close -80)
            (c-set-offset 'block-open -4)
            (c-set-offset 'template-args-cont '+)
+           (add-to-list (make-local-variable 'company-backends) #'company-tabnine)
            )
          )
   )
