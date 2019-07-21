@@ -142,7 +142,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
   (setq delete-by-moving-to-trash t
         trash-directory "~/.Trash/emacs")
-
+  (setq dired-use-ls-dired nil)
   ;; Don't open files from the workspace in a new frame
   (setq ns-pop-up-frames nil)
 )
