@@ -496,6 +496,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package company-tabnine
   :ensure t)
+
 ;;; }
 ;;; { mmm-mode
 
