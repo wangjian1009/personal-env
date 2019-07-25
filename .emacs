@@ -464,7 +464,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
         ("C-p" . company-select-previous-or-abort)
         )
   :config
-  (setq company-idle-delay 0.5
+  (setq company-idle-delay 0.1
         company-minimum-prefix-length 1
         company-show-numbers t
         company-tooltip-limit 20
@@ -611,6 +611,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package cc-mode
   :commands (c-mode c++-mode objc-mode)
+  :after lsp-mode
   :mode ("\\.inl\\'" . c++-mode)
   :magic (("\\(.\\|\n\\)*\n@implementation" . objc-mode)
           ("\\(.\\|\n\\)*\n@interface" . objc-mode)
@@ -618,6 +619,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
           )
   :hook ((c-mode c++-mode objc-mode) .
          (lambda()
+           (lsp)
            (c-toggle-hungry-state t)
            (which-function-mode t)
            (c-set-style "stroustrup")
@@ -632,13 +634,15 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
            (add-to-list (make-local-variable 'company-backends) #'company-tabnine)
            )
          )
+  :config
+  (when (equal system-type 'darwin)
+    (setq lsp-clients-clangd-executable "/usr/local/opt/llvm/bin/clangd"))
   )
 
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode) .
          (lambda()
            (require `ccls)
-           (lsp)
            (set (make-local-variable 'lsp-enable-on-type-formatting) nil)
            ))
   :config
