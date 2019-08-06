@@ -611,7 +611,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package cc-mode
   :commands (c-mode c++-mode objc-mode)
-  :after lsp-mode
   :mode ("\\.inl\\'" . c++-mode)
   :magic (("\\(.\\|\n\\)*\n@implementation" . objc-mode)
           ("\\(.\\|\n\\)*\n@interface" . objc-mode)
@@ -1027,7 +1026,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package cmake-mode
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
   :config
-  (setq cmake-tab-width 4)
+  (setq cmake-tab-width 2)
   :ensure t
   )
 
