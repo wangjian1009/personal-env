@@ -1081,16 +1081,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;   :ensure t)
 
 ;;; }
-;;; { auto-upate
-
-(use-package auto-package-update
-  :config
-  (setq auto-package-update-delete-old-versions t)
-  (setq auto-package-update-hide-results t)
-  (auto-package-update-maybe)
-  :ensure t)
-
-;;; }
 ;;; { utility match-parten
 
 (global-set-key "%" 'match-paren)
@@ -1152,5 +1142,15 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (setq desktop-load-locked-desktop t)
 (desktop-save-mode)
 ;(desktop-read)
+
+;;; }
+;;; { auto-upate
+
+(use-package auto-package-update
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe)
+  :ensure t)
 
 ;;; }
