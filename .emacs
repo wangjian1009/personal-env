@@ -1130,7 +1130,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (require 'server)
 (unless (server-running-p) (server-start))
 
-;;; }*从©
+;;; }
 ;;; { emacs local
 
 (if (file-exists-p "~/.emacs.local")
