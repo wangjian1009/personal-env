@@ -698,11 +698,17 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (eval-after-load "compile"
   '(progn
-     (add-to-list 'compilation-error-regexp-alist 'kotlin)
+     (add-to-list 'compilation-error-regexp-alist 'gradle-kotlin-1)
      (add-to-list
       'compilation-error-regexp-alist-alist
-      '(kotlin
-        "^[we]: \\(.+?\\.kt\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3))))
+      '(gradle-kotlin-1
+        "^[we]: \\(.+\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3))
+     (add-to-list 'compilation-error-regexp-alist 'gradle-kotlin-2)
+     (add-to-list
+      'compilation-error-regexp-alist-alist
+      '(gradle-kotlin-2
+        "^[we]: \\(.+\\):\\([0-9]+\\): .*" 1 2))
+     ))
 
 (use-package kotlin-mode
   :mode "\\.kt\\'"
