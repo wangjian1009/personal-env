@@ -541,6 +541,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
         lsp-enable-xref t
         lsp-enable-snippet nil
         lsp-eldoc-render-all nil
+        lsp-enable-file-watchers nil
         )
   :ensure t)
 
@@ -730,7 +731,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   ;;   (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
   ;;   (add-to-list 'projectile-project-root-files-bottom-up "BUILD"))
   :config
-  ;; (define-key kotlin-mode-map (kbd "C-c C-c") 'comment-region)
+  (define-key dart-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t)
 
 ;;; }
