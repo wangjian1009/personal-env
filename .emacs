@@ -101,8 +101,34 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
                         charset
                         zh-font))))
 
+
+(defun my-dpi ()
+  (let* ((attrs (car (display-monitor-attributes-list)))
+         (size (assoc 'mm-size attrs))
+         (sizex (cadr size))
+         (res (cdr (assoc 'geometry attrs)))
+         (resx (- (caddr res) (car res)))
+         dpi)
+    (catch 'exit
+      ;; in terminal
+      (unless sizex
+        (throw 'exit 10))
+      ;; on big screen
+      (when (> sizex 1000)
+        (throw 'exit 10))
+      ;; DPI
+      (* (/ (float resx) sizex) 25.4))))
+
+(defun my-preferred-font-size ()
+  (let ( (dpi (my-dpi)) )
+  (cond
+    ((< dpi 110) 10)
+    ((< dpi 130) 14)
+    ((< dpi 160) 18)
+    (t 18))))
+
 (qiang-set-font
- '("Consolas" "Monaco" "DejaVu Sans Mono" "Monospace" "Courier New") ":pixelsize=14"
+ '("Consolas" "Monaco" "DejaVu Sans Mono" "Monospace" "Courier New") (concat ":pixelsize=" (number-to-string (my-preferred-font-size)))
  '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体"))
 
 ;;; }
