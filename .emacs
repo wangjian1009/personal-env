@@ -125,7 +125,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
     ((< dpi 110) 10)
     ((< dpi 130) 14)
     ((< dpi 160) 18)
-    (t 18))))
+    ((< dpi 220) 20)
+    ((< dpi 260) 28)
+    ((< dpi 320) 36)
+    (t 36))))
 
 (qiang-set-font
  '("Consolas" "Monaco" "DejaVu Sans Mono" "Monospace" "Courier New") (concat ":pixelsize=" (number-to-string (my-preferred-font-size)))
