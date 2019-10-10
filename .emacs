@@ -179,40 +179,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { cygwin support
 
-;; Sets your shell to use cygwin's bash, if Emacs finds it's running
-;; under Windows and c:\cygwin exists. Assumes that C:\cygwin\bin is
-;; not already in your Windows Path (it generally should not be).
-;;
-(let* ((cygwin-root (getenv "CYGWIN_ROOT"))
-       (cygwin-bin (concat cygwin-root "/bin"))
-       (cygwin-local-bin (concat cygwin-root "/local/bin"))
-       )
-
-  (when (and (eq 'windows-nt system-type)
-             (file-readable-p cygwin-root))
-    
-    (setq exec-path (cons cygwin-bin exec-path))
-    (setenv "PATH" (concat cygwin-local-bin ";" cygwin-bin ";" (getenv "PATH")))
-    
-    ;; By default use the Windows HOME.
-    ;; Otherwise, uncomment below to set a HOME
-    ;;      (setenv "HOME" (concat cygwin-root "/home/eric"))
-    
-    ;; NT-emacs assumes a Windows shell. Change to baash.
-    (setq shell-file-name "bash")
-    (setenv "SHELL" shell-file-name)
-    (setq explicit-shell-file-name shell-file-name)
-    
-    ;; This removes unsightly ^M characters that would otherwise
-    ;; appear in the output of java applications.
-    (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
 (when (eq 'windows-nt system-type)
   (require 'cygwin-mount)
-  (cygwin-mount-activate)
-
-  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
-  (setenv "LD_LIBRARY_PATH" (concat "/usr/local/lib:" (getenv "LD_LIBRARY_PATH")))
-  (add-to-list 'exec-path "/usr/local/bin")
+  (require 'setup-cygwin)
+  (set-shell-bash)
 
   (let ((home-dir (getenv "HOME")))
     (if home-dir
@@ -222,8 +192,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
           (add-to-list 'exec-path (concat home-dir "/bin"))
           )
       ))
-
-  (setenv "PATH" (shell-command-to-string (concat "cygpath -p '" (getenv "PATH") "'")))
   )
 
 ;;; }
@@ -424,7 +392,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { all
+
 (use-package all :ensure t)
+
 ;;; }
 ;;; { git
 
@@ -435,10 +405,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :after magit
   :commands (magit-todos-mode)
   :hook (magit-mode . magit-todos-mode)
-  :config
-  (setq magit-todos-recursive t
-        magit-todos-depth 100)
-  :custom (magit-todos-keywords (list "TODO" "FIXME"))
+  :config (setq magit-todos-recursive t
+                magit-todos-depth 100)
+  :custom
+  (magit-todos-keywords (list "TODO" "FIXME"))
   :ensure t)
 
 ;;; }
