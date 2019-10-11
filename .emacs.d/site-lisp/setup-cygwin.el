@@ -112,8 +112,6 @@
 ;;
 ;;; Code:
 
-(require 'cygwin-mount)
-
 (when (< emacs-major-version 21)
   (defun add-to-list (list-var element &optional append)
     "Add to the value of LIST-VAR the element ELEMENT if it isn't there yet.
@@ -162,9 +160,6 @@ Subdirectory `bin' should have file `bin/bash.exe'."
 (unless (setcyg-dir-p cygwin-root-directory)
   (error "Cannot find Cygwin.  Please customize option `cygwin-root-directory'"))
 
-
-;;; Make Cygwin paths accessible
-(cygwin-mount-activate)
 
 ;;; Follow Cygwin symlinks.
 ;;; Handles old-style (text file) symlinks and new-style (.lnk file) symlinks.
@@ -269,6 +264,10 @@ loaded as such.)"
   (setenv "SHELL" explicit-shell-file-name)
   ;;;;;(setq explicit-sh-args nil)           ; Undefined?
   (setq w32-quote-process-args nil))
+
+;;; Make Cygwin paths accessible
+(require 'cygwin-mount)
+(cygwin-mount-activate)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -180,7 +180,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { cygwin support
 
 (when (eq 'windows-nt system-type)
-  (require 'cygwin-mount)
   (require 'setup-cygwin)
   (set-shell-bash)
 
