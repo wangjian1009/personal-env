@@ -130,8 +130,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
     ((< dpi 320) 36)
     (t 36))))
 
+(defcustom global-font-size (my-preferred-font-size) "默認字體大小" :type 'integer)
+
 (qiang-set-font
- '("Consolas" "Monaco" "DejaVu Sans Mono" "Monospace" "Courier New") (concat ":pixelsize=" (number-to-string (my-preferred-font-size)))
+ '("Consolas" "Monaco" "DejaVu Sans Mono" "Monospace" "Courier New") (concat ":pixelsize=" (number-to-string global-font-size))
  '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体"))
 
 ;;; }
