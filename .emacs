@@ -596,7 +596,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (require `find-file)
 
 (mapcar (lambda (x) (add-to-list ff-other-file-alist x))
-        '(("\\.mm?$" (".h"))
+        '(("\\.mm?$" (".h" "_i.h"))
           ("\\.cc$"  (".hh" ".h"))
           ("\\.hh$"  (".cc" ".C"))
           ("\\.c$"   (".h" "_i.h"))
