@@ -619,7 +619,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
           )
   :hook ((c-mode c++-mode objc-mode) .
          (lambda()
-           (lsp)
+           (if (not (eq 'windows-nt system-type)) (lsp))
            (c-toggle-hungry-state t)
            (which-function-mode t)
            (c-set-style "stroustrup")
@@ -669,15 +669,17 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq mvn-bin "mvn")))
 
 ;(use-package treemacs :ensure t)
-(use-package lsp-java
-  ;:requires (lsp-ui-flycheck lsp-ui-sideline)
-  :init
-  (add-hook 'java-mode-hook 'lsp)
-  ;(java-mode . (lambda () (lsp-ui-flycheck-enable t)))
-  ;(java-mode . lsp-ui-sideline-mode)
-  :config
-  (setq lsp-java-save-action-organize-imports nil)
-  :ensure t
+(if (not (eq 'windows-nt system-type))
+    (use-package lsp-java
+                                        ;:requires (lsp-ui-flycheck lsp-ui-sideline)
+      :init
+      (add-hook 'java-mode-hook 'lsp)
+                                        ;(java-mode . (lambda () (lsp-ui-flycheck-enable t)))
+                                        ;(java-mode . lsp-ui-sideline-mode)
+      :config
+      (setq lsp-java-save-action-organize-imports nil)
+      :ensure t
+      )
   )
 
 ;; (use-package meghanada
