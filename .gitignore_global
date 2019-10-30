@@ -4,3 +4,6 @@ GPATH
 GRTAGS
 GTAGS
 .DS_Store
+.settings
+.project
+.gradle
