@@ -545,7 +545,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
         )
   :ensure t)
 
-; (use-package lsp-ui :ensure t)
+;(use-package lsp-ui :ensure t)
 
 (use-package company-lsp
   :requires (lsp-mode company)
@@ -970,6 +970,22 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 )
 
 ;;; }
+;;; { personal typescript mode
+
+(use-package typescript-mode
+  :ensure t
+  :hook ((typescript-mode . lsp)
+         )
+  )
+
+;; (use-package tide
+;;   :ensure t
+;;   :after (typescript-mode company flycheck)
+;;   :hook ((typescript-mode . tide-setup)
+;;          (typescript-mode . tide-hl-identifier-mode)
+;;          (before-save . tide-format-before-save)))
+
+;;; }
 ;;; { personal web mode (html, jsp)
 
 (use-package web-mode
@@ -1150,7 +1166,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (setq desktop-load-locked-desktop t)
 (desktop-save-mode)
-;(desktop-read)
+(desktop-read)
 
 ;;; }
 ;;; { auto-upate
