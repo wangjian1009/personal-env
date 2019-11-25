@@ -972,18 +972,18 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal typescript mode
 
-(use-package typescript-mode
-  :ensure t
-  :hook ((typescript-mode . lsp)
-         )
-  )
-
-;; (use-package tide
+;; (use-package typescript-mode
 ;;   :ensure t
-;;   :after (typescript-mode company flycheck)
-;;   :hook ((typescript-mode . tide-setup)
-;;          (typescript-mode . tide-hl-identifier-mode)
-;;          (before-save . tide-format-before-save)))
+;;   :hook ((typescript-mode . lsp)
+;;          )
+;;   )
+
+(use-package tide
+  :ensure t
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save)))
 
 ;;; }
 ;;; { personal web mode (html, jsp)
