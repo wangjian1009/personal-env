@@ -1216,10 +1216,17 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
     (setq TeX-auto-save t)
     (setq TeX-parse-self t)
     (setq-default TeX-master nil)
-    (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
-    (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-    (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-    (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+    (setq-default TeX-engine 'xetex)
+
+    (defun setup-tex-mode()
+      (flyspell-mode)
+      (LaTeX-math-mode)
+      (turn-on-reftex)
+      (auto-fill-mode)
+      (TeX-engine-set 'xetex)
+      )
+    
+    (add-hook 'LaTeX-mode-hook 'setup-tex-mode)
     (setq reftex-plug-into-AUCTeX t)
     (setq TeX-PDF-mode t)
     (setq org-latex-create-formula-image-program 'imagemagick) ;使用 imagemagick 来生成图片
