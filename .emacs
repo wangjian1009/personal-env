@@ -515,7 +515,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :config (setq markdown-command "markdown"))
+  :config (setq markdown-command "multimarkdown"))
 
 (use-package markdown-mode+
   :ensure t
@@ -526,9 +526,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t
   :after markdown-mode)
 
-(use-package markdown-preview-eww
-  :ensure t
-  )
+(autoload 'mmd-mode "mmd-mode" "MMD mode for editing multimarkdown code." t)
+(setq auto-mode-alist (cons '("\\.mmd$" . mmd-mode) auto-mode-alist))
 
 ;;; }
 ;;; { personal lsp mode
@@ -1210,7 +1209,22 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { Personal Tex
 
-(use-package auctex :ensure t :defer t
+(use-package auctex
+  :defer t
+  :ensure t)
+
+(use-package cdlatex
+  :ensure t
+  :hook ((LaTeX-mode . cdlatex-mode)
+         (LaTeX-mode . (lambda ()
+                         (LaTeX-math-mode t)
+                         (tex-fold-mode t)
+                         (turn-on-reftex)
+                         (outline-minor-mode t)
+                         (TeX-engine-set 'xetex)
+                         )
+                     )
+         )
   :config
   (progn
     (setq TeX-auto-save t)
@@ -1218,19 +1232,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
     (setq-default TeX-master nil)
     (setq-default TeX-engine 'xetex)
 
-    (defun setup-tex-mode()
-      (flyspell-mode)
-      (LaTeX-math-mode)
-      (turn-on-reftex)
-      (auto-fill-mode)
-      (TeX-engine-set 'xetex)
-      )
-    
-    (add-hook 'LaTeX-mode-hook 'setup-tex-mode)
     (setq reftex-plug-into-AUCTeX t)
     (setq TeX-PDF-mode t)
     (setq org-latex-create-formula-image-program 'imagemagick) ;使用 imagemagick 来生成图片
-    (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
     (setq org-confirm-babel-evaluate nil)   ;不用每次确认
     )
   )
