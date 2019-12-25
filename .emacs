@@ -1213,6 +1213,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :defer t
   :ensure t)
 
+(use-package latex-extra
+  :ensure t
+  :hook (LaTeX-mode . latex-extra-mode)
+  )
+
 (use-package cdlatex
   :ensure t
   :hook ((LaTeX-mode . cdlatex-mode)
@@ -1220,8 +1225,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
                          (LaTeX-math-mode t)
                          (tex-fold-mode t)
                          (turn-on-reftex)
-                         (outline-minor-mode t)
-                         (TeX-engine-set 'xetex)
+                         (auto-fill-mode t)
+                        (TeX-engine-set 'xetex)
                          )
                      )
          )
