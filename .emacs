@@ -518,6 +518,24 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
                  ("\\question %%%s" . "\\question %%%s")
                  )
                )
+  (add-to-list 'org-structure-template-alist
+               '("msln" "#+BEGIN_EXPORT latex
+\\begin{solution}
+  \\[
+    \\begin{aligned}
+      ?
+    \\end{aligned}
+  \\]
+\\end{solution}
+#+END_EXPORT")
+               )
+  (add-to-list 'org-structure-template-alist
+               '("sln" "#+BEGIN_EXPORT latex
+\\begin{solution}
+  ?
+\\end{solution}
+#+END_EXPORT")
+               )
   )
 
 ;;; }
