@@ -374,24 +374,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;; (define-key yafolding-mode-map (kbd "C-c <C-return>") 'yafolding-toggle-element)
 
 ;;; }
-;;; { personal ggtags mode
-
-;; (use-package ggtags
-;;   :commands (ggtags-mode)
-;;   :hook (((c-mode c++-mode objc-mode) . ggtags-mode)
-;;          )
-;;   :custom
-;;   (ggtags-enable-navigation-keys nil)
-;;   :config
-;; ;;            (cond
-;; ;;             ((eq system-type 'windows-nt)
-;; ;;              (setq gtags-global-command "/usr/local/bin/global.exe"))
-;; ;;             (t
-;; ;;              (setq gtags-global-command "/usr/local/bin/global")
-;;   ;;              ))
-;;   :ensure t)
-
-;;; }
 ;;; { all
 
 (use-package all :ensure t)
@@ -505,6 +487,38 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (require 'mmm-auto)
   (setq mmm-global-mode 'maybe)
   :ensure t)
+
+;;; }
+;;; { personal org mode
+
+(use-package org
+  :config
+  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+  (setq org-preview-latex-default-process 'imagemagick) ;使用 imagemagick 来生成图片
+  (setq org-confirm-babel-evaluate nil)   ;不用每次确认
+  )
+
+(use-package ox-latex
+  :load-path "lisp/org-mode/lisp"
+  :ensure nil
+  :demand
+  :after org
+  :custom
+  (org-latex-compiler "xelatex")
+  :config
+  (setq org-highlight-latex-and-related '(latex))
+  (add-to-list 'org-latex-classes
+               '("exam"
+                 "\\documentclass{exam}
+                 [NO-DEFAULT-PACKAGES]\\usepackage{hyperref}
+                 [PACKAGES]
+                 [EXTRA]"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\question %%%s" . "\\question %%%s")
+                 )
+               )
+  )
 
 ;;; }
 ;;; { personal markdown mode
@@ -1239,8 +1253,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
     (setq reftex-plug-into-AUCTeX t)
     (setq TeX-PDF-mode t)
-    (setq org-latex-create-formula-image-program 'imagemagick) ;使用 imagemagick 来生成图片
-    (setq org-confirm-babel-evaluate nil)   ;不用每次确认
     )
   )
 
