@@ -521,6 +521,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (setq org-preview-latex-default-process 'imagemagick) ;使用 imagemagick 来生成图片
   (setq org-confirm-babel-evaluate nil)   ;不用每次确认
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((ledger . t)
+     ))
   )
 
 (use-package ox-latex
@@ -531,7 +536,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :custom
   (org-latex-compiler "xelatex")
   :config
-  (setq org-highlight-latex-and-related '(latex))
+  (setq org-highlight-latex-and-related '(latex script entities))
   (add-to-list 'org-latex-classes
                '("exam"
                  "\\documentclass{exam}
@@ -562,6 +567,35 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 #+END_EXPORT")
                )
   )
+
+;; (use-package org-babel
+;;   :load-path "lisp/org-mode/lisp"
+;;   :ensure t
+;;   :after org
+;;   :config
+;;   (add-to-list org-babel-load-languages '(ledger . t))
+;;   )
+
+;;; }
+;;; { personal ledger mode
+
+(use-package ledger-mode
+  :ensure t
+  :mode "\\.ledger$"
+  :hook ((ledger-mode .
+          (lambda ()
+            (setq-local tab-always-indent 'complete)
+            (setq-local completion-cycle-threshold t)
+            (setq-local ledger-complete-in-steps t)))
+         )
+  :config
+  (setq ledger-reconcile-default-commodity "¥"
+        )
+  )
+
+(use-package flycheck-ledger
+  :after (ledger-mode flycheck)
+  :ensure t)
 
 ;;; }
 ;;; { personal markdown mode
@@ -1143,13 +1177,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (swift-mode:multiline-statement-offset 4)
   (swift-mode:parenthesized-expression-offset 4)
   :config
-  (eval-after-load "compile"
-    '(progn
-       (add-to-list 'compilation-error-regexp-alist 'swift)
-       (add-to-list
-        'compilation-error-regexp-alist-alist
-        '(swift
-          "⚠?[ ❌]+\\([^ ❌].+\\..+\\):\\([0-9]+\\):\\([0-9]+\\): .*" 1 2 3))))
   (define-key swift-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t
   )
