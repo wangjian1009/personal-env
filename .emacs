@@ -139,6 +139,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { support functions or macros
 
+(defun validate-dir-p (directory)
+  "Return DIRECTORY if DIRECTORY is a readable directory, nil otherwise."
+  (and (stringp directory)  (file-directory-p directory)  (file-readable-p directory)  directory))
+
 ;; shorthand for interactive lambdas
 (defmacro λ (&rest body)
   `(lambda ()
@@ -179,11 +183,32 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 )
 
 ;;; }
-;;; { cygwin support
+;;; { msys support
 
 (when (eq 'windows-nt system-type)
-  (require 'setup-cygwin)
-  (set-shell-bash)
+  (let ((msys-root (or (validate-dir-p "C:/msys64/")))
+        )
+    (if msys-root
+        (progn
+          (add-to-list 'Info-default-directory-list (expand-file-name "usr/share/info" msys-root) 'APPEND)
+          (add-to-list 'exec-path (expand-file-name "usr/bin" msys-root))
+          (setenv "PATH" (concat (expand-file-name "usr/bin" msys-root) ";" (getenv "PATH")))
+
+          (add-to-list 'Info-default-directory-list (expand-file-name "mingw64/share/info" msys-root) 'APPEND)
+          (add-to-list 'exec-path (expand-file-name "mingw64/bin" msys-root))
+          (setenv "PATH" (concat (expand-file-name "mingw64/bin" msys-root) ";" (getenv "PATH")))
+          
+          (setq shell-file-name  (expand-file-name "usr/bin/bash.exe" msys-root))
+          (setenv "SHELL" shell-file-name)
+          (setq explicit-shell-file-name  shell-file-name) ; Interactive shell
+          (setq ediff-shell               shell-file-name)    ; Ediff shell
+          (setq explicit-shell-args       '("--login" "-i"))
+          ;;;;; (setq shell-command-switch "-ic") ; SHOULD THIS BE "-c" or "-ic"?
+          (setq w32-quote-process-args ?\")
+
+          )
+      )
+    )
 
   (let ((home-dir (getenv "HOME")))
     (if home-dir
