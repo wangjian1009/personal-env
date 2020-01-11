@@ -521,12 +521,21 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (setq org-preview-latex-default-process 'imagemagick) ;使用 imagemagick 来生成图片
   (setq org-confirm-babel-evaluate nil)   ;不用每次确认
+  
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c c") 'org-capture)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((ledger . t)
      ))
   )
+
+(use-package org-mime
+  :after org
+  :ensure t
+  :config
+  (setq org-mime-library 'semi))
 
 (use-package ox-latex
   :load-path "lisp/org-mode/lisp"
