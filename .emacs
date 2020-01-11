@@ -523,7 +523,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq org-confirm-babel-evaluate nil)   ;不用每次确认
   
   (global-set-key (kbd "C-c a") 'org-agenda)
-  (global-set-key (kbd "C-c c") 'org-capture)
+  (global-set-key (kbd "C-c C-a") 'org-capture)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -584,6 +584,40 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;   :config
 ;;   (add-to-list org-babel-load-languages '(ledger . t))
 ;;   )
+
+;;; }
+;;; { personal BBDB
+
+(use-package bbdb
+  :ensure t
+  :config
+u
+  ; (setq bbdb-use-pop-up t)
+  ; (setq bbdb/mail-auto-create-p t)
+  ;; exceptional folders against auto collection
+  ; (setq signature-use-bbdb t)
+  ; (add-hook 'bbdb-notice-hook 'bbdb-auto-notes-hook)
+  ; (setq bbdb-north-american-phone-numbers-p nil)
+  )
+
+;;; }
+;;; { personal mail
+
+;; (use-package wanderlust
+;;   :ensure t
+;;   )
+
+(eval-after-load "wl"
+  (progn
+    (setq mail-user-agent 'wl-user-agent)
+    (define-mail-user-agent
+      'wl-user-agent
+      'wl-user-agent-compose
+      'wl-draft-send
+      'wl-draft-kill
+      'mail-send-hook)
+    )
+  )
 
 ;;; }
 ;;; { personal ledger mode
@@ -676,7 +710,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t)
 
 ;;; }
-;;; { personal nxml model
+;;; { personal nxml momdel
 
 (eval-after-load "nxml-mode"
   '(progn
