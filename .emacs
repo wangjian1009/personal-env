@@ -625,7 +625,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package bbdb
   :ensure t
   :config
-
+  (setq bbdb-mua-pop-up-window-size 0.1)
   ; (setq bbdb-use-pop-up t)
   ; (setq bbdb/mail-auto-create-p t)
   ;; exceptional folders against auto collection
@@ -633,6 +633,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   ; (add-hook 'bbdb-notice-hook 'bbdb-auto-notes-hook)
   ; (setq bbdb-north-american-phone-numbers-p nil)
   )
+
+(use-package bbdb-vcard
+  :ensure t)
 
 ;;; }
 ;;; { personal mail
