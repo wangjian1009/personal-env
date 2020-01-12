@@ -175,8 +175,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
   (eval-after-load "ido" '(add-to-list 'ido-ignore-files "\\.DS_Store"))
 
-  (setq delete-by-moving-to-trash t
-        trash-directory "~/.Trash/emacs")
+  ;; (setq delete-by-moving-to-trash t
+  ;;       trash-directory "~/.Trash/emacs")
   (setq dired-use-ls-dired nil)
   ;; Don't open files from the workspace in a new frame
   (setq ns-pop-up-frames nil)
@@ -431,19 +431,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   )
 
 ;;; }
-;;; { dash
-
-(when (eq 'darwin system-type)
-  (use-package dash-at-point
-    :commands (dash-at-point dash-at-point-with-docset)
-    :bind (("\C-cd" . dash-at-point)
-           ("\C-ce" . dash-at-point-with-docset)
-           )
-    :ensure t
-    )
-  )
-
-;;; }
 ;;; { flymake
 
 (require 'flymake-proc)
@@ -514,6 +501,34 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t)
 
 ;;; }
+;;; { osx
+
+(when (eq 'darwin system-type)
+  (use-package osx-trash
+    :ensure t
+    :config
+    (osx-trash-setup)
+    (setq delete-by-moving-to-trash t)
+    )
+
+  (use-package osx-dictionary
+    :if (eq 'darwin system-type)
+    :commands (osx-dictionary-search-word-at-point)
+    :ensure t
+    :bind (("\C-c\C-d" . osx-dictionary-search-word-at-point))
+    )
+
+  (use-package dash-at-point
+    :if (eq 'darwin system-type)
+    :ensure t
+    :commands (dash-at-point dash-at-point-with-docset)
+    :bind (("\C-cd" . dash-at-point)
+           ("\C-ce" . dash-at-point-with-docset)
+           )
+    )
+  )
+
+;;; } 
 ;;; { personal org mode
 
 (use-package org
@@ -592,6 +607,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
                )
   )
 
+(use-package org-bookmark-heading
+  :ensure t
+  )
+
 ;; (use-package org-babel
 ;;   :load-path "lisp/org-mode/lisp"
 ;;   :ensure t
@@ -606,7 +625,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package bbdb
   :ensure t
   :config
-u
+
   ; (setq bbdb-use-pop-up t)
   ; (setq bbdb/mail-auto-create-p t)
   ;; exceptional folders against auto collection
