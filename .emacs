@@ -622,20 +622,27 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal BBDB
 
-(use-package bbdb
+;; (use-package bbdb
+;;   :ensure t
+;;   :config
+;;   (setq bbdb-mua-pop-up-window-size 0.2)
+;;   ; (setq bbdb-use-pop-up t)
+;;   ; (setq bbdb/mail-auto-create-p t)
+;;   ;; exceptional folders against auto collection
+;;   ; (setq signature-use-bbdb t)
+;;   ; (add-hook 'bbdb-notice-hook 'bbdb-auto-notes-hook)
+;;   ; (setq bbdb-north-american-phone-numbers-p nil)
+;;   )
+
+;; (use-package bbdb-vcard
+;;   :ensure t)
+
+(use-package ebdb
   :ensure t
   :config
-  (setq bbdb-mua-pop-up-window-size 0.1)
-  ; (setq bbdb-use-pop-up t)
-  ; (setq bbdb/mail-auto-create-p t)
-  ;; exceptional folders against auto collection
-  ; (setq signature-use-bbdb t)
-  ; (add-hook 'bbdb-notice-hook 'bbdb-auto-notes-hook)
-  ; (setq bbdb-north-american-phone-numbers-p nil)
+  (setq ebdb-default-window-size 0.2)
+  (setq ebdb-mua-auto-update-p t)
   )
-
-(use-package bbdb-vcard
-  :ensure t)
 
 ;;; }
 ;;; { personal mail
