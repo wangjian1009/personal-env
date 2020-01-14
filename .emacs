@@ -539,10 +539,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   
 
   (global-set-key (kbd "C-c o a") 'org-agenda)
-  (global-set-key (kbd "C-c o t") 'org-capture)
-
-  (eval-after-load "org-capture"
-    '(setq org-default-notes-file (concat org-directory "/notes.org")))
+  (global-set-key (kbd "C-c o c") 'org-capture)
 
   (setq org-todo-keyword-faces
         '(("TODO" . org-warning)
@@ -610,9 +607,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
                )
   )
 
-(use-package org-bookmark-heading
-  :ensure t
-  )
+;; (use-package org-bookmark-heading
+;;   :ensure t
+;;   )
 
 ;; (use-package org-babel
 ;;   :load-path "lisp/org-mode/lisp"
