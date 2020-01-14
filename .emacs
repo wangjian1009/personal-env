@@ -536,11 +536,14 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (setq org-preview-latex-default-process 'imagemagick) ;使用 imagemagick 来生成图片
   (setq org-confirm-babel-evaluate nil)   ;不用每次确认
-  
+  (setq org-reverse-note-order t)
+  (setq org-refile-targets
+        '((org-agenda-files :tag . "REFINE")
+          ))
 
   (global-set-key (kbd "C-c o a") 'org-agenda)
   (global-set-key (kbd "C-c o c") 'org-capture)
-
+          
   (setq org-todo-keyword-faces
         '(("TODO" . org-warning)
           ("INPROGRESS" . "yellow")
@@ -554,6 +557,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (add-to-list 'org-tags-exclude-from-inheritance "REQUIREMENT")
   (add-to-list 'org-tags-exclude-from-inheritance "BUG")
   (add-to-list 'org-tags-exclude-from-inheritance "VERSION")
+  (add-to-list 'org-tags-exclude-from-inheritance "REFINE")
   
   (org-babel-do-load-languages
    'org-babel-load-languages
