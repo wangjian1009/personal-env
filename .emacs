@@ -536,14 +536,17 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (setq org-preview-latex-default-process 'imagemagick) ;使用 imagemagick 来生成图片
   (setq org-confirm-babel-evaluate nil)   ;不用每次确认
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  
 
-  (global-set-key (kbd "C-c a") 'org-agenda)
-  (global-set-key (kbd "C-c C-a") 'org-capture)
+  (global-set-key (kbd "C-c o a") 'org-agenda)
+  (global-set-key (kbd "C-c o t") 'org-capture)
+
+  (eval-after-load "org-capture"
+    '(setq org-default-notes-file (concat org-directory "/notes.org")))
 
   (setq org-todo-keyword-faces
         '(("TODO" . org-warning)
-          ("DOING" . "yellow")
+          ("INPROGRESS" . "yellow")
           ("WAITTING" . (:foreground "gray" :weight bold))
           ("ABORT" . (:foreground "gray" :weight bold))
           ("CANCELED" . (:foreground "gray" :weight bold))
@@ -620,7 +623,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;   )
 
 ;;; }
-;;; { personal BBDB
+;;; { personal EBDB
 
 ;; (use-package bbdb
 ;;   :ensure t
@@ -642,7 +645,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :config
   (setq ebdb-default-window-size 0.2)
   (setq ebdb-mua-auto-update-p t)
+
+  (eval-after-load "org" '(require 'ebdb-org))
   )
+
+(use-package ebdb-i18n-chn
+  :after ebdb
+  :ensure t)
 
 ;;; }
 ;;; { personal mail
