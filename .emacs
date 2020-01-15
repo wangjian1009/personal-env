@@ -674,6 +674,38 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   )
 
 ;;; }
+;;; { personal elfeed
+
+(use-package elfeed
+  :ensure t
+  :bind("C-x w" . elfeed)
+  :config
+  ;;functions to support syncing .elfeed between machines
+  ;;makes sure elfeed reads index from disk before launching
+  (defun personal/elfeed-load-db-and-open ()
+    "Wrapper to load the elfeed db from disk before opening"
+    (interactive)
+    (elfeed-db-load)
+    (elfeed)
+    (elfeed-search-update--force))
+
+  ;;write to disk when quiting
+  (defun personal/elfeed-save-db-and-bury ()
+    "Wrapper to save the elfeed db to disk before burying buffer"
+    (interactive)
+    (elfeed-db-save)
+    (quit-window))
+  )
+
+;; use an org file to organise feeds
+(use-package elfeed-org
+  :ensure t
+  :after elfeed
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files '("~/.emacs.d/elfeed.org")))
+
+;;; }
 ;;; { personal ledger mode
 
 (use-package ledger-mode
