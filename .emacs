@@ -276,7 +276,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { eww
-;; (setq browse-url-browser-function 'eww-browse-url)
+
+;(setq browse-url-browser-function 'eww-browse-url)
+
 ;;; }
 ;;; { ido mode setup
 
@@ -529,7 +531,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   )
 
 ;;; } 
-;;; { personal org mode
+;;; { personal ORG mode
 
 (use-package org
   :config
@@ -542,7 +544,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
           ))
 
   (global-set-key (kbd "C-c o a") 'org-agenda)
-  (global-set-key (kbd "C-c o c") 'org-capture)
+  (global-set-key (kbd "C-c o t") 'org-capture)
           
   (setq org-todo-keyword-faces
         '(("TODO" . org-warning)
@@ -678,8 +680,22 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package elfeed
   :ensure t
-  :bind("C-x w" . elfeed)
+  :bind(("C-x w" . elfeed)
+        (:map elfeed-show-mode-map
+              ("v" . elfeed-show-visit-eww))
+        )
   :config
+
+  ;; (define-key elfeed-show-mode-map (kbd "v")
+  ;;   '(lambda ()
+  (defun elfeed-show-visit-eww()
+    "通过EWW打开当前内容"
+    (interactive)
+    (let ((link (elfeed-entry-link elfeed-show-entry)))
+      (when link
+        (message "Sent to browser: %s" link)
+        (eww-browse-url link))))
+  
   ;;functions to support syncing .elfeed between machines
   ;;makes sure elfeed reads index from disk before launching
   (defun personal/elfeed-load-db-and-open ()
@@ -703,7 +719,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :after elfeed
   :config
   (elfeed-org)
-  (setq rmh-elfeed-org-files '("~/.emacs.d/elfeed.org")))
+  (setq rmh-elfeed-org-files '("~/.emacs.d/elfeed.org"))
+  )
 
 ;;; }
 ;;; { personal ledger mode
