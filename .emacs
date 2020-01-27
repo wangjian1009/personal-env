@@ -1140,9 +1140,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package js2-mode
   :mode "\\.js\\'"
-  ;; :hook ((js2-mode . (lambda () (flycheck-mode 1)))
-  ;;        (js2-mode . lsp)
-  ;;        )
+  :hook ((js2-mode . flycheck-mode)
+         (js2-mode . company-mode)
+         )
   :bind (:map js2-mode-map
               ("C-c C-c" . comment-region)
               )
@@ -1217,7 +1217,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package typescript-mode
   :ensure t
   :hook ((typescript-mode . company-mode)
-         (typescript-mode . flycheck)
+         (typescript-mode . flycheck-mode)
          )
   )
 
