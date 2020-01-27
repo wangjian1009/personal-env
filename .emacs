@@ -1140,9 +1140,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package js2-mode
   :mode "\\.js\\'"
-  :hook ((js2-mode . (lambda () (flycheck-mode 1)))
-         (js2-mode . lsp)
-         )
+  ;; :hook ((js2-mode . (lambda () (flycheck-mode 1)))
+  ;;        (js2-mode . lsp)
+  ;;        )
   :bind (:map js2-mode-map
               ("C-c C-c" . comment-region)
               )
@@ -1225,7 +1225,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :after (typescript-mode company flycheck)
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)
-         (before-save . tide-format-before-save)))
+         (before-save . tide-format-before-save)
+         (js2-mode . tide-setup))
+  )
 
 ;;; }
 ;;; { personal web mode (html, jsp)
