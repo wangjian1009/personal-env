@@ -275,6 +275,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   )
 
 ;;; }
+;;; { compilation-mode
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (ansi-color-apply-on-region compilation-filter-start (point-max)))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+;;; }
 ;;; { eww
 
 ;(setq browse-url-browser-function 'eww-browse-url)
