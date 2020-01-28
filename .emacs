@@ -1240,7 +1240,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package vue-mode
   :ensure t
-  )ppppp
+  )
 
 ;;; }
 ;;; { personal web mode (html, jsp)
