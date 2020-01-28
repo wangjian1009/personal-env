@@ -1221,6 +1221,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package typescript-mode
   :ensure t
+  :bind (:map typescript-mode-map
+              ("C-c C-c" . comment-region)
+              )
   :hook ((typescript-mode . company-mode)
          (typescript-mode . flycheck-mode)
          )
