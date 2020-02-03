@@ -242,7 +242,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { package
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ))
+
 (package-initialize)
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
@@ -577,7 +580,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :after org
   :ensure t
   :config
-  (setq org-mime-library 'semi))
+  (setq org-mime-library 'semi)
+  (global-set-key (kbd "C-c o m") 'org-mime-org-buffer-htmlize)
+  )
 
 (use-package ox-latex
   :load-path "lisp/org-mode/lisp"
@@ -1237,6 +1242,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
          (before-save . tide-format-before-save)
          (js2-mode . tide-setup))
   )
+
+(use-package mocha
+  :ensure t)
 
 ;;; }
 ;;; { personal Vue mode
