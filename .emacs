@@ -1019,10 +1019,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
 
 ;;; }
-;;; { personal csharp mode setup
+;;; { personal C# mode
 
-;; (autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
-;; (setq auto-mode-alist (cons '("\\.cs$" . csharp-mode) auto-mode-alist))
+(use-package csharp-mode
+  :ensure t
+  )
 
 ;; ;; Patterns for finding Microsoft C# compiler error messages:
 ;; (require 'compile)
