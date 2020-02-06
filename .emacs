@@ -540,6 +540,14 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   )
 
 ;;; } 
+;;; { Icons
+;; (use-package all-the-icons :ensure t
+;;   :config
+;;   (all-the-icons-install-fonts)
+;;   (all-the-icons-icon-for-buffer)
+;;   (all-the-icons-icon-for-file)
+;;   )
+;;; }
 ;;; { personal ORG mode
 
 (use-package org
