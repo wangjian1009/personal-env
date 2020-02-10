@@ -191,10 +191,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
     (if msys-root
         (progn
           (add-to-list 'Info-default-directory-list (expand-file-name "usr/share/info" msys-root) 'APPEND)
+          ;(setenv "INFOPATH" (concat (expand-file-name "usr/share/info" msys-root) ":" (getenv "INFOPATH")))
           (add-to-list 'exec-path (expand-file-name "usr/bin" msys-root))
           (setenv "PATH" (concat (expand-file-name "usr/bin" msys-root) ";" (getenv "PATH")))
 
           (add-to-list 'Info-default-directory-list (expand-file-name "mingw64/share/info" msys-root) 'APPEND)
+          ;(setenv "INFOPATH" (concat (expand-file-name "mingw64/share/info" msys-root) ":" (getenv "INFOPATH")))
           (add-to-list 'exec-path (expand-file-name "mingw64/bin" msys-root))
           (setenv "PATH" (concat (expand-file-name "mingw64/bin" msys-root) ";" (getenv "PATH")))
           
@@ -279,10 +281,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; }
 ;;; { compilation-mode
+
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
   (ansi-color-apply-on-region compilation-filter-start (point-max)))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 ;;; }
 ;;; { eww
 
@@ -418,17 +422,18 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { git
 
 (use-package magit :ensure t)
-(use-package git-timemachine :ensure t)
+;; (use-package git-timemachine :ensure t)
 
-(use-package magit-todos
-  :after magit
-  :commands (magit-todos-mode)
-  :hook (magit-mode . magit-todos-mode)
-  :config (setq magit-todos-recursive t
-                magit-todos-depth 100)
-  :custom
-  (magit-todos-keywords (list "TODO" "FIXME"))
-  :ensure t)
+;; (use-package magit-todos
+;;   :after magit
+;;   :ensure t
+;;   :commands (magit-todos-mode)
+;;   :hook (magit-mode . magit-todos-mode)
+;;   :config (setq magit-todos-recursive t
+;;                 magit-todos-depth 100)
+;;   :custom
+;;   (magit-todos-keywords (list "TODO" "FIXME"))
+;;   :ensure t)
 
 ;;; }
 ;;; { projectile
@@ -1031,7 +1036,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package csharp-mode
   :ensure t
+;  :hook ((csharp-mode . lsp))
   )
+
+(use-package csproj-mode
+  :ensure t)
 
 ;; ;; Patterns for finding Microsoft C# compiler error messages:
 ;; (require 'compile)
