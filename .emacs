@@ -1242,6 +1242,15 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal typescript mode
 
+(eval-after-load "compile"
+  '(progn
+     (add-to-list 'compilation-error-regexp-alist 'typescript)
+     (add-to-list
+      'compilation-error-regexp-alist-alist
+      '(typescript
+        "(\\(.+\\):\\([0-9]+\\):\\([0-9]+\\))" 1 2 3))
+     ))
+
 (use-package typescript-mode
   :ensure t
   :bind (:map typescript-mode-map
