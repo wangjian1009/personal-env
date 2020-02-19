@@ -776,7 +776,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :config (setq markdown-command "multimarkdown"))
+  :config (setq markdown-command "pandoc -f markdown -t html"))
 
 (use-package markdown-mode+
   :ensure t
@@ -786,6 +786,14 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package poly-markdown
   :ensure t
   :after markdown-mode)
+
+;; (use-package pandoc-mode :ensure t
+;;   :hook (markdown-mode . pandoc-mode)
+;;   :bind
+;;   (:map markdown-mode-map
+;;         ("C-c j" . pandoc-jump-to-reference)
+;;         )
+;;   )
 
 (autoload 'mmd-mode "mmd-mode" "MMD mode for editing multimarkdown code." t)
 (setq auto-mode-alist (cons '("\\.mmd$" . mmd-mode) auto-mode-alist))
@@ -1036,7 +1044,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package csharp-mode
   :ensure t
-;  :hook ((csharp-mode . lsp))
+  :hook ((csharp-mode . lsp))
   )
 
 (use-package csproj-mode
@@ -1249,6 +1257,19 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
       'compilation-error-regexp-alist-alist
       '(typescript
         "(\\(.+\\):\\([0-9]+\\):\\([0-9]+\\))" 1 2 3))
+
+     (add-to-list 'compilation-error-regexp-alist 'typescript-2)
+     (add-to-list
+      'compilation-error-regexp-alist-alist
+      '(typescript-2
+        ".*\s+in\s+\\(.+\\)(\\([0-9]+\\),\\([0-9]+\\)):" 1 2 3))
+     
+     (add-to-list 'compilation-error-regexp-alist 'typescript-lint)
+     (add-to-list
+      'compilation-error-regexp-alist-alist
+      '(typescript-lint
+        "error:\s+.*\s+at\s+\\(.+\\):\\([0-9]+\\):\\([0-9]+\\):" 1 2 3))
+     
      ))
 
 (use-package typescript-mode
@@ -1259,6 +1280,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :hook ((typescript-mode . company-mode)
          (typescript-mode . flycheck-mode)
          )
+  :config
+  (setq typescript-indent-level 2)
   )
 
 (use-package tide
@@ -1278,6 +1301,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package vue-mode
   :ensure t
+  :hook ((vue-mode . lsp)
+         )
   )
 
 ;;; }
