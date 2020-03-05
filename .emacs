@@ -186,7 +186,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { msys support
 
 (when (eq 'windows-nt system-type)
-  (let ((msys-root (or (validate-dir-p "C:/msys64/")))
+  (let ((msys-root (or (validate-dir-p "C:/tools/msys64/")))
         )
     (if msys-root
         (progn
