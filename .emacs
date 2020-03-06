@@ -45,6 +45,9 @@
 
 (setq password-cache-expiry nil)
 
+(when (>= emacs-major-version 27)
+  (setq read-process-output-max (* 1024 1024)))
+
 (global-set-key (kbd "ESC C-l") 'revert-buffer)
 (global-set-key (kbd "ESC C-M-l") 'revert-buffer-with-coding-system)
 (global-set-key (kbd "C-c c") 'compile)
@@ -248,7 +251,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
                          ))
 
-(package-initialize)
+(when (< emacs-major-version 27)
+  (package-initialize))
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (require 'use-package)
