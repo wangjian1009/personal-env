@@ -71,11 +71,20 @@
 ;;; { theme
 (setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
 
-(use-package apropospriate-theme
+;; (use-package apropospriate-theme
+;;   :ensure t
+;;   :config 
+;;   (load-theme 'apropospriate-dark t)
+;;   ;; or (load-theme 'apropospriate-light t)
+;;   )
+
+(use-package zenburn-theme
   :ensure t
-  :config 
-  (load-theme 'apropospriate-dark t)
-  ;; or (load-theme 'apropospriate-light t)
+  :config
+  (setq zenburn-use-variable-pitch t)
+  (setq zenburn-scale-org-headlines t)
+  (setq zenburn-scale-outline-headlines t)
+  (load-theme 'zenburn t)
   )
 
 ;; (load-theme 'classic)
