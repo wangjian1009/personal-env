@@ -54,11 +54,32 @@
 (global-set-key (kbd "C-c f") 'ff-find-other-file)
 
 ;;; }
+;;; { package
 
+(require 'package)
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ))
+
+(when (< emacs-major-version 27)
+  (package-initialize))
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+(require 'use-package)
+
+;;; }
 ;;; { theme
-
 (setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
-(load-theme 'classic)
+
+(use-package apropospriate-theme
+  :ensure t
+  :config 
+  (load-theme 'apropospriate-dark t)
+  ;; or (load-theme 'apropospriate-light t)
+  )
+
+;; (load-theme 'classic)
+;; (load-theme 'dracula)
 
 ;;; }
 ;;; { font setting...
@@ -242,20 +263,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (setq backup-directory-alist '(("" . "~/emacs.d/autosave")))
 (auto-save-mode nil)
 (setq delete-auto-save-files t)
-
-;;; }
-;;; { package
-
-(require 'package)
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ))
-
-(when (< emacs-major-version 27)
-  (package-initialize))
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-(require 'use-package)
 
 ;;; }
 ;;; { multi-term
