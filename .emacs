@@ -795,14 +795,18 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;         )
 ;;   )
 
-(autoload 'mmd-mode "mmd-mode" "MMD mode for editing multimarkdown code." t)
-(setq auto-mode-alist (cons '("\\.mmd$" . mmd-mode) auto-mode-alist))
+;; (autoload 'mmd-mode "mmd-mode" "MMD mode for editing multimarkdown code." t)
+;; (setq auto-mode-alist (cons '("\\.mmd$" . mmd-mode) auto-mode-alist))
+
+(use-package mermaid-mode
+  :ensure t)
 
 ;;; }
 ;;; { personal lsp mode
 
 (use-package lsp-mode
   :commands lsp
+  :init (setq lsp-keymap-prefix "C-l")
   :config
   ;(setq lsp-print-io t)
   (setq lsp-auto-guess-root t
@@ -823,6 +827,16 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
         company-lsp-enable-recompletion t
         company-lsp-enable-snippet t)
   :ensure t)
+
+;;; }
+;;; { personal dap-mode
+
+(use-package dap-mode
+  :ensure t
+  :config
+  (dap-mode t)
+  (dap-ui-mode t)
+  )
 
 ;;; }
 ;;; { personal yaml model
@@ -910,6 +924,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :config
   (when (equal system-type 'darwin)
     (setq lsp-clients-clangd-executable "/usr/local/opt/llvm/bin/clangd"))
+  (eval-after-load "dap-mode"
+    '(require 'dap-gdb-lldb))
   )
 
 (use-package ccls
