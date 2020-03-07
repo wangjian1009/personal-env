@@ -212,8 +212,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
           )
       ))
 
-  (eval-after-load "ido" '(add-to-list 'ido-ignore-files "\\.DS_Store"))
-
   ;; (setq delete-by-moving-to-trash t
   ;;       trash-directory "~/.Trash/emacs")
   (setq dired-use-ls-dired nil)
@@ -329,7 +327,15 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   )
 
 ;;; }
-;;; { counsel swiper ivy
+;;; { diminish
+(use-package diminish
+  :ensure t
+  :config
+  (diminish 'eldoc-mode)
+  (diminish 'auto-revert-mode)
+  )
+;;; } 
+;;; { ivy
 
 (use-package ivy
   :ensure t
@@ -337,6 +343,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :hook (after-init . ivy-mode)
   :bind
   (("C-c C-r" . ivy-resume)
+   (:map ivy-minibuffer-map
+         ("RET" . ivy-alt-done)
+         )
    )
   :init
   (setq
@@ -344,7 +353,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
    ivy-count-format "%d/%d "
    ivy-height 10
    )
+  (add-to-list 'ivy-re-builders-alist
+           '(read-file-name-internal . ivy--regex-fuzzy))
+
   )
+
+;;; } 
+;;; { swiper
 
 (use-package swiper
   :ensure t
@@ -354,8 +369,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
    )
   )
 
+;;; } 
+;;; { counsel
+
 (use-package counsel
   :ensure t
+  :diminish counsel-mode
   :hook (after-init . counsel-mode)
   :bind (("M-y" . counsel-yank-pop)
          )
@@ -366,6 +385,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package folding
   :commands (folding-mode)
+  :diminish folding-mode
   :hook ((sh-mode emacs-lisp-mode cmake-mode cperl-mode makefile-gmake-mode) . folding-mode)
   :config
   (setq folding-fold-on-startup t)
@@ -444,6 +464,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package company
   :commands
   (company-mode company-complete-common)
+  :diminish company-mode
   :bind
   (:map company-mode-map
         ("M-/" . company-complete-common)
