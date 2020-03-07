@@ -351,8 +351,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq
    ivy-use-virtual-buffers t
    ivy-count-format "%d/%d "
+   ivy-wrap t
    ivy-height 10
    )
+  :config
   (add-to-list 'ivy-re-builders-alist
            '(read-file-name-internal . ivy--regex-fuzzy))
 
@@ -365,7 +367,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t
   :bind
   (
-   ("\C-s" . swiper-isearch-thing-at-point)
+   ("M-s" . swiper-isearch)
    )
   )
 
