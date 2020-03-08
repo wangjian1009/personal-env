@@ -312,7 +312,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;;; }
-;;; { eww
+;;; { browse-url
+
+(if (featurep 'xwidget-internal)
+    (setq browse-url-browser-function 'xwidget-webkit-browse-url))
 
 ;(setq browse-url-browser-function 'eww-browse-url)
 
@@ -367,7 +370,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t
   :bind
   (
-   ("M-s" . swiper-isearch)
+   ("\C-s" . swiper-isearch)
    )
   )
 
