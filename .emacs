@@ -70,6 +70,7 @@
 
 ;;; }
 ;;; { theme
+
 (setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
 
 ;; (use-package apropospriate-theme
@@ -1048,9 +1049,23 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   ;; (with-eval-after-load "projectile"
   ;;   (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
   ;;   (add-to-list 'projectile-project-root-files-bottom-up "BUILD"))
+  :custom
+  (dart-format-on-save t)
   :config
   (define-key dart-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t)
+
+;;; }
+;;; { personal flutter
+
+(use-package flutter
+  :ensure t
+  :after dart-mode
+  :bind (:map dart-mode-map
+              ("C-M-x" . #'flutter-run-or-hot-reload))
+  :custom
+  (flutter-sdk-path (expand-file-name "~/workspace/flutter"))
+  )
 
 ;;; }
 ;;; { personal go model
