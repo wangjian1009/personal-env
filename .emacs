@@ -427,7 +427,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { git
 
-(use-package magit :ensure t)
+(use-package magit
+  :ensure t
+  :bind(("C-x g" . magit-status))
+  :config
+  (setq magit-ediff-dwim-show-on-hunks t)
+  )
+
 ;; (use-package git-timemachine :ensure t)
 
 ;; (use-package magit-todos
@@ -777,24 +783,76 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal ledger mode
 
-(use-package ledger-mode
+;; (use-package ledger-mode
+;;   :ensure t
+;;   :mode "\\.ledger$"
+;;   :hook ((ledger-mode .
+;;           (lambda ()
+;;             (setq-local tab-always-indent 'complete)
+;;             (setq-local completion-cycle-threshold t)
+;;             (setq-local ledger-complete-in-steps t)))
+;;          )
+;;   :config
+;;   (setq ledger-reconcile-default-commodity "¥"
+;;         )
+;;   )
+
+;; (use-package flycheck-ledger
+;;   :after (ledger-mode flycheck)
+;;   :ensure t)
+
+(use-package hledger-mode
   :ensure t
-  :mode "\\.ledger$"
-  :hook ((ledger-mode .
-          (lambda ()
-            (setq-local tab-always-indent 'complete)
-            (setq-local completion-cycle-threshold t)
-            (setq-local ledger-complete-in-steps t)))
-         )
+  :after htmlize
+  :mode ("\\.journal\\'" "\\.ledger$")
+  :commands hledger-enable-reporting
+  :preface
+  (defun hledger/next-entry ()
+    "Move to next entry and pulse."
+    (interactive)
+    (hledger-next-or-new-entry)
+    (hledger-pulse-momentary-current-entry))
+
+  (defface hledger-warning-face
+    '((((background dark))
+       :background "Red" :foreground "White")
+      (((background light))
+       :background "Red" :foreground "White")
+      (t :inverse-video t))
+    "Face for warning"
+    :group 'hledger)
+
+  (defun hledger/prev-entry ()
+    "Move to last entry and pulse."
+    (interactive)
+    (hledger-backward-entry)
+    (hledger-pulse-momentary-current-entry))
+  :bind (("C-c j" . hledger-run-command)
+         :map hledger-mode-map
+         ("C-c e" . hledger-jentry)
+         ("M-p" . hledger/prev-entry)
+         ("M-n" . hledger/next-entry))
   :config
-  (setq ledger-reconcile-default-commodity "¥"
-        )
+  (add-hook 'hledger-view-mode-hook #'hl-line-mode)
+  (add-hook 'hledger-view-mode-hook #'center-text-for-reading)
+
+  (add-hook 'hledger-view-mode-hook
+            (lambda ()
+              (run-with-timer 1
+                              nil
+                              (lambda ()
+                                (when (equal hledger-last-run-command "balancesheet")
+                                  ;; highlight frequently changing accounts
+                                  (highlight-regexp "^.*\\(savings\\|cash\\).*$")
+                                  (highlight-regexp "^.*credit-card.*$"
+                                                    'hledger-warning-face))))))
+
+  (add-hook 'hledger-mode-hook
+            (lambda ()
+              (make-local-variable 'company-backends)
+              (add-to-list 'company-backends 'hledger-company)))
   )
-
-(use-package flycheck-ledger
-  :after (ledger-mode flycheck)
-  :ensure t)
-
+  
 ;;; }
 ;;; { personal markdown mode
 
