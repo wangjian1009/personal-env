@@ -45,6 +45,7 @@
 
 (setq password-cache-expiry nil)
 
+(setq gc-cons-threshold 100000000)
 (when (>= emacs-major-version 27)
   (setq read-process-output-max (* 1024 1024)))
 
@@ -783,76 +784,76 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal ledger mode
 
-;; (use-package ledger-mode
-;;   :ensure t
-;;   :mode "\\.ledger$"
-;;   :hook ((ledger-mode .
-;;           (lambda ()
-;;             (setq-local tab-always-indent 'complete)
-;;             (setq-local completion-cycle-threshold t)
-;;             (setq-local ledger-complete-in-steps t)))
-;;          )
-;;   :config
-;;   (setq ledger-reconcile-default-commodity "¥"
-;;         )
-;;   )
+(use-package ledger-mode
+  :ensure t
+  :mode "\\.ledger$"
+  :hook ((ledger-mode .
+          (lambda ()
+            (setq-local tab-always-indent 'complete)
+            (setq-local completion-cycle-threshold t)
+            (setq-local ledger-complete-in-steps t)))
+         )
+  :config
+  (setq ledger-reconcile-default-commodity "¥"
+        )
+  )
 
 ;; (use-package flycheck-ledger
 ;;   :after (ledger-mode flycheck)
 ;;   :ensure t)
 
-(use-package hledger-mode
-  :ensure t
-  :after htmlize
-  :mode ("\\.journal\\'" "\\.ledger$")
-  :commands hledger-enable-reporting
-  :preface
-  (defun hledger/next-entry ()
-    "Move to next entry and pulse."
-    (interactive)
-    (hledger-next-or-new-entry)
-    (hledger-pulse-momentary-current-entry))
+;; (use-package hledger-mode
+;;   :ensure t
+;;   :after htmlize
+;;   :mode ("\\.journal\\'" "\\.ledger$")
+;;   :commands hledger-enable-reporting
+;;   :preface
+;;   (defun hledger/next-entry ()
+;;     "Move to next entry and pulse."
+;;     (interactive)
+;;     (hledger-next-or-new-entry)
+;;     (hledger-pulse-momentary-current-entry))
 
-  (defface hledger-warning-face
-    '((((background dark))
-       :background "Red" :foreground "White")
-      (((background light))
-       :background "Red" :foreground "White")
-      (t :inverse-video t))
-    "Face for warning"
-    :group 'hledger)
+;;   (defface hledger-warning-face
+;;     '((((background dark))
+;;        :background "Red" :foreground "White")
+;;       (((background light))
+;;        :background "Red" :foreground "White")
+;;       (t :inverse-video t))
+;;     "Face for warning"
+;;     :group 'hledger)
 
-  (defun hledger/prev-entry ()
-    "Move to last entry and pulse."
-    (interactive)
-    (hledger-backward-entry)
-    (hledger-pulse-momentary-current-entry))
-  :bind (("C-c j" . hledger-run-command)
-         :map hledger-mode-map
-         ("C-c e" . hledger-jentry)
-         ("M-p" . hledger/prev-entry)
-         ("M-n" . hledger/next-entry))
-  :config
-  (add-hook 'hledger-view-mode-hook #'hl-line-mode)
-  (add-hook 'hledger-view-mode-hook #'center-text-for-reading)
+;;   (defun hledger/prev-entry ()
+;;     "Move to last entry and pulse."
+;;     (interactive)
+;;     (hledger-backward-entry)
+;;     (hledger-pulse-momentary-current-entry))
+;;   :bind (("C-c j" . hledger-run-command)
+;;          :map hledger-mode-map
+;;          ("C-c e" . hledger-jentry)
+;;          ("M-p" . hledger/prev-entry)
+;;          ("M-n" . hledger/next-entry))
+;;   :config
+;;   (add-hook 'hledger-view-mode-hook #'hl-line-mode)
+;;   (add-hook 'hledger-view-mode-hook #'center-text-for-reading)
 
-  (add-hook 'hledger-view-mode-hook
-            (lambda ()
-              (run-with-timer 1
-                              nil
-                              (lambda ()
-                                (when (equal hledger-last-run-command "balancesheet")
-                                  ;; highlight frequently changing accounts
-                                  (highlight-regexp "^.*\\(savings\\|cash\\).*$")
-                                  (highlight-regexp "^.*credit-card.*$"
-                                                    'hledger-warning-face))))))
+;;   (add-hook 'hledger-view-mode-hook
+;;             (lambda ()
+;;               (run-with-timer 1
+;;                               nil
+;;                               (lambda ()
+;;                                 (when (equal hledger-last-run-command "balancesheet")
+;;                                   ;; highlight frequently changing accounts
+;;                                   (highlight-regexp "^.*\\(savings\\|cash\\).*$")
+;;                                   (highlight-regexp "^.*credit-card.*$"
+;;                                                     'hledger-warning-face))))))
 
-  (add-hook 'hledger-mode-hook
-            (lambda ()
-              (make-local-variable 'company-backends)
-              (add-to-list 'company-backends 'hledger-company)))
-  )
-  
+;;   (add-hook 'hledger-mode-hook
+;;             (lambda ()
+;;               (make-local-variable 'company-backends)
+;;               (add-to-list 'company-backends 'hledger-company)))
+;;   )
+
 ;;; }
 ;;; { personal markdown mode
 
@@ -904,6 +905,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t)
 
 ;(use-package lsp-ui :ensure t)
+(use-package lsp-ivy
+  :ensure t
+  :commands lsp-ivy-workspace-symbol)
 
 (use-package company-lsp
   :requires (lsp-mode company)
@@ -1484,8 +1488,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal cmake mode
 
+; pip3 install cmake-language-server
 (use-package cmake-mode
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
+  :hook ((cmake-mode . lsp))
   :config
   (setq cmake-tab-width 2)
   :ensure t
@@ -1494,7 +1500,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package cmake-font-lock
   :requires cmake-mode
   :commands (cmake-font-lock-activate)
-  :hook (cmake-mode-hook . cmake-font-lock-activate)
+  :hook ((cmake-mode-hook . cmake-font-lock-activate))
   :ensure t
   )
 
