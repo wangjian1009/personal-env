@@ -53,6 +53,7 @@
 (global-set-key (kbd "ESC C-M-l") 'revert-buffer-with-coding-system)
 (global-set-key (kbd "C-c c") 'compile)
 (global-set-key (kbd "C-c f") 'ff-find-other-file)
+(setq vc-follow-symlinks t)
 
 ;;; }
 
