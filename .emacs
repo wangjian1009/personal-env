@@ -316,8 +316,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { browse-url
 
-(if (featurep 'xwidget-internal)
-    (setq browse-url-browser-function 'xwidget-webkit-browse-url))
+;; (if (featurep 'xwidget-internal)
+;;     (setq browse-url-browser-function 'xwidget-webkit-browse-url))
 
 ;(setq browse-url-browser-function 'eww-browse-url)
 
@@ -933,6 +933,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package yaml-mode
   :mode ("\\.yml$" "\\.yaml$")
+  :hook ((yaml-mode . lsp))
   :config
   (define-key yaml-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t
@@ -1289,7 +1290,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { personal json mode
 
 (use-package json-mode
-  :ensure t)
+  :ensure t
+  :hook ((json-mode . lsp))
+  )
 
 ;;; }
 ;;; { personal js mode
