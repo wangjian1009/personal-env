@@ -908,6 +908,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;(use-package lsp-ui :ensure t)
 (use-package lsp-ivy
   :ensure t
+  :after (ivy)
+  :bind (
+         (:map lsp-command-map
+               ("g s". lsp-ivy-workspace-symbol) )
+         )
   :commands lsp-ivy-workspace-symbol)
 
 (use-package company-lsp
