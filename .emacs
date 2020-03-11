@@ -164,8 +164,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (defun my-preferred-font-size ()
   (let ( (dpi (my-dpi)) )
   (cond
-    ((< dpi 110) 10)
-    ((< dpi 130) 14)
+    ((< dpi 110) 14)
+    ((< dpi 130) 16)
     ((< dpi 160) 18)
     ((< dpi 220) 20)
     ((< dpi 260) 28)
@@ -174,9 +174,29 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (defcustom global-font-size (my-preferred-font-size) "默認字體大小" :type 'integer)
 
+;; ** OS X **
+;; Monaco               -- OS X 之前的默认字体就是它，它的风格特殊，有种苹果味
+;; Menlo                -- Xcode默认字体 (老版本)
+;; San Francisco Mono   -- Xcode默认字体 (macOS High Sierra以后版本)
+
+;; ** Windows **
+;; Consolas             --  Microsoft Visual Studio 的默认字
+
+;; ** 其他 **
+;; Monospace
+;; Courier New
+;; DejaVu Sans Mono
+;; Anonymous Pro        --  古典打字机的感觉
+;; Space Mono           --  
+;; IBM 3270             --  基于 IBM 在 1971 年制造的 IBM 3270 终端中使用的字体，有种复古编程的味道
+;; Droid Sans Mono      --  这是为 Android 设计的一种字体，很漂亮，但是0和O并没有区分
+
+;; Microsoft Yahei
+
 (qiang-set-font
- '("Consolas" "Monaco" "DejaVu Sans Mono" "Monospace" "Courier New") (concat ":pixelsize=" (number-to-string global-font-size))
- '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体"))
+ '("Consolas" "Menlo")
+ (concat ":pixelsize=" (number-to-string global-font-size))
+ '("Microsoft Yahei"))
 
 ;;; }
 ;;; { support functions or macros
@@ -453,11 +473,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { projectile
 
 (use-package projectile
+  :ensure t
+  :diminish projectile-mode
   :config
   ;(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1)
-  :ensure t
   )
 
 ;;; }
@@ -470,6 +491,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { flycheck-mode
 
 (use-package flycheck
+  :diminish flycheck-mode
   :ensure t)
 
 ;;; }
