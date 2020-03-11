@@ -579,11 +579,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package all-the-icons-dired
   :ensure t
+  :diminish all-the-icons-dired-mode
   :hook ((dired-mode . all-the-icons-dired-mode))
   )
 
 (use-package all-the-icons-ibuffer
   :ensure t
+  :diminish all-the-icons-ibuffer-mode
   :init (all-the-icons-ibuffer-mode 1))
 
 ;;; }
@@ -1022,7 +1024,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
           )
   :hook ((c-mode c++-mode objc-mode) .
          (lambda()
-           (if (not (eq 'windows-nt system-type)) (lsp))
+           (lsp)
            (c-toggle-hungry-state t)
            (which-function-mode t)
            (c-set-style "stroustrup")
