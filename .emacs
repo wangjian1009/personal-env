@@ -561,18 +561,21 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; } 
 ;;; { Icons
-(use-package all-the-icons :ensure t
+(use-package all-the-icons
+  :ensure t
   :config
-  (all-the-icons-install-fonts)
-  (all-the-icons-icon-for-buffer)
-  (all-the-icons-icon-for-file)
+  ;(all-the-icons-install-fonts)
   )
 
 (use-package all-the-icons-ivy
   :ensure t
-  :after (all-the-icons ivy)
   :config
-  (all-the-icons-ivy-setup))
+  (all-the-icons-ivy-setup)
+  )
+
+;; (use-package all-the-icons-ivy-rich
+;;   :ensure t
+;;   :init (all-the-icons-ivy-rich-mode 1))
 
 (use-package all-the-icons-dired
   :ensure t
