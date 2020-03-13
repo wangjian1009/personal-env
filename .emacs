@@ -446,6 +446,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package yasnippet
   :ensure t
+  :bind ((:map yas-minor-mode-map
+               ("C-h s" . yas-describe-tables)))
   :config
   (yas-reload-all)
   (use-package yasnippet-snippets
@@ -916,6 +918,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package markdown-mode
   :ensure t
   :commands (markdown-mode gfm-mode)
+  :hook ((markdown-mode . yas-minor-mode-on))
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
