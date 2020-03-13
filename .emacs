@@ -446,6 +446,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package yasnippet
   :ensure t
+  :commands (yas-minor-mode-on yas-minor-mode)
   :bind ((:map yas-minor-mode-map
                ("C-h s" . yas-describe-tables)))
   :config
@@ -997,7 +998,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package yaml-mode
   :mode ("\\.yml$" "\\.yaml$")
-  :hook ((yaml-mode . lsp))
+  :hook ((yaml-mode . lsp)
+         (yaml-mode . yas-minor-mode-on)
+         )
   :config
   (define-key yaml-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t
@@ -1062,7 +1065,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :hook ((c-mode c++-mode objc-mode) .
          (lambda()
            (lsp)
-           (yas-minor-mode-on)o
+           (yas-minor-mode-on)
            (c-toggle-hungry-state t)
            (which-function-mode t)
            (c-set-style "stroustrup")
@@ -1202,21 +1205,30 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package go-mode
   :mode "\\.go\\'"
+  :after (lsp)
   :hook ((go-mode . lsp)
          (go-mode . yas-minor-mode-on)
          ;(go-mode . (lambda () (setq tab-width 4)))
-         (before-save . gofmt-before-save)
+         (go-mode . lsp-go-install-save-hooks)
          )
   :bind
   (:map go-mode-map
-   ("C-c C-g" . go-goto-map)
-   ("C-c C-r" . go-remove-unused-imports)
-   ("C-c C-f" . gofmt)
-   ("C-c C-k" . godoc)
-   ("M-." . godef-jump)
+   ;; ("C-c C-g" . go-goto-map)
+   ;; ("C-c C-r" . go-remove-unused-imports)
+   ;; ("C-c C-f" . gofmt)
+   ;; ("C-c C-k" . godoc)
    ("C-c C-c" . comment-region)
    )
   :ensure t
+  :init
+  (defun lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  :config
+  (lsp-register-custom-settings
+   '(("gopls.completeUnimported" t t)
+     ("gopls.staticcheck" t t))
+   )
   )
 
 ;;; }
