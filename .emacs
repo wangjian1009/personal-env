@@ -1062,6 +1062,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :hook ((c-mode c++-mode objc-mode) .
          (lambda()
            (lsp)
+           (yas-minor-mode-on)o
            (c-toggle-hungry-state t)
            (which-function-mode t)
            (c-set-style "stroustrup")
