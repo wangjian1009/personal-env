@@ -442,6 +442,17 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;; (define-key yafolding-mode-map (kbd "C-c <C-return>") 'yafolding-toggle-element)
 
 ;;; }
+;;; { yasnippet
+
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-reload-all)
+  (use-package yasnippet-snippets
+    :ensure t)
+  )
+
+;;; }
 ;;; { all
 
 (use-package all :ensure t)
@@ -583,6 +594,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;;; } 
 ;;; { Icons
+
 (use-package all-the-icons
   :ensure t
   :config
@@ -951,7 +963,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;(use-package lsp-ui :ensure t)
 (use-package lsp-ivy
   :ensure t
-  :after (ivy)
+  :after (lsp)
   :bind (
          (:map lsp-command-map
                ("g s". lsp-ivy-workspace-symbol) )
@@ -1145,6 +1157,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package kotlin-mode
   :mode "\\.kt\\'"
   :hook ((kotlin-mode . lsp)
+         (kotlin-mode . yas-minor-mode-on)
          )
   :config
   (define-key kotlin-mode-map (kbd "C-c C-c") 'comment-region)
@@ -1156,6 +1169,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package dart-mode
   :mode "\\.dart\\'"
   :hook ((dart-mode . lsp)
+         (dart-mode . yas-minor-mode-on)
          )
   :init
   ;; (with-eval-after-load "projectile"
@@ -1184,7 +1198,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package go-mode
   :mode "\\.go\\'"
-  :hook ((go-mode . lsp))
+  :hook ((go-mode . lsp)
+         (go-mode . yas-minor-mode-on)
+         ;(go-mode . (lambda () (setq tab-width 4)))
+         (before-save . gofmt-before-save)
+         )
   :bind
   (:map go-mode-map
    ("C-c C-g" . go-goto-map)
@@ -1192,29 +1210,29 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
    ("C-c C-f" . gofmt)
    ("C-c C-k" . godoc)
    ("M-." . godef-jump)
+   ("C-c C-c" . comment-region)
    )
-  :config
-  (defun personal-go-setup()
-    (add-hook 'before-save-hook #'gofmt-before-save)
-    (setq tab-width 4)
-    )
-  (add-hook 'go-mode-hook 'personal-go-setup)
-  (define-key go-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t
   )
 
 ;;; }
 ;;; { personal make setup
 
-(add-to-list 'auto-mode-alist '("\\.mk\\'" . makefile-gmake-mode))
-(add-to-list 'auto-mode-alist '("[Mm]akefile\\'" . makefile-gmake-mode))
+(use-package make-mode
+  :mode (("\\.mk\\'" . makefile-gmake-mode)
+         ("[Mm]akefile\\'" . makefile-gmake-mode)
+         )
+  :hook
+  (makefile-mode . yas-minor-mode-on))
 
 ;;; }
 ;;; { personal C# mode
 
 (use-package csharp-mode
   :ensure t
-  :hook ((csharp-mode . lsp))
+  :hook ((csharp-mode . lsp)
+         (csharp-mode . yas-minor-mode-on)
+         )
   )
 
 (use-package csproj-mode
@@ -1237,93 +1255,77 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal perl mode settings
 
-(defvar perl-syntax-bin "perl" "The perl binary used to check syntax.")
-(defun perl-syntax-check-only ()
-  "Return a either nill or t depending on whether the current buffer passws perl`s syntax check."
-  (interactive)
-  (let ((buf (get-buffer-create "*Perl syntax check*")))
-    (let ((syntax-ok (= 0 (save-excursion
-                           (widen)
-                           (call-process-region
-                            (point-min) (point-max) perl-syntax-bin nil buf nil "-c")))))
-      (if syntax-ok (kill-buffer buf)
-        (display-buffer buf)))))
+;; (defvar perl-syntax-bin "perl" "The perl binary used to check syntax.")
+;; (defun perl-syntax-check-only ()
+;;   "Return a either nill or t depending on whether the current buffer passws perl`s syntax check."
+;;   (interactive)
+;;   (let ((buf (get-buffer-create "*Perl syntax check*")))
+;;     (let ((syntax-ok (= 0 (save-excursion
+;;                            (widen)
+;;                            (call-process-region
+;;                             (point-min) (point-max) perl-syntax-bin nil buf nil "-c")))))
+;;       (if syntax-ok (kill-buffer buf)
+;;         (display-buffer buf)))))
  
-(defvar perl-syntax-mode nil "Check perl syntax before saving.")
-(make-variable-buffer-local 'perl-syntax-mode)
-(defun perl-syntax-write-hook ()
-  "Check perl syntax during 'write-file-hooks' for 'perl-syntax-mode'"
-  (if perl-syntax-mode
-      (save-excursion
-       (widen)
-       (mark-whole-buffer)
-       (not (perl-syntax-check-only)))
-    nil))
+;; (defvar perl-syntax-mode nil "Check perl syntax before saving.")
+;; (make-variable-buffer-local 'perl-syntax-mode)
+;; (defun perl-syntax-write-hook ()
+;;   "Check perl syntax during 'write-file-hooks' for 'perl-syntax-mode'"
+;;   (if perl-syntax-mode
+;;       (save-excursion
+;;        (widen)
+;;        (mark-whole-buffer)
+;;        (not (perl-syntax-check-only)))
+;;     nil))
  
-(defun perl-syntax-mode (&optional arg)
-  "Perl syntax checking minor mode."
-  (interactive "p")
-  (setq perl-syntax-mode
-        (if (null arg)
-            (not perl-syntax-mode)
-          (> (prefix-numeric-value arg) 0)))
-  (make-local-variable 'write-file-hooks)
-  (if perl-syntax-mode
-      (add-hook 'write-file-hooks 'perl-syntax-write-hook)
-    (remove-hook 'write-file-hooks 'perl-syntax-write-hook)))
+;; (defun perl-syntax-mode (&optional arg)
+;;   "Perl syntax checking minor mode."
+;;   (interactive "p")
+;;   (setq perl-syntax-mode
+;;         (if (null arg)
+;;             (not perl-syntax-mode)
+;;           (> (prefix-numeric-value arg) 0)))
+;;   (make-local-variable 'write-file-hooks)
+;;   (if perl-syntax-mode
+;;       (add-hook 'write-file-hooks 'perl-syntax-write-hook)
+;;     (remove-hook 'write-file-hooks 'perl-syntax-write-hook)))
  
-(if (not (assq 'perl-syntax-mode minor-mode-alist))
-    (setq minor-mode-alist
-          (cons '(perl-syntax-mode " Perl Syntax")
-                minor-mode-alist)))
- 
-(defun perl-eval ()
-  "Run selected buf as Perl code"
-  (interactive)
-  (save-excursion
-    (widen)
-    (shell-command-on-region (point-min) (point-max) "perl")))
- 
-(eval-after-load "cperl-mode"
-  '(progn
-     (define-key cperl-mode-map (kbd "C-x C-e") 'perl-eval)
-     (define-key cperl-mode-map (kbd "C-c f") 'perldoc-find-module)
-     (define-key cperl-mode-map (kbd "M-p") 'cperl-perldoc)
-     (define-key cperl-mode-map (kbd "C-c C-c") 'comment-region)
- 
-     (setq cperl-auto-newline nil)
-     (setq cperl-auto-newline-after-colon nil)
-     (setq cperl-electric-parens nil)
-   
-     (defun my-perl-mode()
-       )
- 
-     (add-hook 'cperl-mode-hook 'my-perl-mode)
-     (add-hook 'cperl-mode-hook 'perl-syntax-mode)
-     )
-  )
- 
-(setq auto-mode-alist
-      (cons '("\\.\\(pl\\|pm\\|pod\\)\\'" . cperl-mode) auto-mode-alist))
-(setq interpreter-mode-alist
+;; (if (not (assq 'perl-syntax-mode minor-mode-alist))
+;;     (setq minor-mode-alist
+;;           (cons '(perl-syntax-mode " Perl Syntax")
+;;                 minor-mode-alist)))
+
+(use-package cperl-mode
+  :mode "\\.\\(pl\\|pm\\|pod\\)\\'"
+  :bind ((:map cperl-mode-map
+               ("C-x C-e" . perl-eval)
+               ("C-c f" . perldoc-find-module)
+               ("M-p" . cperl-perldoc)
+               ("C-c C-c" . comment-region)
+               ))
+  :hook ((cperl-mode . perl-syntax-mode)
+         (cperl-mode . yas-minor-mode-on)
+         )
+  :init
+  (setq interpreter-mode-alist
       (cons '("perl" . cperl-mode)
             (cons '("perl5" . cperl-mode) interpreter-mode-alist)))
+  :config
+  (setq cperl-auto-newline nil)
+  (setq cperl-auto-newline-after-colon nil)
+  (setq cperl-electric-parens nil)
+  )
 
 ;;; }
 ;;; { personal python mode settings
 
 (use-package python-mode
   :mode "\\.py\\'"
-  :hook ((python-mode . lsp))
+  :hook ((python-mode . lsp)
+         (python-mode . yas-minor-mode-on)
+         )
   :config
   :ensure t)
-
-;; (use-package lsp-python
-;;   :hook (python-mode . (lambda ()
-;;                                         ;(require 'lsp-python-ms)
-;;                          (lsp))
-;;                      )  ; or lsp-deferred
-;;   :ensure t)
 
 ;;; }
 ;;; { personal php mode
@@ -1350,6 +1352,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :mode "\\.js\\'"
   :hook ((js2-mode . flycheck-mode)
          (js2-mode . company-mode)
+         (js2-mode . yas-minor-mode-on)
          )
   :bind (:map js2-mode-map
               ("C-c C-c" . comment-region)
@@ -1451,6 +1454,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
               )
   :hook ((typescript-mode . company-mode)
          (typescript-mode . flycheck-mode)
+         (typescript-mode . yas-minor-mode-on)
          )
   :config
   (setq typescript-indent-level 2)
@@ -1474,6 +1478,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package vue-mode
   :ensure t
   :hook ((vue-mode . lsp)
+         (vue-mode . yas-minor-mode-on)
          )
   )
 
@@ -1482,6 +1487,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package web-mode
   :mode ("\\.jsp\\'" "\\.html?\\'")
+  :hook ((web-mode . yas-minor-mode-on)
+         )
   :config
   (progn
     (setq web-mode-markup-indent-offset 2)
@@ -1543,7 +1550,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ; pip3 install cmake-language-server
 (use-package cmake-mode
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
-  :hook ((cmake-mode . lsp))
+  :hook ((cmake-mode . lsp)
+         (cmake-mode . yas-minor-mode-on)
+         )
   :config
   (setq cmake-tab-width 2)
   :ensure t
@@ -1576,12 +1585,14 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :hook (;(swift-mode . lsp)
          (swift-mode . (lambda () (add-to-list (make-local-variable 'company-backends) 'company-sourcekit)))
          (swift-mode . company-mode)
+         (swift-mode . yas-minor-mode-on)
          )
+  :bind ((:map swift-mode-map
+              ("C-c C-c" . comment-region)
+              ))
   :custom
   (swift-mode:multiline-statement-offset 4)
   (swift-mode:parenthesized-expression-offset 4)
-  :config
-  (define-key swift-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t
   )
 
@@ -1699,7 +1710,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package auctex
   :defer t
-  :ensure t)
+  :ensure t
+  :hook ((LaTeX-mode . yas-minor-mode-on)
+         )
+  )
 
 (use-package latex-extra
   :ensure t
