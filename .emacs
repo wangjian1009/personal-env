@@ -686,9 +686,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (use-package org-mime
   :after org
   :ensure t
+  :bind ((:map org-mode-map
+               ("C-c o m" . org-mime-org-buffer-htmlize)
+               )
+         )
   :config
   (setq org-mime-library 'semi)
-  (global-set-key (kbd "C-c o m") 'org-mime-org-buffer-htmlize)
   )
 
 (use-package ox-latex
@@ -777,20 +780,23 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; }
 ;;; { personal mail
 
-;; (use-package wanderlust
-;;   :ensure t
-;;   )
-
-(eval-after-load "wl"
-  (progn
-    (setq mail-user-agent 'wl-user-agent)
-    (define-mail-user-agent
-      'wl-user-agent
-      'wl-user-agent-compose
-      'wl-draft-send
-      'wl-draft-kill
-      'mail-send-hook)
-    )
+(use-package wanderlust
+  :ensure t
+  :commands (wl-user-agent
+             wl-user-agent-compose
+             wl-draft-send
+             wl-draft-kill
+             )
+  :init
+  (if (boundp 'mail-user-agent)
+      (setq mail-user-agent 'wl-user-agent))
+  (if (fboundp 'define-mail-user-agent)
+      (define-mail-user-agent
+        'wl-user-agent
+        'wl-user-agent-compose
+        'wl-draft-send
+        'wl-draft-kill
+        'mail-send-hook))
   )
 
 ;;; }
