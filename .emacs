@@ -993,10 +993,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { personal dap-mode
 
 (use-package dap-mode
+  :commands (dap-mode dap-ui-mode)
   :ensure t
-  :config
-  (dap-mode t)
-  (dap-ui-mode t)
   )
 
 ;;; }
@@ -1071,6 +1069,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :hook ((c-mode c++-mode objc-mode) .
          (lambda()
            (lsp)
+           (dap-mode t)
+           (dap-ui-mode t)
            (yas-minor-mode-on)
            (c-toggle-hungry-state t)
            (which-function-mode t)
@@ -1086,11 +1086,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
            (add-to-list (make-local-variable 'company-backends) #'company-tabnine)
            )
          )
-  :config
-  (when (equal system-type 'darwin)
-    (setq lsp-clients-clangd-executable "/usr/local/opt/llvm/bin/clangd"))
-  (eval-after-load "dap-mode"
-    '(require 'dap-gdb-lldb))
   )
 
 (use-package ccls
