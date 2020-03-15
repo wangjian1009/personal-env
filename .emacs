@@ -1079,6 +1079,28 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
+  :functions dap-hydra/nil
+  :bind ((:map dap-mode-map
+               ("C-x C-d c" . dap-hydra)
+               ("C-x C-d r" . dap-debug-last)
+               ("C-x C-d C-r" . dap-debug)
+               )
+         )
+  :hook((dap-mode . dap-ui-mode)
+        (dap-session-created . (lambda (_args) (dap-hydra)))
+        (dap-stopped . (lambda (_args) (dap-hydra)))
+        (dap-terminated . (lambda (_args) (dap-hydra/nil)))
+
+        (python-mode . (lambda () (require 'dap-python)))
+        (ruby-mode . (lambda () (require 'dap-ruby)))
+        (go-mode . (lambda () (require 'dap-go)))
+        (java-mode . (lambda () (require 'dap-java)))
+        ((c-mode c++-mode objc-mode swift-mode) . (lambda () (require 'dap-lldb)))
+        (php-mode . (lambda () (require 'dap-php)))
+        (elixir-mode . (lambda () (require 'dap-elixir)))
+        ((js-mode js2-mode) . (lambda () (require 'dap-chrome)))
+        (powershell-mode . (lambda () (require 'dap-pwsh)))
+        )
   :ensure t
   )
 
@@ -1154,8 +1176,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :hook ((c-mode c++-mode objc-mode) .
          (lambda()
            (lsp)
-           (dap-mode t)
-           (dap-ui-mode t)
            (yas-minor-mode-on)
            (c-toggle-hungry-state t)
            (which-function-mode t)
@@ -1171,9 +1191,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
            (add-to-list (make-local-variable 'company-backends) #'company-tabnine)
            )
          )
-  :config
-  (eval-after-load "dap-mode"
-    '(require 'dap-gdb-lldb))
   )
 
 (use-package ccls
@@ -1457,6 +1474,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :mode "\\.js\\'"
   :hook ((js2-mode . flycheck-mode)
          (js2-mode . company-mode)
+         (js2-mode . dap-mode)
          (js2-mode . yas-minor-mode-on)
          )
   :bind (:map js2-mode-map
