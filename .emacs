@@ -301,6 +301,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (setq delete-auto-save-files t)
 
 ;;; }
+;;; { hydra
+
+(use-package hydra :ensure t)
+
+;;; }
 ;;; { multi-term
 
 (use-package multi-term
@@ -361,9 +366,14 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (diminish 'auto-revert-mode)
   )
 ;;; } 
-;;; { Hydra
+;;; { ace-window
 
-(use-package hydra :ensure t)
+(use-package ace-window
+  :ensure t
+  :config
+  (setq aw-scope 'global) ;; was frame
+  (global-set-key (kbd "C-x O") 'other-frame)
+  (global-set-key [remap other-window] 'ace-window))
 
 ;;; }
 ;;; { ivy
@@ -825,7 +835,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (setq ebdb-default-window-size 0.2)
   (setq ebdb-mua-auto-update-p t)
 
-  (eval-after-load "org" '(require 'ebdb-org))
+  ;;(eval-after-load "org" '(require 'ebdb-org))
   )
 
 (use-package ebdb-i18n-chn
