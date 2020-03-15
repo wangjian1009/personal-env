@@ -966,21 +966,21 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { personal grip mode
 
 ;; 预览Markdown和Org
-;; (use-package grip-mode
-;;   :ensure t
-;;   :diminish (grip-mode)
-;;   :bind ((:map org-mode-map
-;;                ("C-c C-v" . grip-mode))
-;;          (:map markdown-mode-map
-;;                ("C-c C-v" . grip-mode)))
-;;   :config
-;;   (require 'auth-source)
-;;   (let ((credential (auth-source-user-and-password "api.github.com")))
-;;     (setq grip-github-user (car credential)
-;;           grip-github-password (cadr credential)))
+(use-package grip-mode
+  :ensure t
+  :diminish (grip-mode)
+  :bind ((:map org-mode-map
+               ("C-c C-v" . grip-mode))
+         (:map markdown-mode-map
+               ("C-c C-v" . grip-mode)))
+  :config
+  (require 'auth-source)
+  (let ((credential (auth-source-user-and-password "emacs-grip.api.github.com")))
+    (setq grip-github-user (car credential)
+          grip-github-password (cadr credential)))
 
-;;   ;; (setq grip-preview-use-webkit nil)
-;;   )
+  ;; (setq grip-preview-use-webkit nil)
+  )
 
 ;;; } 
 ;;; { personal lsp mode
