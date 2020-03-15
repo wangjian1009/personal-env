@@ -485,7 +485,23 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq magit-ediff-dwim-show-on-hunks t)
   )
 
-;; (use-package git-timemachine :ensure t)
+(use-package git-timemachine
+  :ensure t
+  :custom-face
+  (git-timemachine-minibuffer-author-face ((t (:inherit success))))
+  (git-timemachine-minibuffer-detail-face ((t (:inherit warning))))
+  :bind (:map vc-prefix-map
+         ("t" . git-timemachine))
+  :hook (before-revert . (lambda ()
+                           (when (bound-and-true-p git-timemachine-mode)
+                             (user-error "Cannot revert the timemachine buffer")))))
+
+(use-package browse-at-remote
+  :ensure t
+  :bind (:map vc-prefix-map
+              ("B" . browse-at-remote))
+  
+  )
 
 ;; (use-package magit-todos
 ;;   :after magit
@@ -538,7 +554,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                    (when smerge-mode
                                      (unpackaged/smerge-hydra/body)))))
 
-(use-package forge :ensure t)
+(use-package forge
+  :ensure t
+  :after magit)
 
 ;;; }
 ;;; { projectile
