@@ -650,8 +650,10 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;; { personal ORG mode
 
 (use-package org
+  :hook ((org-mode . yas-minor-mode-on)
+         (org-mode . turn-on-org-cdlatex)
+         )
   :config
-  (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
   (setq org-preview-latex-default-process 'imagemagick) ;使用 imagemagick 来生成图片
   (setq org-confirm-babel-evaluate nil)   ;不用每次确认
   (setq org-reverse-note-order t)
@@ -1086,6 +1088,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
            (add-to-list (make-local-variable 'company-backends) #'company-tabnine)
            )
          )
+  :config
+  (eval-after-load "dap-mode"
+    '(require 'dap-gdb-lldb))
   )
 
 (use-package ccls
