@@ -685,6 +685,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
      ))
   )
 
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
 (use-package org-mime
   :after org
   :ensure t
