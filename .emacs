@@ -741,6 +741,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
                )
   )
 
+(use-package ox-gfm :ensure t)
 ;; (use-package org-bookmark-heading
 ;;   :ensure t
 ;;   )
@@ -962,6 +963,26 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t)
 
 ;;; }
+;;; { personal grip mode
+
+;; 预览Markdown和Org
+(use-package grip-mode
+  :ensure t
+  :diminish (grip-mode)
+  :bind ((:map org-mode-map
+               ("C-c C-v" . grip-mode))
+         (:map markdown-mode-map
+               ("C-c C-v" . grip-mode)))
+  :config
+  (require 'auth-source)
+  (let ((credential (auth-source-user-and-password "api.github.com")))
+    (setq grip-github-user (car credential)
+          grip-github-password (cadr credential)))
+
+  ;; (setq grip-preview-use-webkit nil)
+  )
+
+;;; } 
 ;;; { personal lsp mode
 
 (use-package lsp-mode
@@ -997,7 +1018,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t)
 
 ;;; }
-;;; { personal dap-mode
+;;; { personal dap mode
 
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
