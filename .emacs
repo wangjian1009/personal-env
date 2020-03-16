@@ -1010,8 +1010,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :commands (markdown-mode gfm-mode)
   :hook ((markdown-mode . yas-minor-mode-on))
   :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
+         ("\\.md\\'" . gfm-mode)
+         ("\\.markdown\\'" . gfm-mode))
   :config
   (setq markdown-enable-wiki-links t
         markdown-italic-underscore t
@@ -1157,7 +1157,6 @@ mermaid.initialize({
 
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
-  :functions dap-hydra/nil
   :bind ((:map dap-mode-map
                ("C-x C-d c" . dap-hydra)
                ("C-x C-d r" . dap-debug-last)
@@ -1167,7 +1166,6 @@ mermaid.initialize({
   :hook((dap-mode . dap-ui-mode)
         (dap-session-created . (lambda (_args) (dap-hydra)))
         (dap-stopped . (lambda (_args) (dap-hydra)))
-        (dap-terminated . (lambda (_args) (dap-hydra/nil)))
 
         (python-mode . (lambda () (require 'dap-python)))
         (ruby-mode . (lambda () (require 'dap-ruby)))
@@ -1254,6 +1252,7 @@ mermaid.initialize({
   :hook ((c-mode c++-mode objc-mode) .
          (lambda()
            (lsp)
+           (dap-mode t)
            (yas-minor-mode-on)
            (c-toggle-hungry-state t)
            (which-function-mode t)
