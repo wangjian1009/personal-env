@@ -500,7 +500,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t
   :bind (:map vc-prefix-map
               ("B" . browse-at-remote))
-  
+  :config
+  (add-to-list 'browse-at-remote-remote-type-domains '("gitlab.adups.com" . "gitlab"))
   )
 
 ;; (use-package magit-todos
@@ -1161,6 +1162,13 @@ mermaid.initialize({
                ("C-x C-d c" . dap-hydra)
                ("C-x C-d r" . dap-debug-last)
                ("C-x C-d C-r" . dap-debug)
+               ("C-x C-d o" . dap-go-to-output-buffer)
+               ("C-x C-d s" . dap-switch-session)
+               ("C-x C-d f" . dap-switch-stack-frame)
+               ("C-x C-d t" . dap-switch-thread)
+               ("C-x C-d S" . dap-ui-sessions)
+               ("C-x C-d L" . dap-ui-locals)
+               ("C-x C-d E" . dap-ui-repl)
                )
          )
   :hook((dap-mode . dap-ui-mode)
@@ -1276,6 +1284,9 @@ mermaid.initialize({
            (require `ccls)
            (set (make-local-variable 'lsp-enable-on-type-formatting) nil)
            ))
+  :custom
+  (ccls-sem-highlight-method 'font-lock)
+  ;;(ccls-sem-highlight-method 'overlay)
   :config
   (eval-after-load "projectile"
     '(add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
