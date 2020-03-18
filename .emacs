@@ -442,21 +442,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t)
 
 ;;; }
-;;; { yafolding
-
-(use-package yafolding
-  :commands yafolding-mode
-  :hook ((yaml-mode c-mode c++-mode objc-mode) . yafolding-mode)
-  :ensure t)
-
-;; (define-key yafolding-mode-map (kbd "<C-S-return>") nil)
-;; (define-key yafolding-mode-map (kbd "<C-M-return>") nil)
-;; (define-key yafolding-mode-map (kbd "<C-return>") nil)
-;; (define-key yafolding-mode-map (kbd "C-c <C-M-return>") 'yafolding-toggle-all)
-;; (define-key yafolding-mode-map (kbd "C-c <C-S-return>") 'yafolding-hide-parent-element)
-;; (define-key yafolding-mode-map (kbd "C-c <C-return>") 'yafolding-toggle-element)
-
-;;; }
 ;;; { yasnippet
 
 (use-package yasnippet
@@ -761,10 +746,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
      ))
   )
 
-(use-package org-bullets
+(use-package org-superstar
   :ensure t
   :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+  (add-hook 'org-mode-hook (lambda () (org-superstar-mode t))))
 
 (use-package org-mime
   :after org
@@ -1285,8 +1270,8 @@ mermaid.initialize({
            (set (make-local-variable 'lsp-enable-on-type-formatting) nil)
            ))
   :custom
-  (ccls-sem-highlight-method 'font-lock)
-  ;;(ccls-sem-highlight-method 'overlay)
+  ;;(ccls-sem-highlight-method 'font-lock)
+  (ccls-sem-highlight-method 'overlay)
   :config
   (eval-after-load "projectile"
     '(add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
