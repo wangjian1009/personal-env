@@ -332,6 +332,26 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   )
 
 ;;; }
+;;; { dirent
+
+;; Show git info in dired
+(use-package dired-git-info
+  :ensure t
+  :bind (:map dired-mode-map
+              (")" . dired-git-info-mode)))
+
+;; Allow rsync from dired buffers
+(use-package dired-rsync
+  :ensure t
+  :bind (:map dired-mode-map
+              ("C-c C-r" . dired-rsync)))
+
+;; Colourful dired
+;; (use-package diredfl
+;;   :ensure t
+;;   :init (diredfl-global-mode 1))
+
+;;; }
 ;;; { compilation-mode
 
 (require 'ansi-color)
@@ -987,6 +1007,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;               (make-local-variable 'company-backends)
 ;;               (add-to-list 'company-backends 'hledger-company)))
 ;;   )
+
+;;; }
+;;; { personal csv mode
+
+(use-package csv-mode
+  :ensure t)
 
 ;;; }
 ;;; { personal markdown mode
