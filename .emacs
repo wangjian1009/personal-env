@@ -1156,7 +1156,7 @@ mermaid.initialize({
   :commands lsp-ivy-workspace-symbol)
 
 (use-package company-lsp
-  :requires (lsp-mode company)
+  :requires (lsp company)
   :config
   (setq company-lsp-cache-candidates 'auto
         company-lsp-async t
@@ -1819,7 +1819,7 @@ mermaid.initialize({
   )
 
 ;; (use-package lsp-sourcekit
-;;   :after lsp-mode
+;;   :after lsp
 ;;   :config
 ;;   (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain")
 ;;   (setq lsp-sourcekit-executable "sourcekit-lsp")
