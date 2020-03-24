@@ -336,12 +336,16 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;; Show git info in dired
 (use-package dired-git-info
+  :commands (dired-git-info-mode)
+  :after dired
   :ensure t
   :bind (:map dired-mode-map
               (")" . dired-git-info-mode)))
 
 ;; Allow rsync from dired buffers
 (use-package dired-rsync
+  :commands (dired-rsync)
+  :after dired
   :ensure t
   :bind (:map dired-mode-map
               ("C-c C-r" . dired-rsync)))
@@ -705,6 +709,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :ensure t
   :diminish all-the-icons-ibuffer-mode
   :init (all-the-icons-ibuffer-mode 1))
+
+;;; }
+;;; { x509
+
+(use-package x509-mode
+  :ensure t)
 
 ;;; }
 ;;; { personal Eshell mode
