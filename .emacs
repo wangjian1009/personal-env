@@ -701,6 +701,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package all-the-icons-dired
   :ensure t
+  :after (dired)
   :diminish all-the-icons-dired-mode
   :hook ((dired-mode . all-the-icons-dired-mode))
   )
@@ -1814,7 +1815,7 @@ mermaid.initialize({
 (use-package swift-mode
   :after (lsp company-lsp)
   :mode "\\.swift\\'"
-  :hook (;(swift-mode . lsp)
+  :hook ((swift-mode . lsp)
          (swift-mode . (lambda () (add-to-list (make-local-variable 'company-backends) 'company-sourcekit)))
          (swift-mode . company-mode)
          (swift-mode . yas-minor-mode-on)
@@ -1828,12 +1829,12 @@ mermaid.initialize({
   :ensure t
   )
 
-;; (use-package lsp-sourcekit
-;;   :after lsp
-;;   :config
-;;   (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain")
-;;   (setq lsp-sourcekit-executable "sourcekit-lsp")
-;;   :ensure t)
+(use-package lsp-sourcekit
+  :after lsp
+  :config
+  (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain")
+  (setq lsp-sourcekit-executable "sourcekit-lsp")
+  :ensure t)
 
 ;;; }
 ;;; { personal R mode
