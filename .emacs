@@ -1750,6 +1750,7 @@ mermaid.initialize({
 (use-package android-mode
   :commands (android-mode android-logcat android-gradle)
   :config
+  (add-to-list 'android-mode-sdk-tool-subdirs "platform-tools/platform-tools")
   (when (eq 'darwin system-type)
     (set-alist 'android-mode-build-command-alist 'gradle "gradle")
     )
