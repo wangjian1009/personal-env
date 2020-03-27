@@ -1146,6 +1146,8 @@ mermaid.initialize({
 (use-package lsp-mode
   :commands lsp
   :init (setq lsp-keymap-prefix "C-l")
+  :custom
+  (lsp-xml-jar-file (expand-file-name (locate-user-emacs-file "org.eclipse.lemminx-0.11.1-uber.jar")))
   :config
   ;(setq lsp-print-io t)
   (setq lsp-auto-guess-root t
@@ -1245,12 +1247,6 @@ mermaid.initialize({
   :hook ((nxml-mode . lsp))
   :config
   (setq nxml-child-indent 4)
-  (eval-after-load "lsp-xml"
-    (progn
-      (setq lsp-xml-jar-file
-            (expand-file-name
-             (locate-user-emacs-file
-              "org.eclipse.lemminx-0.11.1-uber.jar")))))
   )
 
 ;;; }
