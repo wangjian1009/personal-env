@@ -1537,8 +1537,7 @@ mermaid.initialize({
                ("M-p" . cperl-perldoc)
                ("C-c C-c" . comment-region)
                ))
-  :hook ((cperl-mode . perl-syntax-mode)
-         (cperl-mode . yas-minor-mode-on)
+  :hook ((cperl-mode . yas-minor-mode-on)
          )
   :init
   (setq interpreter-mode-alist
