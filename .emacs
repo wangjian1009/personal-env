@@ -372,6 +372,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;(setq browse-url-browser-function 'eww-browse-url)
 
 ;;; }
+;;; { xwidget
+
+(use-package xwidgete
+  :if (featurep 'xwidget-internal)
+  :ensure t)
+
+;;; }
 ;;; { ibuffer settings
 
 (use-package ibuffer
