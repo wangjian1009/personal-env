@@ -1,12 +1,4 @@
 ;;; { globl setting
-
-(setq site-lisp-dir (expand-file-name "site-lisp" user-emacs-directory))
-(add-to-list 'load-path site-lisp-dir)
-
-(dolist (project (directory-files site-lisp-dir t "\\w+"))
-  (when (file-directory-p project)
-    (add-to-list 'load-path project)))
-
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (if (file-exists-p custom-file)
     (load custom-file))
