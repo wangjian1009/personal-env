@@ -7,3 +7,5 @@ GTAGS
 .settings
 .project
 .gradle
+.ccls-cache
+compile_commands.json
