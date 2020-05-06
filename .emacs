@@ -1582,8 +1582,7 @@ mermaid.initialize({
 
 (use-package js2-mode
   :mode "\\.js\\'"
-  :hook ((js2-mode . flycheck-mode)
-         (js2-mode . company-mode)
+  :hook ((js2-mode . lsp)
          (js2-mode . dap-mode)
          (js2-mode . yas-minor-mode-on)
          )
