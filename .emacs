@@ -3,6 +3,7 @@
 (if (file-exists-p custom-file)
     (load custom-file))
 
+(setq max-lisp-eval-depth 10000)
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (tooltip-mode 0)
@@ -1167,15 +1168,6 @@ mermaid.initialize({
          )
   :commands lsp-ivy-workspace-symbol)
 
-(use-package company-lsp
-  :requires (lsp company)
-  :config
-  (setq company-lsp-cache-candidates 'auto
-        company-lsp-async t
-        company-lsp-enable-recompletion t
-        company-lsp-enable-snippet t)
-  :ensure t)
-
 ;;; }
 ;;; { personal dap mode
 
@@ -1383,6 +1375,8 @@ mermaid.initialize({
   :hook ((kotlin-mode . lsp)
          (kotlin-mode . yas-minor-mode-on)
          )
+  :custom
+  (lsp-kotlin-trace-server "verbose")
   :config
   (define-key kotlin-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t)
@@ -1392,9 +1386,7 @@ mermaid.initialize({
 
 (use-package dart-mode
   :mode "\\.dart\\'"
-  :hook ((dart-mode . lsp)
-         (dart-mode . yas-minor-mode-on)
-         )
+  :hook ((dart-mode . yas-minor-mode-on))
   :init
   ;; (with-eval-after-load "projectile"
   ;;   (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
@@ -1404,6 +1396,12 @@ mermaid.initialize({
   :config
   (define-key dart-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t)
+
+(use-package lsp-dart 
+  :ensure t 
+  :hook (dart-mode . lsp))
+
+(use-package hover :ensure t)
 
 ;;; }
 ;;; { personal flutter
@@ -1422,7 +1420,6 @@ mermaid.initialize({
 
 (use-package go-mode
   :mode "\\.go\\'"
-  :after (lsp)
   :hook ((go-mode . lsp)
          (go-mode . yas-minor-mode-on)
          ;(go-mode . (lambda () (setq tab-width 4)))
@@ -1537,6 +1534,7 @@ mermaid.initialize({
                ("C-c C-c" . comment-region)
                ))
   :hook ((cperl-mode . yas-minor-mode-on)
+         (cperl-mode . lsp)
          )
   :init
   (setq interpreter-mode-alist
@@ -1807,16 +1805,16 @@ mermaid.initialize({
 ;;; }
 ;;; { personal swift mode
 
-(use-package company-sourcekit
-  :after company
-  :ensure t)
+;; (use-package company-sourcekit
+;;   :after company
+;;   :ensure t)
 
 (use-package swift-mode
-  :after (lsp company-lsp)
+  :after (lsp)
   :mode "\\.swift\\'"
   :hook ((swift-mode . lsp)
-         (swift-mode . (lambda () (add-to-list (make-local-variable 'company-backends) 'company-sourcekit)))
-         (swift-mode . company-mode)
+         ;; (swift-mode . (lambda () (add-to-list (make-local-variable 'company-backends) 'company-sourcekit)))
+         ;; (swift-mode . company-mode)
          (swift-mode . yas-minor-mode-on)
          )
   :bind ((:map swift-mode-map
@@ -1829,11 +1827,15 @@ mermaid.initialize({
   )
 
 (use-package lsp-sourcekit
-  :after lsp
+  :after lsp-mode
   :config
-  (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain")
-  (setq lsp-sourcekit-executable "sourcekit-lsp")
-  :ensure t)
+  (setq lsp-sourcekit-executable "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp"))
+;; (use-package lsp-sourcekit
+;;   :after lsp
+;;   :config
+;;   (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain")
+;;   (setq lsp-sourcekit-executable "sourcekit-lsp")
+;;   :ensure t)
 
 ;;; }
 ;;; { personal R mode
