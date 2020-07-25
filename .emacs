@@ -4,6 +4,8 @@
     (load custom-file))
 
 (setq max-lisp-eval-depth 10000)
+(setq max-specpdl-size 100000)
+
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (tooltip-mode 0)
@@ -281,9 +283,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;(add-to-list `process-coding-system-alist `("bash" . gb2312))
 ;(add-to-list `process-coding-system-alist `("git*" . gb2312))
 ;(add-to-list 'file-coding-system-alist '("\\.[hc]\\(pp\\)?\\'" .gb2312 ))
-
-(prefer-coding-system 'chinese-gbk)
-(prefer-coding-system 'utf-8)
+(setq system-time-locale "C")
 
 ;;; }
 ;;; { backup settings
@@ -590,7 +590,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; { flycheck-mode
 
 (use-package flycheck
-  :diminish flycheck-mode
+  ;;:diminish flycheck-mode
   :ensure t)
 
 ;;; }
@@ -749,6 +749,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (setq org-preview-latex-default-process 'imagemagick) ;使用 imagemagick 来生成图片
   (setq org-confirm-babel-evaluate nil)   ;不用每次确认
   (setq org-reverse-note-order t)
+  (setq org-edit-src-content-indentation 0)
   (setq org-refile-targets
         '((org-agenda-files :tag . "REFINE")
           ))
@@ -833,7 +834,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                )
   )
 
-(use-package ox-gfm :ensure t)
+;; (use-package ox-gfm :ensure t)
 ;; (use-package org-bookmark-heading
 ;;   :ensure t
 ;;   )
@@ -967,10 +968,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;   :after (ledger-mode flycheck)
 ;;   :ensure t)
 
+;; (use-package htmlize :ensure t)
 ;; (use-package hledger-mode
-;;   :ensure t
+;;   :pin manual
 ;;   :after htmlize
-;;   :mode ("\\.journal\\'" "\\.ledger$")
+;;   :load-path "packages/rest/hledger-mode/"
+;;   :mode ("\\.journal\\'" "\\.hledger\\'")
 ;;   :commands hledger-enable-reporting
 ;;   :preface
 ;;   (defun hledger/next-entry ()
@@ -993,11 +996,24 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;     (interactive)
 ;;     (hledger-backward-entry)
 ;;     (hledger-pulse-momentary-current-entry))
+
 ;;   :bind (("C-c j" . hledger-run-command)
 ;;          :map hledger-mode-map
 ;;          ("C-c e" . hledger-jentry)
 ;;          ("M-p" . hledger/prev-entry)
 ;;          ("M-n" . hledger/next-entry))
+;;   :init
+;;   (setq hledger-jfile (expand-file-name "~/accounting.journal")
+;;         ;;hledger-email-secrets-file (expand-file-name "secrets.el" emacs-assets-directory)
+;;         )
+;;   ;; Expanded account balances in the overall monthly report are
+;;   ;; mostly noise for me and do not convey any meaningful information.
+;;   (setq hledger-show-expanded-report nil)
+
+;;   (when (boundp 'my-hledger-service-fetch-url)
+;;     (setq hledger-service-fetch-url
+;;           my-hledger-service-fetch-url))
+
 ;;   :config
 ;;   (add-hook 'hledger-view-mode-hook #'hl-line-mode)
 ;;   (add-hook 'hledger-view-mode-hook #'center-text-for-reading)
@@ -1007,7 +1023,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;               (run-with-timer 1
 ;;                               nil
 ;;                               (lambda ()
-;;                                 (when (equal hledger-last-run-command "balancesheet")
+;;                                 (when (equal hledger-last-run-command
+;;                                              "balancesheet")
 ;;                                   ;; highlight frequently changing accounts
 ;;                                   (highlight-regexp "^.*\\(savings\\|cash\\).*$")
 ;;                                   (highlight-regexp "^.*credit-card.*$"
@@ -1016,8 +1033,29 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;   (add-hook 'hledger-mode-hook
 ;;             (lambda ()
 ;;               (make-local-variable 'company-backends)
-;;               (add-to-list 'company-backends 'hledger-company)))
-;;   )
+;;               (add-to-list 'company-backends 'hledger-company))))
+
+;; (use-package hledger-input
+;;   :bind (("C-c e" . hledger-capture)
+;;          :map hledger-input-mode-map
+;;          ("C-c C-b" . popup-balance-at-point))
+;;   :preface
+;;   (defun popup-balance-at-point ()
+;;     "Show balance for account at point in a popup."
+;;     (interactive)
+;;     (if-let ((account (thing-at-point 'hledger-account)))
+;;         (message (hledger-shell-command-to-string (format " balance -N %s "
+;;                                                           account)))
+;;       (message "No account at point")))
+
+;;   :config
+;;   (setq hledger-input-buffer-height 20)
+;;   (add-hook 'hledger-input-post-commit-hook #'hledger-show-new-balances)
+;;   (add-hook 'hledger-input-mode-hook #'auto-fill-mode)
+;;   (add-hook 'hledger-input-mode-hook
+;;             (lambda ()
+;;               (make-local-variable 'company-idle-delay)
+;;               (setq-local company-idle-delay 0.1))))
 
 ;;; }
 ;;; { personal csv mode
@@ -1156,6 +1194,7 @@ mermaid.initialize({
         lsp-eldoc-render-all nil
         lsp-enable-file-watchers nil
         )
+  (add-to-list 'lsp-language-id-configuration '(cperl-mode . "perl"))
   :ensure t)
 
 ;(use-package lsp-ui :ensure t)
