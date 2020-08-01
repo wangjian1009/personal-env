@@ -1724,6 +1724,7 @@ mermaid.initialize({
   :hook ((typescript-mode . company-mode)
          (typescript-mode . flycheck-mode)
          (typescript-mode . yas-minor-mode-on)
+         (typescript-mode . lsp)
          )
   :config
   (setq typescript-indent-level 2)
