@@ -775,8 +775,21 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((ledger . t)
+     (R . t)
+     (sql . t)
+     (lisp . t)
      ))
   )
+
+(use-package ob-http
+  :ensure t
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   (add-to-list 'org-babel-load-languages
+           '(http . t)
+     ))
+)
 
 (use-package org-superstar
   :ensure t
@@ -1880,63 +1893,65 @@ mermaid.initialize({
 ;;; }
 ;;; { personal R mode
 
-;; (use-package ess :ensure t :defer t
-;;   :mode
-;;   (("\\.sp\\'"           . S-mode)
-;;    ("/R/.*\\.q\\'"       . R-mode)
-;;    ("\\.[qsS]\\'"        . S-mode)
-;;    ("\\.ssc\\'"          . S-mode)
-;;    ("\\.SSC\\'"          . S-mode)
-;;    ("\\.[rR]\\'"         . R-mode)
-;;    ("\\.[rR]nw\\'"       . Rnw-mode)
-;;    ("\\.[sS]nw\\'"       . Snw-mode)
-;;    ("\\.[rR]profile\\'"  . R-mode)
-;;    ("NAMESPACE\\'"       . R-mode)
-;;    ("CITATION\\'"        . R-mode)
-;;    ("\\.omg\\'"          . omegahat-mode)
-;;    ("\\.hat\\'"          . omegahat-mode)
-;;    ("\\.lsp\\'"          . XLS-mode)
-;;    ("\\.do\\'"           . STA-mode)
-;;    ("\\.ado\\'"          . STA-mode)
-;;    ("\\.[Ss][Aa][Ss]\\'" . SAS-mode)
-;;    ("\\.jl\\'"           . ess-julia-mode)
-;;    ("\\.[Ss]t\\'"        . S-transcript-mode)
-;;    ("\\.Sout"            . S-transcript-mode)
-;;    ("\\.[Rr]out"         . R-transcript-mode)
-;;    ("\\.Rd\\'"           . Rd-mode)
-;;    ("\\.[Bb][Uu][Gg]\\'" . ess-bugs-mode)
-;;    ("\\.[Bb][Oo][Gg]\\'" . ess-bugs-mode)
-;;    ("\\.[Bb][Mm][Dd]\\'" . ess-bugs-mode)
-;;    ("\\.[Jj][Aa][Gg]\\'" . ess-jags-mode)
-;;    ("\\.[Jj][Oo][Gg]\\'" . ess-jags-mode)
-;;    ("\\.[Jj][Mm][Dd]\\'" . ess-jags-mode))
-;;   :commands R
-;;   :config
-;;   (progn
-    
-;;     (setq ess-first-continued-statement-offset 2
-;;           ess-continued-statement-offset 0
-;;           ess-expression-offset 2
-;;           ess-nuke-trailing-whitespace-p t
-;;           ess-default-style 'DEFAULT
-;;           ess-ask-for-ess-directory nil
-;;           ess-eval-visibly nil
-;;           ess-directory user-project-directory
-;;           ;; Keep global .Rhistory file.
-;;           ess-history-directory "~/.R/"
-;;           inferior-R-args "-q" ; I donnot want to print startup message
-;;           )
-
-;;     (define-key inferior-ess-mode-map (kbd "C-j") 'comint-next-input) 
-;;     (define-key inferior-ess-mode-map (kbd "C-k") 'comint-previous-input)
-    
-;;     (add-hook 'ess-mode-hook 'smartparens-mode)
-;;     (add-hook 'ess-mode-hook 'yas-minor-mode)
-;;     (add-hook 'inferior-ess-mode-hook 'smartparens-mode)
-;;     (add-hook 'ess-mode-hook 'company-mode)
-;;     (add-hook 'inferior-ess-mode-hook 'company-mode)
-;;     )
-;;   )
+(use-package ess :ensure t :defer t
+  :mode
+  (("\\.sp\\'"           . S-mode)
+   ("/R/.*\\.q\\'"       . R-mode)
+   ("\\.[qsS]\\'"        . S-mode)
+   ("\\.ssc\\'"          . S-mode)
+   ("\\.SSC\\'"          . S-mode)
+   ("\\.[rR]\\'"         . R-mode)
+   ("\\.[rR]nw\\'"       . Rnw-mode)
+   ("\\.[sS]nw\\'"       . Snw-mode)
+   ("\\.[rR]profile\\'"  . R-mode)
+   ("NAMESPACE\\'"       . R-mode)
+   ("CITATION\\'"        . R-mode)
+   ("\\.omg\\'"          . omegahat-mode)
+   ("\\.hat\\'"          . omegahat-mode)
+   ("\\.lsp\\'"          . XLS-mode)
+   ("\\.do\\'"           . STA-mode)
+   ("\\.ado\\'"          . STA-mode)
+   ("\\.[Ss][Aa][Ss]\\'" . SAS-mode)
+   ("\\.jl\\'"           . ess-julia-mode)
+   ("\\.[Ss]t\\'"        . S-transcript-mode)
+   ("\\.Sout"            . S-transcript-mode)
+   ("\\.[Rr]out"         . R-transcript-mode)
+   ("\\.Rd\\'"           . Rd-mode)
+   ("\\.[Bb][Uu][Gg]\\'" . ess-bugs-mode)
+   ("\\.[Bb][Oo][Gg]\\'" . ess-bugs-mode)
+   ("\\.[Bb][Mm][Dd]\\'" . ess-bugs-mode)
+   ("\\.[Jj][Aa][Gg]\\'" . ess-jags-mode)
+   ("\\.[Jj][Oo][Gg]\\'" . ess-jags-mode)
+   ("\\.[Jj][Mm][Dd]\\'" . ess-jags-mode))
+  :commands R
+  :hook ((ess-mode-hook . yas-minor-mode)
+         (ess-mode-hook . company-mode)
+         (inferior-ess-mode-hook . company-mode)
+         )
+  ;; :bind ((:map inferior-ess-mode-map
+  ;;              ("C-c C-c" . comment-region)
+  ;;              ("C-j" . comint-next-input)
+  ;;              ("C-k" . comint-previous-input)
+  ;;              ))
+  :config
+  (setq ess-first-continued-statement-offset 2
+        ess-indent-level 2
+        ess-continued-statement-offset 2
+        ess-brace-offset 0
+        ess-arg-function-offset 4
+        ess-expression-offset 2
+        ess-else-offset 0
+        ess-close-brace-offset 0
+        ess-nuke-trailing-whitespace-p t
+        ess-default-style 'DEFAULT
+        ess-ask-for-ess-directory nil
+        ess-eval-visibly nil
+        ;; ess-directory user-project-directory
+        ;; Keep global .Rhistory file.
+        ess-history-directory "~/.R/"
+        inferior-R-args "-q" ; I donnot want to print startup message
+        )
+  )
 
 ;; (use-package poly-R :ensure t)
 
