@@ -771,15 +771,26 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (add-to-list 'org-tags-exclude-from-inheritance "BUG")
   (add-to-list 'org-tags-exclude-from-inheritance "VERSION")
   (add-to-list 'org-tags-exclude-from-inheritance "REFINE")
-  
+
+  (add-to-list 'org-src-lang-modes '("perl" . "cperl"))
+               
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((ledger . t)
      (R . t)
      (sql . t)
      (lisp . t)
+     (ditaa . t)
+     (shell . t)
+     (perl . t)
+     (js . t)
+     (dot . t)
+     (python . t)
      ))
   )
+
+(use-package ob-async
+  :ensure t)
 
 (use-package ob-http
   :ensure t
@@ -790,6 +801,26 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
            '(http . t)
      ))
 )
+
+(use-package ob-typescript
+  :ensure t
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   (add-to-list 'org-babel-load-languages
+           '(typescript . t)
+     ))
+  )
+
+(use-package ob-mermaid
+  :ensure t
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   (add-to-list 'org-babel-load-languages
+           '(mermaid . t)
+     ))
+  )
 
 (use-package org-superstar
   :ensure t
@@ -1175,21 +1206,21 @@ mermaid.initialize({
 ;;; { personal grip mode
 
 ;; 预览Markdown和Org
-(use-package grip-mode
-  :ensure t
-  :diminish (grip-mode)
-  :bind ((:map org-mode-map
-               ("C-c C-v" . grip-mode))
-         (:map markdown-mode-map
-               ("C-c C-v" . grip-mode)))
-  :config
-  (require 'auth-source)
-  (let ((credential (auth-source-user-and-password "emacs-grip.api.github.com")))
-    (setq grip-github-user (car credential)
-          grip-github-password (cadr credential)))
+;; (use-package grip-mode
+;;   :ensure t
+;;   :diminish (grip-mode)
+;;   :bind ((:map org-mode-map
+;;                ("C-c C-v" . grip-mode))
+;;          (:map markdown-mode-map
+;;                ("C-c C-v" . grip-mode)))
+;;   :config
+;;   (require 'auth-source)
+;;   (let ((credential (auth-source-user-and-password "emacs-grip.api.github.com")))
+;;     (setq grip-github-user (car credential)
+;;           grip-github-password (cadr credential)))
 
-  ;; (setq grip-preview-use-webkit nil)
-  )
+;;   ;; (setq grip-preview-use-webkit nil)
+;;   )
 
 ;;; } 
 ;;; { personal lsp mode
@@ -1924,33 +1955,33 @@ mermaid.initialize({
    ("\\.[Jj][Oo][Gg]\\'" . ess-jags-mode)
    ("\\.[Jj][Mm][Dd]\\'" . ess-jags-mode))
   :commands R
-  :hook ((ess-mode-hook . yas-minor-mode)
-         (ess-mode-hook . company-mode)
-         (inferior-ess-mode-hook . company-mode)
-         )
+  ;; :hook ((ess-mode-hook . yas-minor-mode)
+  ;;        (ess-mode-hook . company-mode)
+  ;;        (inferior-ess-mode-hook . company-mode)
+  ;;        )
   ;; :bind ((:map inferior-ess-mode-map
   ;;              ("C-c C-c" . comment-region)
   ;;              ("C-j" . comint-next-input)
   ;;              ("C-k" . comint-previous-input)
   ;;              ))
   :config
-  (setq ess-first-continued-statement-offset 2
-        ess-indent-level 2
-        ess-continued-statement-offset 2
-        ess-brace-offset 0
-        ess-arg-function-offset 4
-        ess-expression-offset 2
-        ess-else-offset 0
-        ess-close-brace-offset 0
-        ess-nuke-trailing-whitespace-p t
-        ess-default-style 'DEFAULT
-        ess-ask-for-ess-directory nil
-        ess-eval-visibly nil
-        ;; ess-directory user-project-directory
-        ;; Keep global .Rhistory file.
-        ess-history-directory "~/.R/"
-        inferior-R-args "-q" ; I donnot want to print startup message
-        )
+  ;; (setq ess-first-continued-statement-offset 2
+  ;;       ess-indent-level 2
+  ;;       ess-continued-statement-offset 2
+  ;;       ess-brace-offset 0
+  ;;       ess-arg-function-offset 4
+  ;;       ess-expression-offset 2
+  ;;       ess-else-offset 0
+  ;;       ess-close-brace-offset 0
+  ;;       ess-nuke-trailing-whitespace-p t
+  ;;       ess-default-style 'DEFAULT
+  ;;       ess-ask-for-ess-directory nil
+  ;;       ess-eval-visibly nil
+  ;;       ;; ess-directory user-project-directory
+  ;;       ;; Keep global .Rhistory file.
+  ;;       ess-history-directory "~/.R/"
+  ;;       inferior-R-args "-q" ; I donnot want to print startup message
+  ;;       )
   )
 
 ;; (use-package poly-R :ensure t)
@@ -1995,7 +2026,7 @@ mermaid.initialize({
 ;;   )
 
 ;;; }
-;;; { Personal Tex
+;;; { personal Tex
 
 (use-package auctex
   :defer t
@@ -2031,6 +2062,15 @@ mermaid.initialize({
     (setq reftex-plug-into-AUCTeX t)
     (setq TeX-PDF-mode t)
     )
+  )
+
+;;; }
+;;; { personal sql mode
+(use-package sqlformat
+  :ensure t
+  :bind ((:map sql-mode-map
+               ("C-c C-f" . sqlformat)
+               ))
   )
 
 ;;; }
