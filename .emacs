@@ -1229,7 +1229,7 @@ mermaid.initialize({
   :commands lsp
   :init (setq lsp-keymap-prefix "C-l")
   :custom
-  (lsp-xml-jar-file (expand-file-name (locate-user-emacs-file "org.eclipse.lemminx-0.11.1-uber.jar")))
+  (lsp-xml-jar-file (expand-file-name (locate-user-emacs-file "org.eclipse.lemminx-uber.jar")))
   :config
   ;(setq lsp-print-io t)
   (setq lsp-auto-guess-root t
@@ -1959,29 +1959,33 @@ mermaid.initialize({
   ;;        (ess-mode-hook . company-mode)
   ;;        (inferior-ess-mode-hook . company-mode)
   ;;        )
-  ;; :bind ((:map inferior-ess-mode-map
-  ;;              ("C-c C-c" . comment-region)
-  ;;              ("C-j" . comint-next-input)
-  ;;              ("C-k" . comint-previous-input)
-  ;;              ))
+  :bind ((:map inferior-ess-mode-map
+               ("C-c C-c" . comment-region)
+               ("C-j" . comint-next-input)
+               ("C-k" . comint-previous-input)
+               )
+         (:map ess-mode-map
+               ("C-c C-c" . comment-region)
+               )
+         )
   :config
-  ;; (setq ess-first-continued-statement-offset 2
-  ;;       ess-indent-level 2
-  ;;       ess-continued-statement-offset 2
-  ;;       ess-brace-offset 0
-  ;;       ess-arg-function-offset 4
-  ;;       ess-expression-offset 2
-  ;;       ess-else-offset 0
-  ;;       ess-close-brace-offset 0
-  ;;       ess-nuke-trailing-whitespace-p t
-  ;;       ess-default-style 'DEFAULT
-  ;;       ess-ask-for-ess-directory nil
-  ;;       ess-eval-visibly nil
-  ;;       ;; ess-directory user-project-directory
-  ;;       ;; Keep global .Rhistory file.
-  ;;       ess-history-directory "~/.R/"
-  ;;       inferior-R-args "-q" ; I donnot want to print startup message
-  ;;       )
+  (setq ess-first-continued-statement-offset 2
+        ess-indent-level 2
+        ess-continued-statement-offset 2
+        ess-brace-offset 0
+        ess-arg-function-offset 4
+        ess-expression-offset 2
+        ess-else-offset 0
+        ess-close-brace-offset 0
+        ess-nuke-trailing-whitespace-p t
+        ess-default-style 'DEFAULT
+        ess-ask-for-ess-directory nil
+        ess-eval-visibly nil
+        ;; ess-directory user-project-directory
+        ;; Keep global .Rhistory file.
+        ess-history-directory "~/.R/"
+        inferior-R-args "-q" ; I donnot want to print startup message
+        )
   )
 
 ;; (use-package poly-R :ensure t)
@@ -2066,6 +2070,13 @@ mermaid.initialize({
 
 ;;; }
 ;;; { personal sql mode
+
+(use-package sql
+  :bind ((:map sql-mode-map
+               ("C-c C-c" . comment-region)
+               ))
+  )
+
 (use-package sqlformat
   :ensure t
   :bind ((:map sql-mode-map
