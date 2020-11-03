@@ -786,6 +786,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
      (js . t)
      (dot . t)
      (python . t)
+     (latex . t)
      ))
   )
 
@@ -854,31 +855,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                  [PACKAGES]
                  [EXTRA]"
                  ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsection{%s}\\begin{questions}" "\\end{questions}")
                  ("\\question %%%s" . "\\question %%%s")
                  )
                )
-  (add-to-list 'org-structure-template-alist
-               '("msln" "#+BEGIN_EXPORT latex
-\\begin{solution}
-  \\[
-    \\begin{aligned}
-      ?
-    \\end{aligned}
-  \\]
-\\end{solution}
-#+END_EXPORT")
-               )
-  (add-to-list 'org-structure-template-alist
-               '("sln" "#+BEGIN_EXPORT latex
-\\begin{solution}
-  ?
-\\end{solution}
-#+END_EXPORT")
-               )
   )
 
-;; (use-package ox-gfm :ensure t)
+(use-package ox-gfm :ensure t)
+
 ;; (use-package org-bookmark-heading
 ;;   :ensure t
 ;;   )
