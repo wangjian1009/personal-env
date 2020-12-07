@@ -466,20 +466,6 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t)
 
 ;;; }
-;;; { yasnippet
-
-(use-package yasnippet
-  :ensure t
-  :commands (yas-minor-mode-on yas-minor-mode)
-  :bind ((:map yas-minor-mode-map
-               ("C-h s" . yas-describe-tables)))
-  :config
-  (yas-reload-all)
-  (use-package yasnippet-snippets
-    :ensure t)
-  )
-
-;;; }
 ;;; { all
 
 (use-package all :ensure t)
