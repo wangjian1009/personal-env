@@ -2006,6 +2006,7 @@ mermaid.initialize({
   :defer t
   :ensure t
   :hook ((LaTeX-mode . yas-minor-mode-on)
+         (LaTeX-mode . lsp)
          )
   )
 
@@ -2077,7 +2078,7 @@ mermaid.initialize({
     (":>>" . font-lock-constant-face)
     ("<:" . font-lock-constant-face)
     )
-  nil ;'(".rl\\'") 
+  '(".rl\\'") 
   nil
   "Generic mode for mmm-mode editing .rl files.")
 
