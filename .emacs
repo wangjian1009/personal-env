@@ -55,9 +55,14 @@
 ;;; { package
 
 (require 'package)
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
+;; (setq package-archives
+;;       '(
+;;         ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+;;         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+;;         )
+;;       )
 
 (when (< emacs-major-version 27)
   (package-initialize))
