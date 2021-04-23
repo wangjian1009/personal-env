@@ -768,6 +768,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((ledger . t)
+     (hledger . t)
      (R . t)
      (sql . t)
      (lisp . t)
@@ -986,6 +987,9 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; (use-package flycheck-ledger
 ;;   :after (ledger-mode flycheck)
 ;;   :ensure t)
+
+(use-package hledger-mode
+  :ensure t)
 
 ;; (use-package htmlize :ensure t)
 ;; (use-package hledger-mode
