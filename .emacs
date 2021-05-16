@@ -991,6 +991,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package hledger-mode
   :ensure t)
 
+(use-package flycheck-hledger
+  :after (flycheck ledger-mode)
+  :ensure t
+  :demand t)
+
 ;; (use-package htmlize :ensure t)
 ;; (use-package hledger-mode
 ;;   :pin manual
@@ -1161,10 +1166,10 @@ mermaid.initialize({
     (advice-add #'markdown-export-and-preview :around #'my-markdown-export-and-preview))
   )
 
-(use-package markdown-mode+
-  :ensure t
-  :after markdown-mode
-  :defer t)
+;; (use-package markdown-mode+
+;;   :ensure t
+;;   :after markdown-mode
+;;   :defer t)
 
 (use-package poly-markdown
   :ensure t
