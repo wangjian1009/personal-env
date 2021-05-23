@@ -970,98 +970,87 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;; }
 ;;; { personal ledger mode
 
-(use-package ledger-mode
-  :ensure t
-  :mode "\\.ledger$"
-  :hook ((ledger-mode .
-          (lambda ()
-            (setq-local tab-always-indent 'complete)
-            (setq-local completion-cycle-threshold t)
-            (setq-local ledger-complete-in-steps t)))
-         )
-  :config
-  (setq ledger-reconcile-default-commodity "¥"
-        )
-  )
+;; (use-package ledger-mode
+;;   :ensure t
+;;   :hook ((ledger-mode .
+;;           (lambda ()
+;;             (setq-local tab-always-indent 'complete)
+;;             (setq-local completion-cycle-threshold t)
+;;             (setq-local ledger-complete-in-steps t)))
+;;          )
+;;   :config
+;;   (setq ledger-reconcile-default-commodity "¥"
+;;         )
+;;   )
 
-;; (use-package flycheck-ledger
-;;   :after (ledger-mode flycheck)
-;;   :ensure t)
-
-(use-package hledger-mode
+(use-package htmlize
   :ensure t)
 
-(use-package flycheck-hledger
-  :after (flycheck ledger-mode)
+(use-package hledger-mode
+  :after htmlize
   :ensure t
-  :demand t)
+  :mode ("\\.journal\\'" "\\.hledger\\'" "\\.ledger\\'")
+  :commands hledger-enable-reporting
+  :preface
+  (defun hledger/next-entry ()
+    "Move to next entry and pulse."
+    (interactive)
+    (hledger-next-or-new-entry)
+    (hledger-pulse-momentary-current-entry))
 
-;; (use-package htmlize :ensure t)
-;; (use-package hledger-mode
-;;   :pin manual
-;;   :after htmlize
-;;   :load-path "packages/rest/hledger-mode/"
-;;   :mode ("\\.journal\\'" "\\.hledger\\'")
-;;   :commands hledger-enable-reporting
-;;   :preface
-;;   (defun hledger/next-entry ()
-;;     "Move to next entry and pulse."
-;;     (interactive)
-;;     (hledger-next-or-new-entry)
-;;     (hledger-pulse-momentary-current-entry))
+  (defface hledger-warning-face
+    '((((background dark))
+       :background "Red" :foreground "White")
+      (((background light))
+       :background "Red" :foreground "White")
+      (t :inverse-video t))
+    "Face for warning"
+    :group 'hledger)
 
-;;   (defface hledger-warning-face
-;;     '((((background dark))
-;;        :background "Red" :foreground "White")
-;;       (((background light))
-;;        :background "Red" :foreground "White")
-;;       (t :inverse-video t))
-;;     "Face for warning"
-;;     :group 'hledger)
+  (defun hledger/prev-entry ()
+    "Move to last entry and pulse."
+    (interactive)
+    (hledger-backward-entry)
+    (hledger-pulse-momentary-current-entry))
 
-;;   (defun hledger/prev-entry ()
-;;     "Move to last entry and pulse."
-;;     (interactive)
-;;     (hledger-backward-entry)
-;;     (hledger-pulse-momentary-current-entry))
+  :bind (("C-c j" . hledger-run-command)
+         :map hledger-mode-map
+         ("C-c e" . hledger-jentry)
+         ("M-p" . hledger/prev-entry)
+         ("M-n" . hledger/next-entry))
+  :init
+  (setq hledger-jfile
+        (expand-file-name "~/miscellany/personal/finance/accounting.journal")
+        ;hledger-email-secrets-file (expand-file-name "secrets.el" emacs-assets-directory)
+        )
+  ;; Expanded account balances in the overall monthly report are
+  ;; mostly noise for me and do not convey any meaningful information.
+  (setq hledger-show-expanded-report nil)
 
-;;   :bind (("C-c j" . hledger-run-command)
-;;          :map hledger-mode-map
-;;          ("C-c e" . hledger-jentry)
-;;          ("M-p" . hledger/prev-entry)
-;;          ("M-n" . hledger/next-entry))
-;;   :init
-;;   (setq hledger-jfile (expand-file-name "~/accounting.journal")
-;;         ;;hledger-email-secrets-file (expand-file-name "secrets.el" emacs-assets-directory)
-;;         )
-;;   ;; Expanded account balances in the overall monthly report are
-;;   ;; mostly noise for me and do not convey any meaningful information.
-;;   (setq hledger-show-expanded-report nil)
+  (when (boundp 'my-hledger-service-fetch-url)
+    (setq hledger-service-fetch-url
+          my-hledger-service-fetch-url))
 
-;;   (when (boundp 'my-hledger-service-fetch-url)
-;;     (setq hledger-service-fetch-url
-;;           my-hledger-service-fetch-url))
+  :config
+  (add-hook 'hledger-view-mode-hook #'hl-line-mode)
+  (add-hook 'hledger-view-mode-hook #'center-text-for-reading)
 
-;;   :config
-;;   (add-hook 'hledger-view-mode-hook #'hl-line-mode)
-;;   (add-hook 'hledger-view-mode-hook #'center-text-for-reading)
+  (add-hook 'hledger-view-mode-hook
+            (lambda ()
+              (run-with-timer 1
+                              nil
+                              (lambda ()
+                                (when (equal hledger-last-run-command
+                                             "balancesheet")
+                                  ;; highlight frequently changing accounts
+                                  (highlight-regexp "^.*\\(savings\\|cash\\).*$")
+                                  (highlight-regexp "^.*信用卡.*$"
+                                                    'hledger-warning-face))))))
 
-;;   (add-hook 'hledger-view-mode-hook
-;;             (lambda ()
-;;               (run-with-timer 1
-;;                               nil
-;;                               (lambda ()
-;;                                 (when (equal hledger-last-run-command
-;;                                              "balancesheet")
-;;                                   ;; highlight frequently changing accounts
-;;                                   (highlight-regexp "^.*\\(savings\\|cash\\).*$")
-;;                                   (highlight-regexp "^.*credit-card.*$"
-;;                                                     'hledger-warning-face))))))
-
-;;   (add-hook 'hledger-mode-hook
-;;             (lambda ()
-;;               (make-local-variable 'company-backends)
-;;               (add-to-list 'company-backends 'hledger-company))))
+  (add-hook 'hledger-mode-hook
+            (lambda ()
+              (make-local-variable 'company-backends)
+              (add-to-list 'company-backends 'hledger-company))))
 
 ;; (use-package hledger-input
 ;;   :bind (("C-c e" . hledger-capture)
@@ -1085,7 +1074,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;               (make-local-variable 'company-idle-delay)
 ;;               (setq-local company-idle-delay 0.1))))
 
-;;; }
+;;; }.
 ;;; { personal csv mode
 
 (use-package csv-mode
@@ -1908,7 +1897,9 @@ mermaid.initialize({
 ;;; }
 ;;; { personal R mode
 
-(use-package ess :ensure t :defer t
+(use-package ess
+  :ensure t
+  :defer t
   :mode
   (("\\.sp\\'"           . S-mode)
    ("/R/.*\\.q\\'"       . R-mode)
@@ -1943,14 +1934,15 @@ mermaid.initialize({
   ;;        (ess-mode-hook . company-mode)
   ;;        (inferior-ess-mode-hook . company-mode)
   ;;        )
-  :bind ((:map inferior-ess-mode-map
-               ("C-c C-c" . comment-region)
-               ("C-j" . comint-next-input)
-               ("C-k" . comint-previous-input)
-               )
-         (:map ess-mode-map
-               ("C-c C-c" . comment-region)
-               )
+  :bind (
+         ;; (:map inferior-ess-mode-map
+         ;;       ("C-c C-c" . comment-region)
+         ;;       ("C-j" . comint-next-input)
+         ;;       ("C-k" . comint-previous-input)
+         ;;       )
+         ;; (:map ess-mode-map
+         ;;       ("C-c C-c" . comment-region)
+         ;;       )
          )
   :config
   (setq ess-first-continued-statement-offset 2
@@ -1969,7 +1961,13 @@ mermaid.initialize({
         ;; Keep global .Rhistory file.
         ess-history-directory "~/.R/"
         inferior-R-args "-q" ; I donnot want to print startup message
+        ess-use-company nil ; don't auto-insert ess backends
         )
+  ;; (defun my-ess-config ()
+  ;;   (make-variable-buffer-local 'company-backends)
+  ;;   (add-to-list 'company-backends
+  ;;                '(company-tabnine company-R-args company-R-objects company-dabbrev-code :separate)))
+  ;; (add-hook 'ess-mode-hook #'my-ess-config)
   )
 
 ;; (use-package poly-R :ensure t)
