@@ -1709,6 +1709,16 @@ mermaid.initialize({
 )
 
 ;;; }
+;;; { personal rust mode
+
+(use-package rustic
+  :ensure t
+  :init
+  (add-to-list 'exec-path (concat (getenv "HOME") "/.cargo/bin"))
+  (setenv "PATH" (concat (getenv "HOME") "/.cargo/bin:" (getenv "PATH")))
+  )
+
+;;; }
 ;;; { personal typescript mode
 
 (eval-after-load "compile"
