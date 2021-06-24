@@ -348,6 +348,14 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :bind (:map dired-mode-map
               ("C-c C-r" . dired-rsync)))
 
+(use-package dired-x
+  :config
+  (progn
+    (setq dired-omit-verbose nil)
+    ;; toggle `dired-omit-mode' with C-x M-o
+    (add-hook 'dired-mode-hook #'dired-omit-mode)
+    (setq dired-omit-files
+          (concat dired-omit-files "\\|^.DS_Store$\\|^.projectile$"))))
 ;; Colourful dired
 ;; (use-package diredfl
 ;;   :ensure t
@@ -1264,7 +1272,7 @@ mermaid.initialize({
 
 (use-package yaml-mode
   :mode ("\\.yml$" "\\.yaml$")
-  :hook ((yaml-mode . lsp)
+  :hook ((yaml-mode . lsp-deferred)
          (yaml-mode . yas-minor-mode-on)
          )
   :config
@@ -1330,7 +1338,7 @@ mermaid.initialize({
           )
   :hook ((c-mode c++-mode objc-mode) .
          (lambda()
-           (lsp)
+           (lsp-deferred)
            (dap-mode t)
            (yas-minor-mode-on)
            (c-toggle-hungry-state t)
@@ -1386,7 +1394,7 @@ mermaid.initialize({
     (use-package lsp-java
                                         ;:requires (lsp-ui-flycheck lsp-ui-sideline)
       :init
-      (add-hook 'java-mode-hook 'lsp)
+      (add-hook 'java-mode-hook 'lsp-deferred)
                                         ;(java-mode . (lambda () (lsp-ui-flycheck-enable t)))
                                         ;(java-mode . lsp-ui-sideline-mode)
       :config
@@ -1428,7 +1436,7 @@ mermaid.initialize({
 
 (use-package kotlin-mode
   :mode "\\.kt\\'"
-  :hook ((kotlin-mode . lsp)
+  :hook ((kotlin-mode . lsp-deferred)
          (kotlin-mode . yas-minor-mode-on)
          )
   :custom
@@ -1455,7 +1463,7 @@ mermaid.initialize({
 
 (use-package lsp-dart 
   :ensure t 
-  :hook (dart-mode . lsp))
+  :hook (dart-mode . lsp-deferred))
 
 (use-package hover :ensure t)
 
@@ -1476,7 +1484,7 @@ mermaid.initialize({
 
 (use-package go-mode
   :mode "\\.go\\'"
-  :hook ((go-mode . lsp)
+  :hook ((go-mode . lsp-deferred)
          (go-mode . yas-minor-mode-on)
          ;(go-mode . (lambda () (setq tab-width 4)))
          (go-mode . lsp-go-install-save-hooks)
@@ -1605,13 +1613,37 @@ mermaid.initialize({
 ;;; }
 ;;; { personal python mode settings
 
-(use-package python-mode
-  :mode "\\.py\\'"
-  :hook ((python-mode . lsp)
-         (python-mode . yas-minor-mode-on)
-         )
-  :config
-  :ensure t)
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable)
+  (setq python-shell-interpreter "jupyter"
+        python-shell-interpreter-args "console --simple-prompt"
+        python-shell-prompt-detect-failure-warning nil)
+  (setq elpy-test-runner 'elpy-test-green-runner)
+  (add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter")
+  (setq dired-omit-files
+        (concat dired-omit-files "\\|^__pycache__$"))
+  ;; :hook
+  ;; (;; (elpy-mode . (lambda () (flymake-mode -1)))  ;; Disable Flymake in elpy-mode. Let Flycheck Take Over
+  ;;  ;; (inferior-python-mode . auto-complete-mode)  ;; Autocompletion in Ipython
+  ;;  )
+  )
+
+(use-package lsp-python-ms
+  :ensure t
+  :after (elpy)
+  :init
+  (setq lsp-python-ms-auto-install-server t)
+  ;; (add-to-list 'pyvenv-post-activate-hooks
+  ;;              (lambda () (setq lsp-python-ms-python-executable (concat pyvenv-virtual-env "bin/python")))
+  ;;              'APPEND)
+  :hook (python-mode . (lambda ()
+                         (setq lsp-python-ms-python-executable "/usr/local/bin/python3")
+                         (require 'lsp-python-ms)
+                         (lsp-deferred)
+                         (add-hook 'before-save-hook 'elpy-autopep8-fix-code nil t)))
+  )
 
 ;;; }
 ;;; { personal php mode
@@ -1628,7 +1660,7 @@ mermaid.initialize({
 
 (use-package json-mode
   :ensure t
-  :hook ((json-mode . lsp))
+  :hook ((json-mode . lsp-deferred))
   )
 
 ;;; }
@@ -1636,7 +1668,7 @@ mermaid.initialize({
 
 (use-package js2-mode
   :mode "\\.js\\'"
-  :hook ((js2-mode . lsp)
+  :hook ((js2-mode . lsp-deferred)
          (js2-mode . dap-mode)
          (js2-mode . yas-minor-mode-on)
          )
@@ -1751,7 +1783,7 @@ mermaid.initialize({
   :hook ((typescript-mode . company-mode)
          (typescript-mode . flycheck-mode)
          (typescript-mode . yas-minor-mode-on)
-         (typescript-mode . lsp)
+         (typescript-mode . lsp-deferred)
          )
   :config
   (setq typescript-indent-level 2)
@@ -1774,7 +1806,7 @@ mermaid.initialize({
 
 (use-package vue-mode
   :ensure t
-  :hook ((vue-mode . lsp)
+  :hook ((vue-mode . lsp-deferred)
          (vue-mode . yas-minor-mode-on)
          )
   )
@@ -1847,7 +1879,7 @@ mermaid.initialize({
 ; pip3 install cmake-language-server
 (use-package cmake-mode
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
-  :hook ((cmake-mode . lsp)
+  :hook ((cmake-mode . lsp-deferred)
          (cmake-mode . yas-minor-mode-on)
          )
   :config
@@ -1879,7 +1911,7 @@ mermaid.initialize({
 (use-package swift-mode
   :after (lsp)
   :mode "\\.swift\\'"
-  :hook ((swift-mode . lsp)
+  :hook ((swift-mode . lsp-deferred)
          ;; (swift-mode . (lambda () (add-to-list (make-local-variable 'company-backends) 'company-sourcekit)))
          ;; (swift-mode . company-mode)
          (swift-mode . yas-minor-mode-on)
@@ -2028,7 +2060,7 @@ mermaid.initialize({
   :defer t
   :ensure t
   :hook ((LaTeX-mode . yas-minor-mode-on)
-         (LaTeX-mode . lsp)
+         (LaTeX-mode . lsp-deferred)
          )
   )
 
