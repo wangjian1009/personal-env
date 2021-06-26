@@ -229,10 +229,9 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (let ((home-dir (getenv "HOME")))
     (if home-dir
         (progn
-          (setenv "PATH" (concat home-dir "/bin:" (getenv "PATH")))
-          (setenv "LD_LIBRARY_PATH" (concat home-dir "/lib:" (getenv "LD_LIBRARY_PATH")))
-          (setenv "PERL5PATH" (concat home-dir "/lib:" (getenv "LD_LIBRARY_PATH")))
-          (add-to-list 'exec-path (concat home-dir "/bin"))
+          (setenv "PATH" (concat home-dir "/.local/bin:" (getenv "PATH")))
+          (setenv "LD_LIBRARY_PATH" (concat home-dir "/.local/lib:" (getenv "LD_LIBRARY_PATH")))
+          (add-to-list 'exec-path (concat home-dir "/.local/bin"))
           )
       ))
 
@@ -406,12 +405,12 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ; }}} 
 ; ace-window {{{
 
-(use-package ace-window
-  :ensure t
-  :config
-  (setq aw-scope 'global) ;; was frame
-  (global-set-key (kbd "C-x O") 'other-frame)
-  (global-set-key [remap other-window] 'ace-window))
+;; (use-package ace-window
+;;   :ensure t
+;;   :config
+;;   (setq aw-scope 'global) ;; was frame
+;;   (global-set-key (kbd "C-x O") 'other-frame)
+;;   (global-set-key [remap other-window] 'ace-window))
 
 ; }}}
 ; ivy {{{
@@ -466,7 +465,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 (use-package origami
   :ensure t
-  :hook ((sh-mode emacs-lisp-mode) . origami-mode)
+  :hook (((sh-mode emacs-lisp-mode) . origami-mode)
+         )
   :config
   (setq origami-mode-prefix-map (make-sparse-keymap))
   (define-key origami-mode-prefix-map (kbd "y") 'origami-open-node) ;Open a fold node.
@@ -1240,7 +1240,7 @@ mermaid.initialize({
         lsp-enable-snippet nil
         lsp-eldoc-render-all nil
         lsp-enable-file-watchers nil
-        )
+        lsp-modeline-diagnostics-scope :workspace)
   (add-to-list 'lsp-language-id-configuration '(cperl-mode . "perl"))
   :ensure t)
 
@@ -1419,9 +1419,8 @@ mermaid.initialize({
 ;(use-package treemacs :ensure t)
 (if (not (eq 'windows-nt system-type))
     (use-package lsp-java
-                                        ;:requires (lsp-ui-flycheck lsp-ui-sideline)
       :init
-      (add-hook 'java-mode-hook 'lsp-deferred)
+      ; (add-hook 'java-mode-hook 'lsp-deferred)
                                         ;(java-mode . (lambda () (lsp-ui-flycheck-enable t)))
                                         ;(java-mode . lsp-ui-sideline-mode)
       :config
@@ -1447,27 +1446,37 @@ mermaid.initialize({
 ; }}}
 ; personal kotlin mode settings {{{
 
-(eval-after-load "compile"
-  '(progn
-     (add-to-list 'compilation-error-regexp-alist 'gradle-kotlin-1)
-     (add-to-list
-      'compilation-error-regexp-alist-alist
-      '(gradle-kotlin-1
-        "^[we]: \\(.+\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3))
-     (add-to-list 'compilation-error-regexp-alist 'gradle-kotlin-2)
-     (add-to-list
-      'compilation-error-regexp-alist-alist
-      '(gradle-kotlin-2
-        "^[we]: \\(.+\\):\\([0-9]+\\): .*" 1 2))
-     ))
+;; (eval-after-load "compile"
+;;   '(progn
+;;      (add-to-list 'compilation-error-regexp-alist 'gradle-kotlin-1)
+;;      (add-to-list
+;;       'compilation-error-regexp-alist-alist
+;;       '(gradle-kotlin-1
+;;         "^[we]: \\(.+\\): (\\([0-9]+\\), \\([0-9]+\\)): .*" 1 2 3))
+;;      (add-to-list 'compilation-error-regexp-alist 'gradle-kotlin-2)
+;;      (add-to-list
+;;       'compilation-error-regexp-alist-alist
+;;       '(gradle-kotlin-2
+;;         "^[we]: \\(.+\\):\\([0-9]+\\): .*" 1 2))
+;;      ))
 
+;; (use-package lsp-intellij
+;;   :after (lsp)
+;;   :ensure t
+;;   :hook ((java-mode . lsp-intellij-enable))
+;;   )
+
+;; (use-package eglot
+;;   :ensure t)
+  
 (use-package kotlin-mode
   :mode "\\.kt\\'"
-  :hook ((kotlin-mode . lsp-deferred)
+  :hook ((kotlin-mode . lsp-deferred) ;lsp-intellij-enable lsp-deferred 
          (kotlin-mode . yas-minor-mode-on)
          )
   :custom
   (lsp-kotlin-trace-server "verbose")
+  (lsp-kotlin-trace-server t)
   :config
   (define-key kotlin-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t)
@@ -1543,8 +1552,10 @@ mermaid.initialize({
   :mode (("\\.mk\\'" . makefile-gmake-mode)
          ("[Mm]akefile\\'" . makefile-gmake-mode)
          )
-  :hook
-  (makefile-mode . yas-minor-mode-on))
+  :hook ((makefile-mode . yas-minor-mode-on)
+         (makefile-mode . origami-mode)
+         )
+  )
 
 ; }}}
 ; personal C# mode {{{
