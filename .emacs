@@ -1952,16 +1952,12 @@ mermaid.initialize({
   :ensure t
   )
 
-(use-package lsp-sourcekit
-  :after lsp-mode
-  :config
-  (setq lsp-sourcekit-executable "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp"))
-;; (use-package lsp-sourcekit
-;;   :after lsp
-;;   :config
-;;   (setenv "SOURCEKIT_TOOLCHAIN_PATH" "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain")
-;;   (setq lsp-sourcekit-executable "sourcekit-lsp")
-;;   :ensure t)
+(when (eq 'darwin system-type)
+  (use-package lsp-sourcekit
+    :after lsp-mode
+    :config
+    (setq lsp-sourcekit-executable "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp")
+    :ensure t))
 
 ; }}}
 ; personal R mode {{{
