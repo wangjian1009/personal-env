@@ -1417,17 +1417,17 @@ mermaid.initialize({
   (setq mvn-bin "mvn")))
 
 ;(use-package treemacs :ensure t)
-(if (not (eq 'windows-nt system-type))
-    (use-package lsp-java
-      :init
-      ; (add-hook 'java-mode-hook 'lsp-deferred)
-                                        ;(java-mode . (lambda () (lsp-ui-flycheck-enable t)))
-                                        ;(java-mode . lsp-ui-sideline-mode)
-      :config
-      (setq lsp-java-save-action-organize-imports nil)
-      :ensure t
-      )
-  )
+;; (if (not (eq 'windows-nt system-type))
+;;     (use-package lsp-java
+;;       :init
+;;       ; (add-hook 'java-mode-hook 'lsp-deferred)
+;;                                         ;(java-mode . (lambda () (lsp-ui-flycheck-enable t)))
+;;                                         ;(java-mode . lsp-ui-sideline-mode)
+;;       :config
+;;       (setq lsp-java-save-action-organize-imports nil)
+;;       :ensure t
+;;       )
+;;   )
 
 ;; (use-package meghanada
 ;;   :commands meghanada-mode
@@ -1461,9 +1461,7 @@ mermaid.initialize({
 ;;      ))
 
 ;; (use-package lsp-intellij
-;;   :after (lsp)
-;;   :ensure t
-;;   :hook ((java-mode . lsp-intellij-enable))
+;;   :load-path "~/.emacs.d/lsp-intellij"
 ;;   )
 
 ;; (use-package eglot
