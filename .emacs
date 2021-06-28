@@ -405,12 +405,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ; }}} 
 ; ace-window {{{
 
-;; (use-package ace-window
-;;   :ensure t
-;;   :config
-;;   (setq aw-scope 'global) ;; was frame
-;;   (global-set-key (kbd "C-x O") 'other-frame)
-;;   (global-set-key [remap other-window] 'ace-window))
+(use-package ace-window
+  :ensure t
+  ;;   :config
+  ;;   (setq aw-scope 'global) ;; was frame
+  ;;   (global-set-key (kbd "C-x O") 'other-frame)
+  ;;   (global-set-key [remap other-window] 'ace-window)
+  )
 
 ; }}}
 ; ivy {{{
@@ -1240,8 +1241,8 @@ mermaid.initialize({
         lsp-enable-snippet nil
         lsp-eldoc-render-all nil
         lsp-enable-file-watchers nil
+        lsp-enable-semantic-highlighting t
         lsp-modeline-diagnostics-scope :workspace)
-  (add-to-list 'lsp-language-id-configuration '(cperl-mode . "perl"))
   :ensure t)
 
 ;(use-package lsp-ui :ensure t)
