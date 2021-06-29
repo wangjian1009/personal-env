@@ -753,7 +753,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   ;; (pyim-default-scheme 'wubi)
   ;; (pyim-default-scheme 'cangjie)
 
-  (pyim-isearch-mode nil)
+  (pyim-isearch-mode -1)
 
   ;; 设置选词框的绘制方式
   (if (posframe-workable-p)
