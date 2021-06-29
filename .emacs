@@ -788,7 +788,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                           "/bin/ls")))
                 (eshell/alias "ll" (concat ls " -AlohG --color=always"))))
             )
-  
+  )
 
 ; }}}
 ; personal ORG mode {{{
