@@ -56,14 +56,12 @@
 ; package {{{
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-;; (setq package-archives
-;;       '(
-;;         ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-;;         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-;;         )
-;;       )
+(setq package-archives
+      '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+        ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+        ))
 
 (when (< emacs-major-version 27)
   (package-initialize))
@@ -740,6 +738,38 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :ensure t)
 
 ; }}}
+; pyim {{{
+
+(use-package pyim
+  :ensure t
+  :config
+  (setq default-input-method "pyim")
+
+  ;; 金手指设置，可以将光标处的编码，比如：拼音字符串，转换为中文。
+  ;; (global-set-key (kbd "M-j") 'pyim-convert-string-at-point)
+
+  ;; 我使用全拼
+  (pyim-default-scheme 'quanpin)
+  ;; (pyim-default-scheme 'wubi)
+  ;; (pyim-default-scheme 'cangjie)
+
+  (pyim-isearch-mode nil)
+
+  ;; 设置选词框的绘制方式
+  (if (posframe-workable-p)
+      (setq pyim-page-tooltip 'posframe)
+    (setq pyim-page-tooltip 'popup))
+
+  ;; 显示5个候选词。
+  (setq pyim-page-length 5)
+  )
+
+(use-package pyim-basedict
+  :ensure t
+  :init
+  (pyim-basedict-enable))
+
+; }}}
 ; personal Eshell mode {{{
 
 (use-package eshell
@@ -758,7 +788,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                           "/bin/ls")))
                 (eshell/alias "ll" (concat ls " -AlohG --color=always"))))
             )
-  )
+  
 
 ; }}}
 ; personal ORG mode {{{
