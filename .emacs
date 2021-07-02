@@ -1,6 +1,6 @@
 ;; -*- origami-fold-style: triple-braces -*-
 
-; globl setting {{{ 
+;; globl setting {{{ 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (if (file-exists-p custom-file)
     (load custom-file))
@@ -52,8 +52,8 @@
 (global-set-key (kbd "C-c f") 'ff-find-other-file)
 (setq vc-follow-symlinks t)
 
-; }}}
-; package {{{
+;; }}}
+;; package {{{
 
 (require 'package)
 ;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -69,8 +69,8 @@
   (package-install 'use-package))
 (require 'use-package)
 
-; }}}
-; theme {{{
+;; }}}
+;; theme {{{
 
 (setq custom-theme-directory (expand-file-name "themes" user-emacs-directory))
 
@@ -98,8 +98,8 @@
 
 ;; (load-theme 'classic)
 
-; }}}
-; font setting... {{{
+;; }}}
+;; font setting... {{{
 
 (defun qiang-font-existsp (font)
   (if (null (x-list-fonts font))
@@ -197,8 +197,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
  (concat ":pixelsize=" (number-to-string global-font-size))
  '("Microsoft Yahei"))
 
-; }}}
-; support functions or macros {{{
+;; }}}
+;; support functions or macros {{{
 
 (defun validate-dir-p (directory)
   "Return DIRECTORY if DIRECTORY is a readable directory, nil otherwise."
@@ -210,8 +210,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
      (interactive)
      ,@body))
 
-; }}}
-; apple support {{{
+;; }}}
+;; apple support {{{
 
 (when (eq 'darwin system-type)
   (setq mac-command-modifier 'meta) ;映射苹果键  
@@ -240,8 +240,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   (setq ns-pop-up-frames nil)
 )
 
-; }}}
-; msys support {{{
+;; }}}
+;; msys support {{{
 
 (when (eq 'windows-nt system-type)
   (let ((msys-root (or (validate-dir-p "C:/tools/msys64/")))
@@ -280,29 +280,29 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
       ))
   )
 
-; }}}
-; coding-system {{{
+;; }}}
+;; coding-system {{{
 
 ;(add-to-list `process-coding-system-alist `("bash" . gb2312))
 ;(add-to-list `process-coding-system-alist `("git*" . gb2312))
 ;(add-to-list 'file-coding-system-alist '("\\.[hc]\\(pp\\)?\\'" .gb2312 ))
 (setq system-time-locale "C")
 
-; }}}
-; backup settings {{{
+;; }}}
+;; backup settings {{{
 
 (setq-default make-backup-files nil)
 (setq backup-directory-alist '(("" . "~/emacs.d/autosave")))
 (auto-save-mode nil)
 (setq delete-auto-save-files t)
 
-; }}}
-; hydra {{{
+;; }}}
+;; hydra {{{
 
 (use-package hydra :ensure t)
 
-; }}}
-; multi-term {{{
+;; }}}
+;; multi-term {{{
 
 (use-package multi-term
   :init
@@ -327,8 +327,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   :ensure t
   )
 
-; }}}
-; dirent {{{
+;; }}}
+;; dirent {{{
 
 ;; Show git info in dired
 (use-package dired-git-info
@@ -359,31 +359,31 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 ;;   :ensure t
 ;;   :init (diredfl-global-mode 1))
 
-; }}}
-; compilation-mode {{{
+;; }}}
+;; compilation-mode {{{
 
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
   (ansi-color-apply-on-region compilation-filter-start (point-max)))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-; }}}
-; browse-url {{{
+;; }}}
+;; browse-url {{{
 
 ;; (if (featurep 'xwidget-internal)
 ;;     (setq browse-url-browser-function 'xwidget-webkit-browse-url))
 
 ;(setq browse-url-browser-function 'eww-browse-url)
 
-; }}}
-; xwidget {{{
+;; }}}
+;; xwidget {{{
 
 (use-package xwidgete
   :if (featurep 'xwidget-internal)
   :ensure t)
 
-; }}}
-; ibuffer settings {{{
+;; }}}
+;; ibuffer settings {{{
 
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer)
@@ -392,16 +392,16 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   ;; (define-key ibuffer-mode-map (kbd "C-x C-f") 'ido-find-file)
   )
 
-; }}}
-; diminish {{{
+;; }}}
+;; diminish {{{
 (use-package diminish
   :ensure t
   :config
   (diminish 'eldoc-mode)
   (diminish 'auto-revert-mode)
   )
-; }}} 
-; ace-window {{{
+;; }}} 
+;; ace-window {{{
 
 (use-package ace-window
   :ensure t
@@ -411,8 +411,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   ;;   (global-set-key [remap other-window] 'ace-window)
   )
 
-; }}}
-; ivy {{{
+;; }}}
+;; ivy {{{
 
 (use-package ivy
   :ensure t
@@ -437,8 +437,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
   )
 
-; }}} 
-; swiper {{{
+;; }}} 
+;; swiper {{{
 
 (use-package swiper
   :ensure t
@@ -448,8 +448,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
    )
   )
 
-; }}} 
-; counsel {{{
+;; }}} 
+;; counsel {{{
 
 (use-package counsel
   :ensure t
@@ -459,8 +459,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
          )
   )
 
-; }}}
-; folding {{{
+;; }}}
+;; folding {{{
 
 (use-package origami
   :ensure t
@@ -499,13 +499,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
   
 )
   
-; }}}
-; all {{{
+;; }}}
+;; all {{{
 
 (use-package all :ensure t)
 
-; }}}
-; git {{{
+;; }}}
+;; git {{{
 
 (use-package magit
   :ensure t
@@ -588,8 +588,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :ensure t
   :after magit)
 
-; }}}
-; projectile {{{
+;; }}}
+;; projectile {{{
 
 (use-package projectile
   :ensure t
@@ -600,21 +600,21 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (projectile-mode +1)
   )
 
-; }}}
-; flymake {{{
+;; }}}
+;; flymake {{{
 
 (require 'flymake-proc)
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 
-; }}}
-; flycheck-mode {{{
+;; }}}
+;; flycheck-mode {{{
 
 (use-package flycheck
   ;;:diminish flycheck-mode
   :ensure t)
 
-; }}}
-; company-mode {{{
+;; }}}
+;; company-mode {{{
 
 (use-package company
   :commands
@@ -661,10 +661,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (company-quickhelp-mode 1))
 
 (use-package company-tabnine
-  :ensure t)
+  :ensure t
+  :init
+  (defun company-tabnine-buffer-enable()
+    "在当前buffer开启tabnine"
+    (add-to-list (make-local-variable 'company-backends) #'company-tabnine))
+  )
 
-; }}}
-; mmm-mode {{{
+;; }}}
+;; mmm-mode {{{
 
 (use-package mmm-mode
   :config
@@ -672,8 +677,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (setq mmm-global-mode 'maybe)
   :ensure t)
 
-; }}}
-; osx {{{
+;; }}}
+;; osx {{{
 
 (when (eq 'darwin system-type)
   (use-package osx-trash
@@ -700,8 +705,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     )
   )
 
-; }}} 
-; Icons {{{
+;; }}} 
+;; Icons {{{
 
 (use-package all-the-icons
   :ensure t
@@ -731,14 +736,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :diminish all-the-icons-ibuffer-mode
   :init (all-the-icons-ibuffer-mode 1))
 
-; }}}
-; x509 {{{
+;; }}}
+;; x509 {{{
 
 (use-package x509-mode
   :ensure t)
 
-; }}}
-; pyim {{{
+;; }}}
+;; pyim {{{
 
 (use-package pyim
   :ensure t
@@ -769,8 +774,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :init
   (pyim-basedict-enable))
 
-; }}}
-; personal Eshell mode {{{
+;; }}}
+;; personal Eshell mode {{{
 
 (use-package eshell
   :init
@@ -790,8 +795,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
             )
   )
 
-; }}}
-; personal ORG mode {{{
+;; }}}
+;; personal ORG mode {{{
 
 (use-package org
   :hook ((org-mode . yas-minor-mode-on)
@@ -928,8 +933,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;   (add-to-list org-babel-load-languages '(ledger . t))
 ;;   )
 
-; }}}
-; personal EBDB {{{
+;; }}}
+;; personal EBDB {{{
 
 ;; (use-package bbdb
 ;;   :ensure t
@@ -959,8 +964,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :after ebdb
   :ensure t)
 
-; }}}
-; personal mail {{{
+;; }}}
+;; personal mail {{{
 
 (use-package wanderlust
   :ensure t
@@ -981,8 +986,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
         'mail-send-hook))
   )
 
-; }}}
-; personal elfeed {{{
+;; }}}
+;; personal elfeed {{{
 
 (use-package elfeed
   :ensure t
@@ -1028,8 +1033,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (setq rmh-elfeed-org-files '("~/.emacs.d/elfeed.org"))
   )
 
-; }}}
-; personal ledger mode {{{
+;; }}}
+;; personal ledger mode {{{
 
 ;; (use-package ledger-mode
 ;;   :ensure t
@@ -1135,14 +1140,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;;               (make-local-variable 'company-idle-delay)
 ;;               (setq-local company-idle-delay 0.1))))
 
-; }}}.
-; personal csv mode {{{
+;; }}}.
+;; personal csv mode {{{
 
 (use-package csv-mode
   :ensure t)
 
-; }}}
-; personal markdown mode {{{
+;; }}}
+;; personal markdown mode {{{
 
 (use-package markdown-mode
   :ensure t
@@ -1236,8 +1241,8 @@ mermaid.initialize({
 (use-package mermaid-mode
   :ensure t)
 
-; }}}
-; personal grip mode {{{
+;; }}}
+;; personal grip mode {{{
 
 ;; 预览Markdown和Org
 ;; (use-package grip-mode
@@ -1256,8 +1261,8 @@ mermaid.initialize({
 ;;   ;; (setq grip-preview-use-webkit nil)
 ;;   )
 
-; }}} 
-; personal lsp mode {{{
+;; }}} 
+;; personal lsp mode {{{
 
 (use-package lsp-mode
   :commands lsp
@@ -1290,8 +1295,8 @@ mermaid.initialize({
   :after (lsp origami)
   :hook ((lsp-after-open . lsp-origami-try-enable)))
 
-; }}}
-; personal dap mode {{{
+;; }}}
+;; personal dap mode {{{
 
 (use-package dap-mode
   :commands (dap-mode dap-ui-mode)
@@ -1325,8 +1330,8 @@ mermaid.initialize({
   :ensure t
   )
 
-; }}}
-; personal yaml model {{{
+;; }}}
+;; personal yaml model {{{
 
 (use-package yaml-mode
   :mode ("\\.yml$" "\\.yaml$")
@@ -1338,13 +1343,13 @@ mermaid.initialize({
   :ensure t
   )
 
-; }}}
-; personal powershell model {{{
+;; }}}
+;; personal powershell model {{{
 (use-package powershell
   :ensure t
   )
-; }}}
-; personal dockerfile model {{{
+;; }}}
+;; personal dockerfile model {{{
 
 (use-package dockerfile-mode
   :mode "Dockerfile\\'"
@@ -1353,8 +1358,8 @@ mermaid.initialize({
 (use-package docker-tramp
   :ensure t)
 
-; }}}
-; personal nxml momdel {{{
+;; }}}
+;; personal nxml momdel {{{
 
 (use-package nxml-mode
   :hook ((nxml-mode . lsp))
@@ -1362,13 +1367,13 @@ mermaid.initialize({
   (setq nxml-child-indent 4)
   )
 
-; }}}
-; personal lisp mode settings {{{
+;; }}}
+;; personal lisp mode settings {{{
 
 (define-key emacs-lisp-mode-map (kbd "C-c C-c") 'comment-region)
 
-; }}}
-; personal c cpp and objc mode settings {{{
+;; }}}
+;; personal c cpp and objc mode settings {{{
 
 (require `find-file)
 
@@ -1410,7 +1415,7 @@ mermaid.initialize({
            (c-set-offset 'namespace-close -80)
            (c-set-offset 'block-open -4)
            (c-set-offset 'template-args-cont '+)
-           (add-to-list (make-local-variable 'company-backends) #'company-tabnine)
+           (company-tabnine-buffer-enable)
            )
          )
   )
@@ -1429,8 +1434,8 @@ mermaid.initialize({
     '(add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
   :ensure t)
 
-; }}}
-; personal java mode settings {{{
+;; }}}
+;; personal java mode settings {{{
 
 (defvar java-bin nil "java executabale")
 (cond
@@ -1474,8 +1479,8 @@ mermaid.initialize({
 ;;   :ensure t
 ;;   )
 
-; }}}
-; personal kotlin mode settings {{{
+;; }}}
+;; personal kotlin mode settings {{{
 
 ;; (eval-after-load "compile"
 ;;   '(progn
@@ -1510,8 +1515,8 @@ mermaid.initialize({
   (define-key kotlin-mode-map (kbd "C-c C-c") 'comment-region)
   :ensure t)
 
-; }}}
-; personal dart mode settings {{{
+;; }}}
+;; personal dart mode settings {{{
 
 (use-package dart-mode
   :mode "\\.dart\\'"
@@ -1532,8 +1537,8 @@ mermaid.initialize({
 
 (use-package hover :ensure t)
 
-; }}}
-; personal flutter {{{
+;; }}}
+;; personal flutter {{{
 
 (use-package flutter
   :ensure t
@@ -1544,8 +1549,8 @@ mermaid.initialize({
   (flutter-sdk-path (expand-file-name "~/workspace/flutter"))
   )
 
-; }}}
-; personal go model {{{
+;; }}}
+;; personal go model {{{
 
 (use-package go-mode
   :mode "\\.go\\'"
@@ -1553,6 +1558,7 @@ mermaid.initialize({
          (go-mode . yas-minor-mode-on)
          ;(go-mode . (lambda () (setq tab-width 4)))
          (go-mode . lsp-go-install-save-hooks)
+         (go-mode . company-tabnine-buffer-enable)
          )
   :bind
   (:map go-mode-map
@@ -1574,8 +1580,8 @@ mermaid.initialize({
    )
   )
 
-; }}}
-; personal make setup {{{
+;; }}}
+;; personal make setup {{{
 
 (use-package make-mode
   :mode (("\\.mk\\'" . makefile-gmake-mode)
@@ -1586,8 +1592,8 @@ mermaid.initialize({
          )
   )
 
-; }}}
-; personal C# mode {{{
+;; }}}
+;; personal C# mode {{{
 
 (use-package csharp-mode
   :ensure t
@@ -1613,8 +1619,8 @@ mermaid.initialize({
 ;; 	hs-c-like-adjust-block-beginning)
 ;;       hs-special-modes-alist)
 
-; }}}
-; personal perl mode settings {{{
+;; }}}
+;; personal perl mode settings {{{
 
 ;; (defvar perl-syntax-bin "perl" "The perl binary used to check syntax.")
 ;; (defun perl-syntax-check-only ()
@@ -1677,8 +1683,8 @@ mermaid.initialize({
   (setq cperl-electric-parens nil)
   )
 
-; }}}
-; personal python mode settings {{{
+;; }}}
+;; personal python mode settings {{{
 
 (use-package elpy
   :ensure t
@@ -1691,10 +1697,9 @@ mermaid.initialize({
   (add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter")
   (setq dired-omit-files
         (concat dired-omit-files "\\|^__pycache__$"))
-  ;; :hook
-  ;; (;; (elpy-mode . (lambda () (flymake-mode -1)))  ;; Disable Flymake in elpy-mode. Let Flycheck Take Over
-  ;;  ;; (inferior-python-mode . auto-complete-mode)  ;; Autocompletion in Ipython
-  ;;  )
+  :hook
+  ((elpy-mode . company-tabnine-buffer-enable)
+   )
   )
 
 (use-package lsp-python-ms
@@ -1712,8 +1717,8 @@ mermaid.initialize({
                          (add-hook 'before-save-hook 'elpy-autopep8-fix-code nil t)))
   )
 
-; }}}
-; personal php mode {{{
+;; }}}
+;; personal php mode {{{
 
 (use-package php-mode
   :mode "\\.php\\'"
@@ -1722,16 +1727,16 @@ mermaid.initialize({
   (add-to-list 'auto-mode-alist '("\\.php[s345t]?\\'" . html-mode))
   :ensure t)
 
-; }}}
-; personal json mode {{{
+;; }}}
+;; personal json mode {{{
 
 (use-package json-mode
   :ensure t
   :hook ((json-mode . lsp-deferred))
   )
 
-; }}}
-; personal js mode {{{
+;; }}}
+;; personal js mode {{{
 
 (use-package js2-mode
   :mode "\\.js\\'"
@@ -1807,8 +1812,8 @@ mermaid.initialize({
     )
 )
 
-; }}}
-; personal rust mode {{{
+;; }}}
+;; personal rust mode {{{
 
 (use-package rustic
   :ensure t
@@ -1817,8 +1822,8 @@ mermaid.initialize({
   (setenv "PATH" (concat (getenv "HOME") "/.cargo/bin:" (getenv "PATH")))
   )
 
-; }}}
-; personal typescript mode {{{
+;; }}}
+;; personal typescript mode {{{
 
 (eval-after-load "compile"
   '(progn
@@ -1861,6 +1866,7 @@ mermaid.initialize({
   :after (typescript-mode company flycheck)
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)
+         (typescript-mode . company-tabnine-buffer-enable)
          (before-save . tide-format-before-save)
          (js2-mode . tide-setup))
   )
@@ -1868,8 +1874,8 @@ mermaid.initialize({
 (use-package mocha
   :ensure t)
 
-; }}}
-; personal Vue mode {{{
+;; }}}
+;; personal Vue mode {{{
 
 (use-package vue-mode
   :ensure t
@@ -1878,8 +1884,8 @@ mermaid.initialize({
          )
   )
 
-; }}}
-; personal web mode (html, jsp) {{{
+;; }}}
+;; personal web mode (html, jsp) {{{
 
 (use-package web-mode
   :mode ("\\.jsp\\'" "\\.html?\\'")
@@ -1896,8 +1902,8 @@ mermaid.initialize({
   :hook (web-mode)
   :ensure t)
 
-; }}}
-; personal css mode {{{
+;; }}}
+;; personal css mode {{{
 
 (eval-after-load "css-mode"
   '(progn
@@ -1907,8 +1913,8 @@ mermaid.initialize({
 
 (add-to-list 'mmm-mode-ext-classes-alist '(html-mode nil html-css))
 
-; }}}
-; personal android develop settings {{{
+;; }}}
+;; personal android develop settings {{{
 
 (use-package android-mode
   :commands (android-mode android-logcat android-gradle)
@@ -1918,8 +1924,8 @@ mermaid.initialize({
     )
   :ensure t)
 
-; }}}
-; personal groovy(gradel) mode {{{
+;; }}}
+;; personal groovy(gradel) mode {{{
 
 (use-package groovy-mode
   :ensure t
@@ -1940,8 +1946,8 @@ mermaid.initialize({
   :ensure t
   :defer t)
 
-; }}}
-; personal cmake mode {{{
+;; }}}
+;; personal cmake mode {{{
 
 ; pip3 install cmake-language-server
 (use-package cmake-mode
@@ -1961,15 +1967,15 @@ mermaid.initialize({
   :ensure t
   )
 
-; }}}
-; personal solidity mode {{{
+;; }}}
+;; personal solidity mode {{{
 
 (use-package solidity-mode
   :mode "\\.sol\\'"
   :ensure t)
 
-; }}}
-; personal swift mode {{{
+;; }}}
+;; personal swift mode {{{
 
 ;; (use-package company-sourcekit
 ;;   :after company
@@ -1999,8 +2005,8 @@ mermaid.initialize({
     (setq lsp-sourcekit-executable "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp")
     :ensure t))
 
-; }}}
-; personal R mode {{{
+;; }}}
+;; personal R mode {{{
 
 (use-package ess
   :ensure t
@@ -2116,8 +2122,8 @@ mermaid.initialize({
 ;;     )
 ;;   )
 
-; }}}
-; personal Tex {{{
+;; }}}
+;; personal Tex {{{
 
 (use-package auctex
   :defer t
@@ -2156,8 +2162,8 @@ mermaid.initialize({
     )
   )
 
-; }}}
-; personal Ragel mode {{{
+;; }}}
+;; personal Ragel mode {{{
 (define-generic-mode 'ragel-mode
   '(?#) ;; comments
   '( 
@@ -2219,8 +2225,8 @@ mermaid.initialize({
 
 (add-to-list 'mmm-c-derived-modes 'embedded-ragel)
 
-; }}}
-; personal sql mode {{{
+;; }}}
+;; personal sql mode {{{
 
 (use-package sql
   :bind ((:map sql-mode-map
@@ -2235,8 +2241,8 @@ mermaid.initialize({
                ))
   )
 
-; }}}
-; utility match-parten {{{
+;; }}}
+;; utility match-parten {{{
 
 (global-set-key "%" 'match-paren)
         
@@ -2247,8 +2253,8 @@ mermaid.initialize({
         ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
         (t (self-insert-command (or arg 1)))))
 
-; }}}
-; utility ascii table {{{
+;; }}}
+;; utility ascii table {{{
 
 (defun ascii-table-show ()
   "Print the ascii table"
@@ -2279,27 +2285,27 @@ mermaid.initialize({
   (toggle-read-only 1)
   (message "Press q to quit."))
 
-; }}}
-; run server {{{
+;; }}}
+;; run server {{{
 
 (require 'server)
 (unless (server-running-p) (server-start))
 
-; }}}
-; emacs local {{{
+;; }}}
+;; emacs local {{{
 
 (if (file-exists-p "~/.emacs.local")
     (load-file "~/.emacs.local"))
 
-; }}}
-; desktop {{{
+;; }}}
+;; desktop {{{
 
 (setq desktop-load-locked-desktop t)
 (desktop-save-mode)
 (desktop-read)
 
-; }}}
-; auto-upate {{{
+;; }}}
+;; auto-upate {{{
 
 (use-package auto-package-update
   :config
@@ -2308,4 +2314,4 @@ mermaid.initialize({
   (auto-package-update-maybe)
   :ensure t)
 
-; }}}
+;; }}}
