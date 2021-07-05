@@ -101,78 +101,6 @@
 ;; }}}
 ;; font setting... {{{
 
-(defun qiang-font-existsp (font)
-  (if (null (x-list-fonts font))
-      nil t))
-
-(defun qiang-make-font-string (font-name font-size)
-  (if (and (stringp font-size) 
-           (equal ":" (string (elt font-size 0))))
-      (format "%s%s" font-name font-size)
-    (format "%s %s" font-name font-size)))
-
-(defun qiang-set-font (english-fonts
-                       english-font-size
-                       chinese-fonts
-                       &optional chinese-font-size)
-  "english-font-size could be set to \":pixelsize=18\" or a integer.
-If set/leave chinese-font-size to nil, it will follow english-font-size"
-  (require 'cl)                         ; for find if
-  (let ((en-font (qiang-make-font-string
-                  (find-if #'qiang-font-existsp english-fonts)
-                  english-font-size))
-        (zh-font (font-spec :family (find-if #'qiang-font-existsp chinese-fonts)
-                            :size chinese-font-size)))
- 
-    ;; Set the default English font
-    ;; 
-    ;; The following 2 method cannot make the font settig work in new frames.
-    ;; (set-default-font "Consolas:pixelsize=18")
-    ;; (add-to-list 'default-frame-alist '(font . "Consolas:pixelsize=18"))
-    ;; We have to use set-face-attribute
-    (message "Set English Font to %s" en-font)
-    (set-face-attribute
-     'default nil :font en-font)
- 
-    ;; Set Chinese font 
-    ;; Do not use 'unicode charset, it will cause the english font setting invalid
-    (message "Set Chinese Font to %s" zh-font)
-    (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font)
-                        charset
-                        zh-font))))
-
-
-(defun my-dpi ()
-  (let* ((attrs (car (display-monitor-attributes-list)))
-         (size (assoc 'mm-size attrs))
-         (sizex (cadr size))
-         (res (cdr (assoc 'geometry attrs)))
-         (resx (- (caddr res) (car res)))
-         dpi)
-    (catch 'exit
-      ;; in terminal
-      (unless sizex
-        (throw 'exit 10))
-      ;; on big screen
-      (when (> sizex 1000)
-        (throw 'exit 10))
-      ;; DPI
-      (* (/ (float resx) sizex) 25.4))))
-
-(defun my-preferred-font-size ()
-  (let ( (dpi (my-dpi)) )
-  (cond
-    ((< dpi 110) 14)
-    ((< dpi 130) 16)
-    ((< dpi 160) 18)
-    ((< dpi 220) 20)
-    ((< dpi 260) 28)
-    ((< dpi 320) 36)
-    (t 36))))
-
-(defcustom global-font-size (my-preferred-font-size) "默認字體大小" :type 'integer)
-
 ;; ** OS X **
 ;; Monaco               -- OS X 之前的默认字体就是它，它的风格特殊，有种苹果味
 ;; Menlo                -- Xcode默认字体 (老版本)
@@ -192,10 +120,67 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;; Microsoft Yahei
 
-(qiang-set-font
- '("Consolas" "Menlo")
- (concat ":pixelsize=" (number-to-string global-font-size))
- '("Microsoft Yahei"))
+;; (qiang-set-font
+;;  '("Consolas" "Menlo")
+;;  (concat ":pixelsize=" (number-to-string global-font-size))
+;;  '("Microsoft Yahei"))
+
+(use-package cnfonts
+  :ensure t
+  :init
+  (setq cnfonts-profiles
+        '("program" "org-mode" "read-book"))
+  
+  (setq cnfonts--custom-set-fontnames
+        '(("program" "Consolas" "Microsoft Yahei")
+          ))
+
+  (setq cnfonts--custom-set-fontsizes
+        '((9    9.0  9.5 )
+          (10   11.0 11.0)
+          (11.5 12.5 12.5)
+          (12.5 13.5 13.5)
+          (14   15.0 15.0)
+          (16   17.0 17.0)
+          (18   18.0 18.0)
+          (20   21.0 21.0)
+          (22   23.0 23.0)
+          (24   25.5 25.5)
+          (26   27.0 27.0)
+          (28   29.0 29.0)
+          (30   32.0 32.0)
+          (32   33.0 33.0)))
+
+  (cnfonts-enable)
+  )
+
+;; (defun my-dpi ()
+;;   (let* ((attrs (car (display-monitor-attributes-list)))
+;;          (size (assoc 'mm-size attrs))
+;;          (sizex (cadr size))
+;;          (res (cdr (assoc 'geometry attrs)))
+;;          (resx (- (caddr res) (car res)))
+;;          dpi)
+;;     (catch 'exit
+;;       ;; in terminal
+;;       (unless sizex
+;;         (throw 'exit 10))
+;;       ;; on big screen
+;;       (when (> sizex 1000)
+;;         (throw 'exit 10))
+;;       ;; DPI
+;;       (* (/ (float resx) sizex) 25.4))))
+
+;; (defun my-preferred-font-size ()
+;;   (let ( (dpi (my-dpi)) )
+;;   (cond
+;;     ((< dpi 110) 14)
+;;     ((< dpi 130) 16)
+;;     ((< dpi 160) 18)
+;;     ((< dpi 220) 20)
+;;     ((< dpi 260) 28)
+;;     ((< dpi 320) 36)
+;;     (t 36))))
 
 ;; }}}
 ;; support functions or macros {{{
@@ -895,6 +880,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
          )
   :config
   (setq org-mime-library 'semi)
+  )
+
+(use-package ob-sql-mode
+  :ensure t
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   (add-to-list 'org-babel-load-languages '(sql-mode . t)))
   )
 
 (use-package ox-latex
@@ -1871,8 +1864,21 @@ mermaid.initialize({
          (js2-mode . tide-setup))
   )
 
-(use-package mocha
-  :ensure t)
+(use-package jest-test-mode
+  :ensure t
+  :defer t
+  :hook ((typescript-mode . jest-test-mode)
+         (js2-mode . jest-test-mode)
+         ))
+
+;; (use-package flymake-eslint
+;;   :ensure t
+;;   :hook ((typescript-mode . flymake-eslint-enable)
+;;          (js2-mode . flymake-eslint-enable))
+;;   :config
+;;   (setq flymake-eslint-executable-name "npm"
+;;         flymake-eslint-executable-args "run lint")
+;;   )
 
 ;; }}}
 ;; personal Vue mode {{{
