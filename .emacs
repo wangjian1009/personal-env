@@ -203,11 +203,12 @@
   (setq mac-control-modifier 'control) ;映射Ctrl键
   (setq mac-option-modifier 'control) ;映射Alt键 
 
-  (setenv "PATH" (concat "/usr/local/bin:" (getenv "PATH")))
+  (setenv "PATH" (concat "/usr/local/bin:/usr/local/sbin:" (getenv "PATH")))
   (setenv "LD_LIBRARY_PATH" (concat "/usr/local/lib:" (getenv "LD_LIBRARY_PATH")))
   (setenv "INFOPATH" (concat "/usr/local/info:/usr/local/share/info:/usr/info:/usr/share/info:" (getenv "INFOPATH")))
   (setenv "MANPATH" (concat "/usr/local/man:/usr/local/share/man:/usr/man:/usr/share/man:" (getenv "MANPATH")))
   (add-to-list 'exec-path "/usr/local/bin")
+  (add-to-list 'exec-path "/usr/local/sbin")
 
   (let ((home-dir (getenv "HOME")))
     (if home-dir
