@@ -283,6 +283,10 @@
 (setq delete-auto-save-files t)
 
 ;; }}}
+;; iedit {{{
+(use-package iedit
+  :ensure t)
+;; }}}
 ;; hydra {{{
 
 (use-package hydra :ensure t)
@@ -1267,7 +1271,7 @@ mermaid.initialize({
   ;(setq lsp-print-io t)
   (setq lsp-auto-guess-root t
         lsp-enable-xref t
-        lsp-enable-snippet nil
+        lsp-enable-snippet t
         lsp-eldoc-render-all nil
         lsp-enable-file-watchers nil
         lsp-enable-semantic-highlighting t
@@ -1409,7 +1413,7 @@ mermaid.initialize({
            (c-set-offset 'namespace-close -80)
            (c-set-offset 'block-open -4)
            (c-set-offset 'template-args-cont '+)
-           (company-tabnine-buffer-enable)
+           ;(company-tabnine-buffer-enable)
            )
          )
   )
@@ -1819,28 +1823,6 @@ mermaid.initialize({
 ;; }}}
 ;; personal typescript mode {{{
 
-(eval-after-load "compile"
-  '(progn
-     (add-to-list 'compilation-error-regexp-alist 'typescript)
-     (add-to-list
-      'compilation-error-regexp-alist-alist
-      '(typescript
-        "(\\(.+\\):\\([0-9]+\\):\\([0-9]+\\))" 1 2 3))
-
-     (add-to-list 'compilation-error-regexp-alist 'typescript-2)
-     (add-to-list
-      'compilation-error-regexp-alist-alist
-      '(typescript-2
-        ".*\s+in\s+\\(.+\\)(\\([0-9]+\\),\\([0-9]+\\)):" 1 2 3))
-     
-     (add-to-list 'compilation-error-regexp-alist 'typescript-lint)
-     (add-to-list
-      'compilation-error-regexp-alist-alist
-      '(typescript-lint
-        "error:\s+.*\s+at\s+\\(.+\\):\\([0-9]+\\):\\([0-9]+\\):" 1 2 3))
-     
-     ))
-
 (use-package typescript-mode
   :ensure t
   :bind (:map typescript-mode-map
@@ -1860,7 +1842,7 @@ mermaid.initialize({
   :after (typescript-mode company flycheck)
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)
-         (typescript-mode . company-tabnine-buffer-enable)
+         ;(typescript-mode . company-tabnine-buffer-enable)
          (before-save . tide-format-before-save)
          (js2-mode . tide-setup))
   )
@@ -1870,6 +1852,7 @@ mermaid.initialize({
   :defer t
   :hook ((typescript-mode . jest-test-mode)
          (js2-mode . jest-test-mode)
+         (vue-mode . jest-test-mode)
          ))
 
 ;; (use-package flymake-eslint
