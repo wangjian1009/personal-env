@@ -382,6 +382,14 @@
   ;; (define-key ibuffer-mode-map (kbd "C-x C-f") 'ido-find-file)
   )
 
+;; (use-package ibuffer-projectile
+;;   :ensure t
+;;   :hook (ibuffer . (lambda ()
+;;                      (ibuffer-projectile-set-filter-groups)
+;;                      ;; (unless (eq ibuffer-sorting-mode 'alphabetic) (ibuffer-do-sort-by-alphabetic))
+;;                      ))
+;;   )
+
 ;; }}}
 ;; diminish {{{
 (use-package diminish
@@ -593,15 +601,16 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; }}}
 ;; flymake {{{
 
-(require 'flymake-proc)
-(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-
-;; }}}
-;; flycheck-mode {{{
-
-(use-package flycheck
-  ;;:diminish flycheck-mode
-  :ensure t)
+(use-package flymake-proc
+  :ensure t
+  :bind (:map flymake-mode-map
+              ("C-c ! n" . flymake-goto-next-error)
+              ("C-c ! p" . flycheck-goto-previous-error)
+              ("C-c ! l" . flymake-show-diagnostics-buffer)
+              )
+  :config
+  ;(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+  )
 
 ;; }}}
 ;; company-mode {{{
@@ -763,6 +772,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :ensure t
   :init
   (pyim-basedict-enable))
+
+;; }}}
+;; format-all {{{
+
+(use-package format-all
+  :ensure t)
 
 ;; }}}
 ;; personal Eshell mode {{{
@@ -1263,7 +1278,7 @@ mermaid.initialize({
 ;; personal lsp mode {{{
 
 (use-package lsp-mode
-  :commands lsp
+  :commands (lsp lsp-deferred)
   :init (setq lsp-keymap-prefix "C-l")
   :custom
   (lsp-xml-jar-file (expand-file-name (locate-user-emacs-file "org.eclipse.lemminx-uber.jar")))
@@ -1275,7 +1290,8 @@ mermaid.initialize({
         lsp-eldoc-render-all nil
         lsp-enable-file-watchers nil
         lsp-enable-semantic-highlighting t
-        lsp-modeline-diagnostics-scope :workspace)
+        lsp-modeline-diagnostics-scope :workspace
+        lsp-diagnostics-provider :flymake)
   :ensure t)
 
 ;(use-package lsp-ui :ensure t)
@@ -1449,6 +1465,16 @@ mermaid.initialize({
   (setq mvn-bin (expand-file-name "bin/mvn.cmd" (getenv "MVN_HOME"))))
  (t
   (setq mvn-bin "mvn")))
+
+(use-package lsp-java
+  :ensure t
+  :hook (java-mode . lsp-deferred)
+  :init
+  ;; (java-mode . (lambda () (lsp-ui-flycheck-enable t)))
+  ;; (java-mode . lsp-ui-sideline-mode)
+  ;; :config
+  ;; (setq lsp-java-save-action-organize-imports nil)
+  )
 
 ;(use-package treemacs :ensure t)
 ;; (if (not (eq 'windows-nt system-type))
@@ -1771,18 +1797,6 @@ mermaid.initialize({
 
   :ensure t)
 
-(use-package js2-refactor
-  :commands (js2-refactor-mode js2r-rename-current-buffer-file js2r-delete-current-buffer-file)
-  :hook (js2-mode-hook . js2-refactor-mode)
-  :bind
-  (:map js2-mode-map
-        ("C-x C-r" . js2r-rename-current-buffer-file)
-        ("C-x C-k" . js2r-delete-current-buffer-file)
-        )
-  :config
-  (js2r-add-keybindings-with-prefix "C-c C-m")
-  :ensure t)
-
 (eval-after-load "js-mode"
   '(progn
      (define-key js-mode-map (kbd "C-c C-c") 'comment-region)
@@ -1829,40 +1843,38 @@ mermaid.initialize({
               ("C-c C-c" . comment-region)
               )
   :hook ((typescript-mode . company-mode)
-         (typescript-mode . flycheck-mode)
          (typescript-mode . yas-minor-mode-on)
          (typescript-mode . lsp-deferred)
+         (typescript-mode . format-all-mode)
          )
   :config
   (setq typescript-indent-level 2)
   )
 
-(use-package tide
-  :ensure t
-  :after (typescript-mode company flycheck)
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-         ;(typescript-mode . company-tabnine-buffer-enable)
-         (before-save . tide-format-before-save)
-         (js2-mode . tide-setup))
-  )
+;; (use-package tide
+;;   :ensure t
+;;   :after (typescript-mode company)
+;;   :hook ((typescript-mode . tide-setup)
+;;          (typescript-mode . tide-hl-identifier-mode)
+;;          (typescript-mode . company-tabnine-buffer-enable)
+;;          (before-save . tide-format-before-save)
+;;          (js2-mode . tide-setup))
+;;   )
 
 (use-package jest-test-mode
   :ensure t
   :defer t
+  :diminish t
   :hook ((typescript-mode . jest-test-mode)
          (js2-mode . jest-test-mode)
          (vue-mode . jest-test-mode)
          ))
 
-;; (use-package flymake-eslint
-;;   :ensure t
-;;   :hook ((typescript-mode . flymake-eslint-enable)
-;;          (js2-mode . flymake-eslint-enable))
-;;   :config
-;;   (setq flymake-eslint-executable-name "npm"
-;;         flymake-eslint-executable-args "run lint")
-;;   )
+(use-package flymake-eslint
+  :ensure t
+  :hook ((typescript-mode . flymake-eslint-enable)
+         (js2-mode . flymake-eslint-enable))
+  )
 
 ;; }}}
 ;; personal Vue mode {{{
@@ -1909,9 +1921,6 @@ mermaid.initialize({
 (use-package android-mode
   :commands (android-mode android-logcat android-gradle)
   :config
-  (when (eq 'darwin system-type)
-    (set-alist 'android-mode-build-command-alist 'gradle "gradle")
-    )
   :ensure t)
 
 ;; }}}
@@ -1932,9 +1941,9 @@ mermaid.initialize({
 ;; Subpackages
 (use-package groovy-imports :ensure t)
 
-(use-package flycheck-gradle
-  :ensure t
-  :defer t)
+;; (use-package flycheck-gradle
+;;   :ensure t
+;;   :defer t)
 
 ;; }}}
 ;; personal cmake mode {{{
