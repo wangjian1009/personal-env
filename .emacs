@@ -777,7 +777,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; format-all {{{
 
 (use-package format-all
-  :ensure t)
+  :ensure t
+  :diminish nil
+  :hook ((prog-mode . format-all-mode))
+)
 
 ;; }}}
 ;; personal Eshell mode {{{
@@ -1845,10 +1848,7 @@ mermaid.initialize({
   :hook ((typescript-mode . company-mode)
          (typescript-mode . yas-minor-mode-on)
          (typescript-mode . lsp-deferred)
-         (typescript-mode . format-all-mode)
          )
-  :config
-  (setq typescript-indent-level 2)
   )
 
 ;; (use-package tide
@@ -1864,7 +1864,7 @@ mermaid.initialize({
 (use-package jest-test-mode
   :ensure t
   :defer t
-  :diminish t
+  :diminish nil
   :hook ((typescript-mode . jest-test-mode)
          (js2-mode . jest-test-mode)
          (vue-mode . jest-test-mode)
