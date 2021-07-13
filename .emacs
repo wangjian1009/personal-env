@@ -774,15 +774,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (pyim-basedict-enable))
 
 ;; }}}
-;; format-all {{{
-
-(use-package format-all
-  :ensure t
-  :diminish nil
-  :hook ((prog-mode . format-all-mode))
-)
-
-;; }}}
 ;; personal Eshell mode {{{
 
 (use-package eshell
@@ -1845,10 +1836,16 @@ mermaid.initialize({
   :bind (:map typescript-mode-map
               ("C-c C-c" . comment-region)
               )
+  :init
+  (defun lsp-typescript-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t))
   :hook ((typescript-mode . company-mode)
          (typescript-mode . yas-minor-mode-on)
          (typescript-mode . lsp-deferred)
+         (typescript-mode . lsp-typescript-install-save-hooks)
          )
+  :config
+  (setq typescript-indent-level 2)
   )
 
 ;; (use-package tide
