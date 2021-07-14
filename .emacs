@@ -230,6 +230,9 @@
 ;; msys support {{{
 
 (when (eq 'windows-nt system-type)
+  (use-package w32-browser
+    :ensure t)
+    
   (let ((msys-root (or (validate-dir-p "C:/tools/msys64/")))
         )
     (if msys-root
