@@ -295,6 +295,12 @@
 (use-package hydra :ensure t)
 
 ;; }}}
+;; format-all {{{
+
+(use-package format-all
+  :ensure t)
+
+;; }}}
 ;; multi-term {{{
 
 (use-package multi-term
@@ -355,10 +361,9 @@
 ;; }}}
 ;; compilation-mode {{{
 
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (ansi-color-apply-on-region compilation-filter-start (point-max)))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+(use-package ansi-color
+  :config
+  (ansi-color-for-comint-mode-on))
 
 ;; }}}
 ;; browse-url {{{
@@ -1953,6 +1958,7 @@ mermaid.initialize({
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
   :hook ((cmake-mode . lsp-deferred)
          (cmake-mode . yas-minor-mode-on)
+         (cmake-mode . company-tabnine-buffer-enable)
          )
   :config
   (setq cmake-tab-width 2)

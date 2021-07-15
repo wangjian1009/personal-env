@@ -9,3 +9,5 @@ GTAGS
 .gradle
 .ccls-cache
 compile_commands.json
+build/
+xcuserdata/
