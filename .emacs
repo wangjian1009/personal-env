@@ -363,7 +363,12 @@
 
 (use-package ansi-color
   :config
-  (ansi-color-for-comint-mode-on))
+  (defun my-colorize-compilation-buffer ()
+    (when (eq major-mode 'compilation-mode)
+      (ansi-color-apply-on-region compilation-filter-start (point-max))))
+  :hook ((comint-mode . ansi-color-for-comint-mode-on)
+         (compilation-filter . my-colorize-compilation-buffer))
+  )
 
 ;; }}}
 ;; browse-url {{{
@@ -1284,6 +1289,7 @@ mermaid.initialize({
   :init (setq lsp-keymap-prefix "C-l")
   :custom
   (lsp-xml-jar-file (expand-file-name (locate-user-emacs-file "org.eclipse.lemminx-uber.jar")))
+  :hook ((sh-mode . lsp-deferred))
   :config
   ;(setq lsp-print-io t)
   (setq lsp-auto-guess-root t
